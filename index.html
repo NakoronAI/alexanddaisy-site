@@ -1,11 +1,562 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Alex & Daisy</title>
-  </head>
-  <body>
-    <h1>Alex & Daisy Official Site</h1>
-    <p>Coming soon...</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alex & Daisy Official Site</title>
+  <meta name="description" content="The official home of Alex, Daisy, Lumo, and their dinosaur adventures." />
+  <style>
+    :root {
+      --bg: #fffaf4;
+      --paper: #fffdf9;
+      --ink: #2c2c2c;
+      --muted: #6a685f;
+      --accent: #6c9b7b;
+      --accent-2: #e8c86b;
+      --line: #e9dfd0;
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+      --radius: 24px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #fff8ef 0%, #fffdf9 100%);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(255, 250, 244, 0.82);
+      border-bottom: 1px solid rgba(233, 223, 208, 0.8);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .hero {
+      padding: 72px 0 36px;
+    }
+
+    .hero-wrap {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .hero-card,
+    .panel,
+    .download-card,
+    .video-card,
+    .character-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 42px;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background:
+        radial-gradient(circle at top right, rgba(232, 200, 107, 0.25), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(108, 155, 123, 0.18), transparent 30%),
+        var(--paper);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #f6efe2;
+      color: #7d6f55;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      width: fit-content;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3 { line-height: 1.15; margin: 0; }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 4.5rem);
+      margin-bottom: 16px;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 60ch;
+      margin: 0 0 24px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 20px;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    }
+
+    .button-primary {
+      background: var(--accent);
+      color: white;
+      border-color: transparent;
+    }
+
+    .button-secondary {
+      background: white;
+      color: var(--ink);
+    }
+
+    .hero-note {
+      font-size: 0.95rem;
+      color: #847b6d;
+    }
+
+    .hero-art {
+      padding: 22px;
+      min-height: 420px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 16px;
+      background:
+        linear-gradient(180deg, #fbf1dc 0%, #fffaf4 100%);
+    }
+
+    .art-box {
+      border-radius: 20px;
+      border: 2px dashed #d7cab6;
+      background: rgba(255,255,255,0.65);
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      color: #8a7a62;
+      font-weight: 700;
+    }
+
+    .art-caption {
+      font-size: 0.95rem;
+      color: var(--muted);
+      text-align: center;
+      margin: 0;
+    }
+
+    section {
+      padding: 28px 0;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      margin-bottom: 8px;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 58ch;
+    }
+
+    .characters {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .character-card {
+      padding: 20px;
+    }
+
+    .avatar {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #f8efe4, #fffdf9);
+      border: 1px dashed #d7cab6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8a7a62;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .character-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+
+    .character-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .videos {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .video-card {
+      overflow: hidden;
+    }
+
+    .thumb {
+      aspect-ratio: 16 / 9;
+      background: linear-gradient(135deg, #f6ead8, #fdf8ef);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8d7b62;
+      font-weight: 700;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .video-info {
+      padding: 18px;
+    }
+
+    .video-info h3 {
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+
+    .video-info p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .downloads {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .download-card {
+      padding: 22px;
+    }
+
+    .download-card h3 {
+      font-size: 1.08rem;
+      margin-bottom: 10px;
+    }
+
+    .download-card p {
+      color: var(--muted);
+      margin: 0 0 16px;
+      font-size: 0.95rem;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .panel {
+      padding: 26px;
+    }
+
+    .panel p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .site-footer {
+      padding: 36px 0 50px;
+      color: #7a7266;
+      font-size: 0.95rem;
+    }
+
+    .footer-box {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 980px) {
+      .hero-wrap,
+      .story-grid,
+      .characters,
+      .videos,
+      .downloads {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav { align-items: flex-start; flex-direction: column; }
+      .hero-card { padding: 28px; min-height: auto; }
+      .hero-art { min-height: auto; }
+      .characters,
+      .videos,
+      .downloads,
+      .story-grid {
+        grid-template-columns: 1fr;
+      }
+      .section-title {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="#top" class="brand">Alex & Daisy</a>
+      <nav class="nav-links">
+        <a href="#characters">Characters</a>
+        <a href="#videos">Videos</a>
+        <a href="#downloads">Downloads</a>
+        <a href="#story">Story</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-wrap">
+        <div class="hero-card">
+          <span class="eyebrow">Official Site</span>
+          <h1>Small adventures, big heart.</h1>
+          <p>
+            Welcome to the world of Alex & Daisy — a gentle, funny, handmade universe filled with friendship,
+            dinosaurs, and a little glowing robot named Lumo.
+          </p>
+          <div class="actions">
+            <a class="button button-primary" href="#characters">Meet the Characters</a>
+            <a class="button button-secondary" href="https://www.youtube.com/" target="_blank" rel="noreferrer">Watch on YouTube</a>
+          </div>
+          <p class="hero-note">Replace the background art and YouTube link later. This is the starter version for practice.</p>
+        </div>
+
+        <div class="hero-art hero-card">
+          <div class="art-box">Place hero art here<br/>illustration, photo, or teaser image</div>
+          <p class="art-caption">Tip: a soft illustration with Alex, Daisy, Lumo, and one dinosaur would make this feel official right away.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="characters">
+      <div class="container">
+        <div class="section-title">
+          <div>
+            <h2>Meet the Characters</h2>
+            <p>The cast can be expanded over time. Start with the core four so the page feels clear and polished.</p>
+          </div>
+        </div>
+
+        <div class="characters">
+          <article class="character-card">
+            <div class="avatar">Alex image</div>
+            <h3>Alex</h3>
+            <p>A curious boy at the center of the adventure, always discovering new worlds with his friends.</p>
+          </article>
+
+          <article class="character-card">
+            <div class="avatar">Daisy image</div>
+            <h3>Daisy</h3>
+            <p>A warm-hearted ragdoll cat with a gentle spirit, a green dress, and a world full of wonder.</p>
+          </article>
+
+          <article class="character-card">
+            <div class="avatar">Lumo image</div>
+            <h3>Lumo</h3>
+            <p>A cheerful little robot friend who glows with kindness and brings imagination to every scene.</p>
+          </article>
+
+          <article class="character-card">
+            <div class="avatar">Dinosaur friends</div>
+            <h3>The Dinosaurs</h3>
+            <p>A playful group of prehistoric companions who turn every backyard day into a story.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="videos">
+      <div class="container">
+        <div class="section-title">
+          <div>
+            <h2>Latest Videos</h2>
+            <p>Add real YouTube embeds later. For now, these cards give the site a living, up-to-date feeling.</p>
+          </div>
+        </div>
+
+        <div class="videos">
+          <article class="video-card">
+            <div class="thumb">Latest episode thumbnail</div>
+            <div class="video-info">
+              <h3>Newest Adventure</h3>
+              <p>Feature the newest main video or short here.</p>
+            </div>
+          </article>
+
+          <article class="video-card">
+            <div class="thumb">Behind the scenes thumbnail</div>
+            <div class="video-info">
+              <h3>Behind the Scenes</h3>
+              <p>Show the handmade world, puppets, or drawing process.</p>
+            </div>
+          </article>
+
+          <article class="video-card">
+            <div class="thumb">Coming soon teaser</div>
+            <div class="video-info">
+              <h3>Coming Soon</h3>
+              <p>Use this card for a teaser, trailer, or seasonal special.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="downloads">
+      <div class="container">
+        <div class="section-title">
+          <div>
+            <h2>Downloads</h2>
+            <p>This section makes the site feel like a real children’s show website, not just a simple profile page.</p>
+          </div>
+        </div>
+
+        <div class="downloads">
+          <article class="download-card">
+            <h3>Coloring Page</h3>
+            <p>A printable Daisy or dinosaur coloring page for kids.</p>
+            <a class="button button-secondary" href="#">Coming Soon</a>
+          </article>
+
+          <article class="download-card">
+            <h3>Mini Poster</h3>
+            <p>A small printable poster with the main cast.</p>
+            <a class="button button-secondary" href="#">Coming Soon</a>
+          </article>
+
+          <article class="download-card">
+            <h3>Wallpaper</h3>
+            <p>A desktop or tablet wallpaper from the Alex & Daisy world.</p>
+            <a class="button button-secondary" href="#">Coming Soon</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="story">
+      <div class="container">
+        <div class="section-title">
+          <div>
+            <h2>About the Story</h2>
+            <p>Keep this short and magical. A few lines are enough.</p>
+          </div>
+        </div>
+
+        <div class="story-grid">
+          <div class="panel">
+            <p>
+              Alex & Daisy is a handmade story world where friendship, imagination, and gentle humor come together.
+              With Lumo and their dinosaur friends nearby, even ordinary days can become little adventures.
+            </p>
+          </div>
+          <div class="panel">
+            <p>
+              This website is the official home for character introductions, video updates, and printable extras.
+              More pages can be added later as the world grows.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-box">
+      <div>© 2026 Alex & Daisy. All rights reserved.</div>
+      <div>
+        <a href="https://www.youtube.com/" target="_blank" rel="noreferrer">YouTube</a>
+        ·
+        <a href="mailto:hello@alexanddaisy.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+</body>
 </html>
