@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alex &amp; Daisy — Welcome to the House</title>
 <meta name="description" content="Welcome to the Alex & Daisy storybook house. Knock on a window to visit a friend.">
+<link rel="icon" href="/favicon.ico?v=1" sizes="any">
+<link rel="icon" type="image/png" href="/favicon.png?v=1">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=1">
 
 <style>
 /* ============================================================
@@ -112,7 +115,7 @@ body{
      The artwork is rendered LARGER than the screen and centered,
      so the forest edges crop away and the house itself stands
      big, with the first view cutting cleanly at the lower row of
-     name plaques (Mr. T / Videos / Nico). Scrolling reveals the
+     name plaques (Mr. T / Videos / Lumo). Scrolling reveals the
      porch, Alex & Daisy, and the garden signs.
 
        - 285vh: THE CUT DIAL (the main number to tune).
@@ -294,67 +297,76 @@ body{
 }
 
 /* ============================================================
-   THE YOUTUBE BUTTON — a real CSS button floating in the scene.
-   Position & size come from YT_BUTTON in the EDIT HERE box.
-   It bobs gently like something hanging in the breeze, and
-   bounces + glows when you point at it.
+   SOCIAL ICON ROW — real-world buttons under the menu.
+   The red YouTube "candy" button lives here now (it used to
+   float over the artwork; the artwork stays art-only).
+   YouTube sits on the LEFT; the open space to its right is
+   reserved for future icons (Instagram, …) from the SOCIAL
+   list in the EDIT HERE box.
    ============================================================ */
-.yt-button{
-  position: absolute;            /* placed by the script from YT_BUTTON */
-  width: var(--yt-size, 90px);
-  height: calc(var(--yt-size, 90px) * 0.7);
-  transform: translate(-50%, -50%);
+.menu-social{
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(243,233,215,0.25);
   display: flex;
   align-items: center;
+  gap: 14px;
+  justify-content: flex-start;   /* ← "center" centers the icons */
+}
+.social-btn{
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  border-radius: calc(var(--yt-size, 90px) * 0.24);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.social-btn:focus{ outline: none; }
+.social-btn:focus-visible{
+  outline: 2px solid rgba(255,221,160,0.9);
+  outline-offset: 4px;
+}
+
+/* the candy-red YouTube button (same friendly look as before) */
+.social-yt{
+  width: 70px;
+  height: 48px;
+  border-radius: 14px;
   background: linear-gradient(180deg, #ff5347 0%, #e3170a 55%, #c20d04 100%);
   box-shadow:
     inset 0 2px 3px rgba(255,255,255,0.45),   /* candy highlight   */
     inset 0 -4px 6px rgba(90,0,0,0.35),       /* underside shading */
-    0 6px 16px rgba(80,15,8,0.45),            /* drop shadow       */
+    0 5px 14px rgba(80,15,8,0.45),            /* drop shadow       */
     0 2px 4px rgba(60,10,5,0.4);
-  cursor: pointer;
-  animation: yt-bob 3.6s ease-in-out infinite alternate;
-  transition: box-shadow 0.3s ease;
+  animation: social-bob 3.6s ease-in-out infinite alternate;
 }
 /* the white play triangle */
-.yt-button::after{
+.social-yt::after{
   content:"";
   width: 0;
   height: 0;
-  margin-left: calc(var(--yt-size, 90px) * 0.05);
-  border-top:    calc(var(--yt-size, 90px) * 0.14) solid transparent;
-  border-bottom: calc(var(--yt-size, 90px) * 0.14) solid transparent;
-  border-left:   calc(var(--yt-size, 90px) * 0.24) solid #fffdf6;
+  margin-left: 3px;
+  border-top:    9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left:   15px solid #fffdf6;
   filter: drop-shadow(0 1px 1px rgba(90,0,0,0.4));
 }
 /* gentle bobbing, like a sign swaying on a breeze */
-@keyframes yt-bob{
-  from { transform: translate(-50%, -54%) rotate(-2deg); }
-  to   { transform: translate(-50%, -46%) rotate( 2deg); }
+@keyframes social-bob{
+  from { transform: translateY(-2px) rotate(-1.5deg); }
+  to   { transform: translateY( 2px) rotate( 1.5deg); }
 }
-/* point at it: a happy bounce and a warm halo */
-.yt-button:hover,
-.yt-button:focus-visible{
-  animation: yt-bounce 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+/* point at it: a happy lift and a warm halo */
+.social-yt:hover,
+.social-yt:focus-visible{
+  animation: none;
+  transform: scale(1.12);
   box-shadow:
     inset 0 2px 3px rgba(255,255,255,0.5),
     inset 0 -4px 6px rgba(90,0,0,0.3),
-    0 8px 22px rgba(80,15,8,0.5),
+    0 8px 20px rgba(80,15,8,0.5),
     0 0 0 6px rgba(255,224,150,0.35),         /* golden ring  */
-    0 0 28px 8px rgba(255,205,120,0.55);      /* warm halo    */
-}
-@keyframes yt-bounce{
-  0%   { transform: translate(-50%, -50%) scale(1); }
-  45%  { transform: translate(-50%, -50%) scale(1.18) rotate(-2deg); }
-  70%  { transform: translate(-50%, -50%) scale(1.08) rotate(1.5deg); }
-  100% { transform: translate(-50%, -50%) scale(1.12) rotate(0deg); }
-}
-.yt-button:focus{ outline: none; }
-.yt-button:focus-visible{
-  outline: 2px solid rgba(255,221,160,0.9);
-  outline-offset: 4px;
+    0 0 26px 8px rgba(255,205,120,0.55);      /* warm halo    */
 }
 
 /* ---------- debugging aid: outlines for placing hotspots ----------
@@ -365,68 +377,106 @@ body{
 }
 
 /* ============================================================
-   "VISIT ROOMS" fallback menu — quiet and secondary.
-   Small worn paper tags resting in the shade below the house.
+   "VISIT ROOMS" — the main menu under the picture.
+   On phones this is how most visitors actually navigate, so
+   the buttons are big (44px+ tall), clear, and arranged in
+   friendly rows (set row by row in MENU, in the EDIT HERE box).
+   The About button wears the same honey-gold as the painted
+   sign — one plank of the artwork stepping down into the menu.
    ============================================================ */
 .visit-rooms{
   width: min(100%, 760px);
-  margin-top: 30px;
-  padding: 0 14px;
+  margin-top: 34px;
+  padding: 0 16px;
   text-align: center;
-  opacity: 0.85;                       /* sits back until needed */
-  transition: opacity 0.4s ease;
-}
-.visit-rooms:hover,
-.visit-rooms:focus-within{
-  opacity: 1;
 }
 .visit-rooms h2{
-  font-size: 0.72rem;
+  font-size: 1rem;
   font-weight: normal;
-  letter-spacing: 0.3em;
-  color: rgba(243,233,215,0.62);
-  text-shadow: 0 1px 3px rgba(20,28,14,0.6);
-  margin: 0 0 12px;
+  letter-spacing: 0.34em;
+  color: rgba(250,242,226,0.96);
+  text-shadow: 0 1px 4px rgba(20,28,14,0.9), 0 0 16px rgba(20,28,14,0.5);
+  margin: 0 0 18px;
 }
 .visit-rooms h2::before,
 .visit-rooms h2::after{
   content:"·";
-  margin: 0 10px;
-  color: rgba(255,225,170,0.5);
+  margin: 0 12px;
+  color: rgba(255,225,170,0.8);
 }
-.room-list{
-  list-style: none;
-  margin: 0;
-  padding: 0;
+
+/* one .menu-row per line of buttons */
+.menu-row{
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 9px;
+  gap: 10px;
   justify-content: center;
+  margin: 0 0 10px;
 }
-.room-list a{
-  display: inline-block;
+
+/* the standard worn-paper button — bigger and easy to tap */
+.menu-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 10px 20px;
   text-decoration: none;
   color: var(--ink);
-  background: linear-gradient(180deg, rgba(244,234,215,0.92) 0%, rgba(229,213,182,0.92) 100%);
-  border: 1px solid rgba(110,88,56,0.35);
-  border-bottom-width: 2px;
-  border-radius: 7px;
-  padding: 6px 13px;
-  font-size: 0.78rem;
-  letter-spacing: 0.07em;
-  box-shadow: 0 2px 6px rgba(15,22,10,0.4);
+  background: linear-gradient(180deg, rgba(248,238,219,0.96) 0%, rgba(229,213,182,0.96) 100%);
+  border: 1px solid rgba(110,88,56,0.4);
+  border-bottom-width: 3px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  box-shadow: 0 2px 7px rgba(15,22,10,0.4);
   transition: box-shadow 0.3s ease, transform 0.3s ease, background 0.3s ease;
 }
-.room-list a:hover,
-.room-list a:focus-visible{
+.menu-btn:hover,
+.menu-btn:focus-visible{
   background: linear-gradient(180deg, #fff4dd 0%, #f1e0bf 100%);
-  box-shadow: 0 3px 10px rgba(255,190,110,0.35);
+  box-shadow: 0 4px 12px rgba(255,190,110,0.4);
   transform: translateY(-1px);
 }
-.room-list a:focus{ outline: none; }
-.room-list a:focus-visible{
+.menu-btn:focus{ outline: none; }
+.menu-btn:focus-visible{
   outline: 2px solid rgba(255,221,160,0.9);
   outline-offset: 2px;
+}
+
+/* THE ABOUT BUTTON — honey-gold, like the big painted sign */
+.menu-btn.menu-feature{
+  min-height: 54px;
+  padding: 12px 26px;
+  font-size: 1.12rem;
+  letter-spacing: 0.09em;
+  color: #45300f;
+  background: linear-gradient(180deg, #fadc82 0%, #eeb14a 52%, #cf8d2b 100%);
+  border-color: rgba(99,64,18,0.6);
+  border-radius: 14px;
+  text-shadow: 0 1px 0 rgba(255,243,200,0.65);
+  box-shadow:
+    inset 0 2px 2px rgba(255,246,205,0.8),    /* sunlit top edge   */
+    inset 0 -3px 5px rgba(125,75,15,0.3),     /* carved underside  */
+    0 3px 12px rgba(15,22,10,0.45);
+}
+/* little sparkles on both sides (decorative only) */
+.menu-btn.menu-feature::before,
+.menu-btn.menu-feature::after{
+  content:"\2726";                 /* ✦ */
+  font-size: 0.78em;
+  color: rgba(110,68,14,0.9);
+}
+.menu-btn.menu-feature::before{ margin-right: 12px; }
+.menu-btn.menu-feature::after { margin-left: 12px; }
+.menu-btn.menu-feature:hover,
+.menu-btn.menu-feature:focus-visible{
+  background: linear-gradient(180deg, #ffe79b 0%, #f7bf5c 52%, #db9834 100%);
+  box-shadow:
+    inset 0 2px 2px rgba(255,248,215,0.85),
+    inset 0 -3px 5px rgba(125,75,15,0.28),
+    0 5px 16px rgba(255,190,110,0.5);
+  transform: translateY(-1px);
 }
 
 /* ---------- footer whisper ---------- */
@@ -447,10 +497,10 @@ body{
 @media (prefers-reduced-motion: reduce){
   .dust-mote{ display: none !important; }
   .fairy-dust{ display: none !important; }
-  .yt-button{ animation: none; }
+  .social-btn{ animation: none; }
   .hotspot::before,
   .hotspot .hotspot-label,
-  .room-list a{
+  .menu-btn{
     transition: opacity 0.2s linear;
     transform: none !important;
   }
@@ -460,6 +510,8 @@ body{
 @media (max-width: 600px){
   body{ padding: 0 0 40px; }
   .hotspot .hotspot-label{ font-size: 0.65rem; padding: 3px 9px; }
+  /* menu buttons stretch to share each row — big, easy targets */
+  .menu-btn{ flex: 1 1 auto; }
   /* on phones the house fills the screen, so the backdrop barely
      shows — use a cheaper blur to keep scrolling silky */
   .world-backdrop{ filter: blur(10px) brightness(0.82); }
@@ -486,19 +538,20 @@ body{
 <main class="house-stage" id="houseStage" aria-label="The Alex and Daisy storybook house. Interactive windows and doors.">
   <img class="house-art" id="houseArt"
        src="house.png"
-       alt="A handmade storybook house in a sunlit forest garden. Each window belongs to a friend: Alex, Daisy, Giga, Mr. T, and Nico. The door leads to the videos, with signs for downloads and contact among the flowers.">
+       alt="A handmade storybook house in a sunlit forest garden. Each window belongs to a friend: Alex, Daisy, Giga, Mr. T, and Lumo. The door leads to the videos, with signs for downloads and contact among the flowers.">
   <!-- hotspots are inserted here by the script below -->
 </main>
 </div><!-- /stage-window -->
 
 <!-- ============================================================
-     VISIT ROOMS — friendly fallback menu (great on phones)
-     Links are filled in automatically from the same EDIT HERE list,
-     so you only ever edit links in ONE place.
+     VISIT ROOMS — the main menu (built from MENU in EDIT HERE),
+     plus the social icon row (built from SOCIAL). On phones,
+     this is the navigation most visitors actually use.
      ============================================================ -->
 <nav class="visit-rooms" aria-label="Visit rooms">
   <h2>VISIT&nbsp;ROOMS</h2>
-  <ul class="room-list" id="roomList"></ul>
+  <div id="menuRows"></div>
+  <div class="menu-social" id="menuSocial"></div>
 </nav>
 
 <footer class="page-footer">
@@ -538,23 +591,7 @@ const GLOW = {
 };
 
 
-/* 3a) THE YOUTUBE BUTTON ------------------------------------------
-      A real CSS-made button floating over the scene (the painted
-      logo was removed from the artwork). Position and size are
-      yours to play with:
-        top / left = where it floats, in % of the picture
-        size       = width in px (height follows automatically)  */
-const YT_BUTTON = {
-  href:  "#youtube",
-  label: "YouTube",
-  aria:  "Visit the Alex and Daisy YouTube channel",
-  top:   "4.5%",    /* upper-right sky, clear of the sign letters */
-  left:  "77%",
-  size:  68
-};
-
-
-/* 3b) FAIRY DUST ---------------------------------------------------
+/* 3a) FAIRY DUST ---------------------------------------------------
       Golden-amber magic motes that twinkle, breathe, and sway
       upward over the scene. Set enabled to false to turn off. */
 const SPARKLES = {
@@ -621,10 +658,10 @@ const HOTSPOTS = [
     top: 60.5, left: 35.6, width: 7,   height: 17
   },
   {
-    name: "Nico window",
-    label: "Nico",
-    aria: "Visit Nico's room",
-    href: "#nico",
+    name: "Lumo window",
+    label: "Lumo",
+    aria: "Visit Lumo's room",
+    href: "#lumo",
     type: "window",
     top: 60.5, left: 57.5, width: 7,   height: 17
   },
@@ -663,6 +700,52 @@ const HOTSPOTS = [
   }
 ];
 
+
+/* 5) THE MENU ----------------------------------------------------
+      The "VISIT ROOMS" menu under the picture, arranged ROW BY
+      ROW: each inner [ ... ] is one row of buttons, top to
+      bottom. To move a button, just move its line.
+        label   = the words on the button
+        href    = where it goes. "#about" etc. are placeholders
+                  until the real pages exist. Full "https://"
+                  links open in a new tab automatically.
+        aria    = what screen readers announce
+        feature = true gives the big honey-gold style (About) */
+const MENU = [
+  [ { label: "About Alex & Daisy", href: "#about",
+      aria: "About Alex and Daisy", feature: true } ],
+
+  [ { label: "Alex",  href: "#alex",  aria: "Visit Alex's room"  },
+    { label: "Daisy", href: "#daisy", aria: "Visit Daisy's room" },
+    { label: "Giga",  href: "#giga",  aria: "Visit Giga's room"  } ],
+
+  [ { label: "Mr. T", href: "#mr-t", aria: "Visit Mr. T's room" },
+    { label: "Lumo",  href: "#lumo", aria: "Visit Lumo's room"  } ],
+
+  [ { label: "Posters & Wallpapers", href: "#downloads",
+      aria: "Download posters and wallpapers" } ],
+
+  [ { label: "Watch Videos", href: "#videos",
+      aria: "Watch the videos" },
+    { label: "Write to Us", href: "mailto:hello@example.com",
+      aria: "Send us an email" } ],
+
+  [ { label: "YouTube", href: "https://www.youtube.com/@alexanddaisy2022",
+      aria: "Visit the Alex and Daisy YouTube channel" } ]
+];
+
+
+/* 6) SOCIAL ICONS ------------------------------------------------
+      The icon row under the menu. YouTube sits on the left; the
+      open space to its right is saved for future icons
+      (Instagram, …). "kind" picks the icon look — only
+      "youtube" exists so far. */
+const SOCIAL = [
+  { kind: "youtube",
+    href: "https://www.youtube.com/@alexanddaisy2022",
+    aria: "Alex and Daisy on YouTube" }
+];
+
 /* ╔══════════════════════════════════════════════════════════════╗
    ║   END OF "EDIT HERE".                                        ║
    ║   Below is the ENGINE — it just builds the page from the     ║
@@ -676,10 +759,17 @@ const HOTSPOTS = [
 
   const stage    = document.getElementById("houseStage");
   const art      = document.getElementById("houseArt");
-  const roomList = document.getElementById("roomList");
 
   const reducedMotion =
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* links that start with http(s) open in a new tab */
+  function setLinkTarget(a, href) {
+    if (/^https?:/i.test(href)) {
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+    }
+  }
 
   /* apply the simple settings from EDIT HERE */
   art.src = IMAGE_FILE;
@@ -696,6 +786,7 @@ const HOTSPOTS = [
     a.className = "hotspot" + (spot.type === "door" ? " is-door" : "");
     a.href = spot.href;
     a.setAttribute("aria-label", spot.aria || spot.label || spot.name);
+    setLinkTarget(a, spot.href);
 
     /* percentage positioning — scales with the image */
     a.style.top    = spot.top    + "%";
@@ -720,7 +811,11 @@ const HOTSPOTS = [
       }
       window.setTimeout(function () {
         a.classList.remove("is-lit");
-        window.location.href = spot.href;
+        if (a.target === "_blank") {
+          window.open(spot.href, "_blank", "noopener");
+        } else {
+          window.location.href = spot.href;
+        }
       }, 400);
     });
 
@@ -742,36 +837,39 @@ const HOTSPOTS = [
     }
   }
 
-  /* --- build one entry in the "Visit Rooms" fallback menu --- */
-  function buildRoomLink(spot) {
-    const li = document.createElement("li");
-    const a  = document.createElement("a");
-    a.href = spot.href;
-    a.textContent = spot.label || spot.name;
-    a.setAttribute("aria-label", spot.aria || spot.label || spot.name);
-    li.appendChild(a);
-    return li;
+  /* --- build the VISIT ROOMS menu from the MENU rows --- */
+  function buildMenu() {
+    const holder = document.getElementById("menuRows");
+    MENU.forEach(function (row) {
+      const rowEl = document.createElement("div");
+      rowEl.className = "menu-row";
+      row.forEach(function (item) {
+        const a = document.createElement("a");
+        a.className = "menu-btn" + (item.feature ? " menu-feature" : "");
+        a.href = item.href;
+        a.textContent = item.label;
+        a.setAttribute("aria-label", item.aria || item.label);
+        setLinkTarget(a, item.href);
+        rowEl.appendChild(a);
+      });
+      holder.appendChild(rowEl);
+    });
   }
+  buildMenu();
 
-  /* --- the floating YouTube button (from YT_BUTTON in EDIT HERE) --- */
-  function buildYtButton() {
-    const yt = document.createElement("a");
-    yt.className = "yt-button";
-    yt.href = YT_BUTTON.href;
-    yt.setAttribute("aria-label", YT_BUTTON.aria || YT_BUTTON.label);
-    yt.style.top  = YT_BUTTON.top;
-    yt.style.left = YT_BUTTON.left;
-    yt.style.setProperty("--yt-size", YT_BUTTON.size + "px");
-    stage.appendChild(yt);
-
-    /* it also gets a place in the quiet Visit Rooms menu */
-    roomList.appendChild(buildRoomLink({
-      label: YT_BUTTON.label,
-      aria:  YT_BUTTON.aria,
-      href:  YT_BUTTON.href
-    }));
+  /* --- build the social icon row from the SOCIAL list --- */
+  function buildSocial() {
+    const holder = document.getElementById("menuSocial");
+    SOCIAL.forEach(function (s) {
+      const a = document.createElement("a");
+      a.className = "social-btn social-" + (s.kind === "youtube" ? "yt" : s.kind);
+      a.href = s.href;
+      a.setAttribute("aria-label", s.aria || s.kind);
+      setLinkTarget(a, s.href);
+      holder.appendChild(a);
+    });
   }
-  buildYtButton();
+  buildSocial();
 
   /* --- fairy dust drifting over the scene --- */
   function buildFairyDust() {
@@ -811,10 +909,6 @@ const HOTSPOTS = [
   /* --- build everything from the HOTSPOTS list --- */
   HOTSPOTS.forEach(function (spot) {
     stage.appendChild(buildHotspot(spot));
-    /* label: "" means "art only" — no entry in the quiet menu */
-    if (spot.label !== "") {
-      roomList.appendChild(buildRoomLink(spot));
-    }
   });
 })();
 </script>
