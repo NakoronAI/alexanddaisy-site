@@ -305,8 +305,8 @@ body{
    list in the EDIT HERE box.
    ============================================================ */
 .menu-social{
-  margin-top: 26px;
-  padding-top: 20px;
+  margin-top: 52px;
+  padding-top: 32px;
   border-top: 1px solid rgba(243,233,215,0.25);
   display: flex;
   align-items: center;
@@ -386,7 +386,7 @@ body{
    ============================================================ */
 .visit-rooms{
   width: min(100%, 760px);
-  margin-top: 34px;
+  margin-top: 96px;          /* a stretch of garden between house & menu */
   padding: 0 16px;
   text-align: center;
 }
@@ -396,7 +396,7 @@ body{
   letter-spacing: 0.34em;
   color: rgba(250,242,226,0.96);
   text-shadow: 0 1px 4px rgba(20,28,14,0.9), 0 0 16px rgba(20,28,14,0.5);
-  margin: 0 0 18px;
+  margin: 0 0 40px;          /* a quiet pause under the heading */
 }
 .visit-rooms h2::before,
 .visit-rooms h2::after{
@@ -405,13 +405,14 @@ body{
   color: rgba(255,225,170,0.8);
 }
 
-/* one .menu-row per line of buttons */
+/* one .menu-row per line of buttons — set apart like plaques
+   spaced out along a garden path, not packed in a panel */
 .menu-row{
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   justify-content: center;
-  margin: 0 0 10px;
+  margin: 0 0 26px;          /* generous step between rows */
 }
 
 /* the standard worn-paper button — bigger and easy to tap */
@@ -481,11 +482,11 @@ body{
 
 /* ---------- footer whisper ---------- */
 .page-footer{
-  margin-top: 34px;
-  font-size: 0.72rem;
+  margin-top: 72px;
+  font-size: 0.82rem;
   letter-spacing: 0.16em;
-  color: rgba(243,233,215,0.4);
-  text-shadow: 0 1px 3px rgba(20,28,14,0.6);
+  color: rgba(247,238,222,0.72);
+  text-shadow: 0 1px 4px rgba(20,28,14,0.85);
   font-style: italic;
   text-align: center;
 }
@@ -508,10 +509,28 @@ body{
 
 /* ---------- small screens ---------- */
 @media (max-width: 600px){
-  body{ padding: 0 0 40px; }
+  body{ padding: 0 0 48px; }
   .hotspot .hotspot-label{ font-size: 0.65rem; padding: 3px 9px; }
-  /* menu buttons stretch to share each row — big, easy targets */
-  .menu-btn{ flex: 1 1 auto; }
+
+  /* MOBILE — the menu is a garden of plaques, not a packed panel.
+     Narrow the group and center it so the forest shows on both
+     sides, and keep the generous vertical air (scrolling is fine). */
+  .visit-rooms{
+    width: 88vw;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 72px;          /* garden walk between house & menu */
+    padding: 0;
+  }
+  .visit-rooms h2{ margin-bottom: 34px; }
+  .menu-row{ margin-bottom: 22px; }
+  /* buttons size to their content again (no full-row stretch);
+     min-height in the base CSS keeps them comfortably tappable */
+  .menu-btn{ flex: 0 1 auto; }
+  .menu-social{ margin-top: 46px; padding-top: 30px; }
+  .page-footer{ margin-top: 60px; }
+
   /* on phones the house fills the screen, so the backdrop barely
      shows — use a cheaper blur to keep scrolling silky */
   .world-backdrop{ filter: blur(10px) brightness(0.82); }
