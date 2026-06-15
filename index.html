@@ -580,45 +580,44 @@ body{
    slow twinkle so it catches the eye ("what's that?") */
 .gift-gem{
   display: block;
-  width: 18cqw;                  /* bigger so it reads on a phone */
+  width: 20cqw;                  /* a touch larger — easy to spot */
   height: auto;
   overflow: visible;
   filter:
-     drop-shadow(0 1px 2px rgba(30,6,10,0.55))
-     drop-shadow(0 0 4px rgba(205,42,58,0.75));
-  /* the gem now glows red and pulses clearly — visible on desktop */
-  animation: gemBreath 3s ease-in-out infinite;
+     drop-shadow(0 1px 2px rgba(20,4,8,0.60))
+     drop-shadow(0 0 5px rgba(235,55,75,0.85));
+  /* the gem glows like a lit crystal and pulses — clearly visible */
+  animation: gemBreath 2.4s ease-in-out infinite;
 }
 @keyframes gemBreath{
   0%, 100% { filter:
-     drop-shadow(0 1px 2px rgba(30,6,10,0.55))
-     drop-shadow(0 0 3px rgba(205,42,58,0.60)); }
+     drop-shadow(0 1px 2px rgba(20,4,8,0.60))
+     drop-shadow(0 0 4px rgba(235,55,75,0.70)); }
   50%      { filter:
-     drop-shadow(0 1px 2px rgba(30,6,10,0.55))
-     drop-shadow(0 0 9px rgba(238,64,84,0.95))
-     drop-shadow(0 0 17px rgba(205,42,58,0.50)); }
+     drop-shadow(0 1px 2px rgba(20,4,8,0.60))
+     drop-shadow(0 0 12px rgba(255,80,100,1))
+     drop-shadow(0 0 22px rgba(235,55,75,0.55)); }
 }
-/* a bright reflection sweeps across the gem often now — meant to
-   catch the eye, not whisper (sorry, that was the old me) */
+/* a wide gloss bar sweeps across the gem every couple of seconds —
+   a real moving reflection, not a whisper */
 .gift-gem .gem-shine{
   opacity: 0;
-  animation: gemFlash 2.6s ease-in-out infinite;
+  animation: gemFlash 2s ease-in-out infinite;
 }
 @keyframes gemFlash{
-  0%, 55%, 100% { opacity: 0; transform: translateX(0); }
-  68%           { opacity: 1; }
-  80%           { opacity: 0; transform: translateX(26px); }
+  0%, 50%, 100% { opacity: 0;    transform: translateX(-4px); }
+  62%           { opacity: 0.95; }
+  78%           { opacity: 0;    transform: translateX(26px); }
 }
 .gift-gem .gem-spark{
   transform-origin: center;
   transform-box: fill-box;
-  animation: gemTwinkle 2.2s ease-in-out infinite;
+  animation: gemTwinkle 1.5s ease-in-out infinite;
 }
-.gift-gem .gem-spark.s2{ animation-delay: 0.8s; }
-.gift-gem .gem-spark.s3{ animation-delay: 1.5s; }
+.gift-gem .gem-spark.s2{ animation-delay: 0.7s; }
 @keyframes gemTwinkle{
-  0%, 100% { opacity: 0.18; transform: scale(0.5); }
-  50%      { opacity: 1;    transform: scale(1.3); }
+  0%, 100% { opacity: 0.35; transform: scale(0.6);  }
+  50%      { opacity: 1;    transform: scale(1.45); }
 }
 
 /* wake-up: the word warms and a single bright sweep crosses the
@@ -911,43 +910,40 @@ const SOCIAL = [
          gradient / clip ids are safe to hard-code. --- */
   const GEM_SVG =
     '<defs>' +
-      '<radialGradient id="gemCore" cx="48%" cy="36%" r="64%">' +
-        '<stop offset="0%" stop-color="#d24a58"/>' +
-        '<stop offset="44%" stop-color="#9c2031"/>' +
-        '<stop offset="100%" stop-color="#4a0b12"/>' +
+      '<radialGradient id="gemBody" cx="42%" cy="30%" r="78%">' +
+        '<stop offset="0%" stop-color="#ff5e76"/>' +
+        '<stop offset="34%" stop-color="#d11d38"/>' +
+        '<stop offset="100%" stop-color="#530b14"/>' +
       '</radialGradient>' +
-      '<linearGradient id="gemTable" x1="0" y1="0" x2="0" y2="1">' +
-        '<stop offset="0%" stop-color="#ef8b95"/>' +
-        '<stop offset="100%" stop-color="#b22f46"/>' +
+      '<linearGradient id="gemGloss" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0%" stop-color="#ffe3e8" stop-opacity="0.95"/>' +
+        '<stop offset="55%" stop-color="#ff9aac" stop-opacity="0.12"/>' +
+        '<stop offset="100%" stop-color="#ff9aac" stop-opacity="0"/>' +
       '</linearGradient>' +
       '<clipPath id="gemClip"><polygon points="12,1 21,9.5 12,23 3,9.5"/></clipPath>' +
     '</defs>' +
-    '<polygon points="12,1 21,9.5 12,23 3,9.5" fill="url(#gemCore)"/>' +
-    /* pavilion (lower half) — deep and dark, draws the eye inward */
-    '<polygon points="3,9.5 12,10.8 12,23"  fill="#54101a"/>' +
-    '<polygon points="21,9.5 12,10.8 12,23" fill="#3e0a12"/>' +
-    /* crown bezels — light on the left, dark on the right */
-    '<polygon points="12,1 3,9.5 8.6,8.3"     fill="#c2384a"/>' +
-    '<polygon points="3,9.5 12,10.8 8.6,8.3"  fill="#9c2031"/>' +
-    '<polygon points="12,1 15.4,8.3 21,9.5"   fill="#7c1622"/>' +
-    '<polygon points="21,9.5 12,10.8 15.4,8.3" fill="#641019"/>' +
-    '<polygon points="12,1 8.6,8.3 12,4"      fill="#cf414f"/>' +
-    '<polygon points="12,1 12,4 15.4,8.3"     fill="#8a1d2a"/>' +
-    /* table (top facet) */
-    '<polygon points="12,4 15.4,8.3 12,10.8 8.6,8.3" fill="url(#gemTable)"/>' +
-    /* girdle hint + sharp table highlight + upper-left rim light */
-    '<polygon points="12,1 21,9.5 12,23 3,9.5" fill="none" ' +
-        'stroke="#e8808c" stroke-opacity="0.45" stroke-width="0.5"/>' +
-    '<polygon points="11.4,5.2 13.2,7.6 11,7.9" fill="#ffe9ec" fill-opacity="0.9"/>' +
-    '<path d="M12,1 L3,9.5" stroke="#ffd0d6" stroke-opacity="0.55" ' +
-        'stroke-width="0.5" fill="none"/>' +
-    /* three slow sparkles */
-    '<path class="gem-spark" d="M11,3.6 11.4,4.4 12.2,4.8 11.4,5.2 11,6 10.6,5.2 9.8,4.8 10.6,4.4Z" fill="#fff"/>' +
-    '<path class="gem-spark s2" d="M17,10.4 17.35,11.1 18,11.4 17.35,11.7 17,12.4 16.65,11.7 16,11.4 16.65,11.1Z" fill="#fff"/>' +
-    '<path class="gem-spark s3" d="M6.4,9.6 6.7,10.2 7.3,10.5 6.7,10.8 6.4,11.4 6.1,10.8 5.5,10.5 6.1,10.2Z" fill="#fff"/>' +
-    /* the bright sweep on hover / tap */
-    '<rect class="gem-shine" x="-8" y="0" width="7" height="24" rx="3" ' +
-        'fill="#fff7ea" clip-path="url(#gemClip)"/>';
+    /* glassy body: bright core fading to deep red = crystal depth */
+    '<polygon points="12,1 21,9.5 12,23 3,9.5" fill="url(#gemBody)"/>' +
+    /* deep pavilion shadows (lower half) for 3-D glass volume */
+    '<polygon points="3,9.5 12,11 12,23"  fill="#2c0710" fill-opacity="0.62"/>' +
+    '<polygon points="21,9.5 12,11 12,23" fill="#1c050c" fill-opacity="0.66"/>' +
+    /* faint crown facet seams */
+    '<polygon points="12,1 8.6,8 12,4"  fill="#ff7a90" fill-opacity="0.45"/>' +
+    '<polygon points="12,1 12,4 15.4,8" fill="#7c1622" fill-opacity="0.40"/>' +
+    /* BIG top gloss — the sheen that reads as polished crystal */
+    '<polygon points="12,1.5 18.6,8.6 12,11 5.4,8.6" fill="url(#gemGloss)"/>' +
+    /* bold specular highlights, upper-left (the "wet" shine) */
+    '<ellipse cx="9.4" cy="6" rx="2.7" ry="1.5" fill="#ffffff" fill-opacity="0.92" transform="rotate(-34 9.4 6)"/>' +
+    '<ellipse cx="14.4" cy="5.2" rx="0.9" ry="0.5" fill="#ffffff" fill-opacity="0.80" transform="rotate(-20 14.4 5.2)"/>' +
+    /* rim light along the edges */
+    '<path d="M12,1.3 L3.2,9.4"  stroke="#ffdbe1" stroke-opacity="0.90" stroke-width="1"   fill="none" stroke-linecap="round"/>' +
+    '<path d="M12,1.3 L20.8,9.4" stroke="#ffa6b6" stroke-opacity="0.55" stroke-width="0.8" fill="none" stroke-linecap="round"/>' +
+    '<path d="M3.2,9.6 L12,22.7" stroke="#c83048" stroke-opacity="0.50" stroke-width="0.7" fill="none" stroke-linecap="round"/>' +
+    /* two bright sparkle dots (bigger, fewer than the old salt grains) */
+    '<circle class="gem-spark" cx="16.4" cy="10.6" r="1.15" fill="#fff"/>' +
+    '<circle class="gem-spark s2" cx="7.6" cy="10.4" r="0.95" fill="#fff"/>' +
+    /* a wide diagonal gloss bar that sweeps across — moving reflection */
+    '<polygon class="gem-shine" points="-3,-3 4,-3 0,27 -7,27" fill="#ffffff" fill-opacity="0.90" clip-path="url(#gemClip)"/>';
 
   /* links that start with http(s) open in a new tab */
   function setLinkTarget(a, href) {
