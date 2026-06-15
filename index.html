@@ -583,9 +583,31 @@ body{
   width: 18cqw;                  /* bigger so it reads on a phone */
   height: auto;
   overflow: visible;
-  filter: drop-shadow(0 1px 2px rgba(30,6,10,0.55));
+  filter:
+     drop-shadow(0 1px 2px rgba(30,6,10,0.55))
+     drop-shadow(0 0 1.5px rgba(150,22,34,0.40));
+  /* the gem breathes a faint deep-red glow */
+  animation: gemBreath 4.6s ease-in-out infinite;
 }
-.gift-gem .gem-shine{ opacity: 0; }
+@keyframes gemBreath{
+  0%, 100% { filter:
+     drop-shadow(0 1px 2px rgba(30,6,10,0.55))
+     drop-shadow(0 0 1.5px rgba(150,22,34,0.35)); }
+  50%      { filter:
+     drop-shadow(0 1px 2px rgba(30,6,10,0.55))
+     drop-shadow(0 0 5px rgba(184,32,49,0.70)); }
+}
+/* a small bright reflection slips across the gem every few seconds
+   — "did something just glint?" rather than steady blinking */
+.gift-gem .gem-shine{
+  opacity: 0;
+  animation: gemFlash 5s ease-in-out infinite;
+}
+@keyframes gemFlash{
+  0%, 80%, 100% { opacity: 0;    transform: translateX(0); }
+  85%           { opacity: 0.95; }
+  91%           { opacity: 0;    transform: translateX(26px); }
+}
 .gift-gem .gem-spark{
   transform-origin: center;
   transform-box: fill-box;
@@ -622,8 +644,9 @@ body{
 
 @media (prefers-reduced-motion: reduce){
   .hotspot.is-gift .gift-word{ transition: none; }
+  .gift-gem{ animation: none !important; }
   .gift-gem .gem-spark{ animation: none !important; opacity: 0.5; }
-  .gift-gem .gem-shine{ animation: none !important; }
+  .gift-gem .gem-shine{ animation: none !important; opacity: 0; }
 }
 </style>
 </head>
@@ -923,7 +946,7 @@ const SOCIAL = [
     '<path class="gem-spark s3" d="M6.4,9.6 6.7,10.2 7.3,10.5 6.7,10.8 6.4,11.4 6.1,10.8 5.5,10.5 6.1,10.2Z" fill="#fff"/>' +
     /* the bright sweep on hover / tap */
     '<rect class="gem-shine" x="-7" y="0" width="5" height="24" rx="2.5" ' +
-        'fill="#ffe2e0" clip-path="url(#gemClip)"/>';
+        'fill="#fff2de" clip-path="url(#gemClip)"/>';
 
   /* links that start with http(s) open in a new tab */
   function setLinkTarget(a, href) {
