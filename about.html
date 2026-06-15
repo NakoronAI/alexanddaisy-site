@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Alex &amp; Daisy</title>
+<meta name="description" content="A little about the handmade house of Alex & Daisy: who lives here, and why the light is always left on.">
+<link rel="icon" href="/favicon.ico?v=1" sizes="any">
+<link rel="icon" type="image/png" href="/favicon.png?v=1">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=1">
+
+<style>
+/* ============================================================
+   ALEX & DAISY — A ROOM IN THE HOUSE  (the About page)
+   ------------------------------------------------------------
+   This is an ADDITION to the storybook house, not a change to
+   it. It reuses the home's exact palette, type, worn-paper
+   plaques and lamp-light so a visitor feels they simply stepped
+   THROUGH a window into the same little house.
+
+   The same blurred house artwork sits behind everything, so the
+   world is continuous. No new images are generated — house.png
+   is the only picture, exactly as on the homepage.
+
+   NOTE: this CSS is written so it can later be lifted, almost
+   unchanged, into a shared "rooms.css" once the room look is
+   approved. For now it lives here so the page is one file you
+   can drop straight into the repo and preview.
+   ============================================================ */
+
+:root{
+  /* --- the home's palette, unchanged --- */
+  --page-top:    #d8e0be;
+  --page-bottom: #71845c;
+  --paper:       #f3e9d7;   /* warm paper for the page panel */
+  --paper-edge:  #e5d5b6;
+  --ink:         #3b3128;   /* warm ink for reading text */
+  --ink-soft:    #6e5f50;
+  --lamp:        #ffd98a;   /* warm window light */
+  --lamp-deep:   #ffb95e;
+}
+
+*{ box-sizing: border-box; }
+html, body{ margin: 0; padding: 0; }
+
+body{
+  min-height: 100vh;
+  background: #4a563a;          /* deep moss fallback while the image loads */
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px 56px;
+}
+
+/* ---------- the same world, behind everything (continuity) ---------- */
+.world-backdrop{
+  position: fixed;
+  inset: -48px;
+  z-index: -2;
+  background-image: url("house.png");
+  background-size: cover;
+  background-position: center 22%;
+  filter: blur(18px) brightness(0.82) saturate(0.92);
+  transform: scale(1.08);
+  pointer-events: none;
+}
+.world-veil{
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(90% 55% at 50% 0%, rgba(255,248,220,0.18), rgba(0,0,0,0) 60%),
+    radial-gradient(40% 34% at 6% 12%,  rgba(26,36,18,0.34), rgba(0,0,0,0) 70%),
+    radial-gradient(42% 36% at 96% 8%,  rgba(26,36,18,0.30), rgba(0,0,0,0) 70%),
+    radial-gradient(36% 30% at 88% 78%, rgba(26,36,18,0.26), rgba(0,0,0,0) 70%),
+    radial-gradient(120% 90% at 50% 42%, rgba(0,0,0,0) 52%, rgba(22,30,16,0.42) 100%),
+    linear-gradient(180deg, rgba(0,0,0,0) 78%, rgba(20,28,14,0.35) 100%);
+}
+
+/* ============================================================
+   THE WOODEN "BACK TO THE HOUSE" PLATE
+   A carved sign, the same family as the homepage plaques.
+   Deliberately NOT a corporate button — it is a little plank
+   nailed up by the door, with a soft lamp glow on hover.
+   ============================================================ */
+.back-plate{
+  align-self: center;
+  margin: 26px 0 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #45300f;
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  padding: 11px 22px;
+  border-radius: 13px;
+  background: linear-gradient(180deg, #fadc82 0%, #eeb14a 52%, #cf8d2b 100%);
+  border: 1px solid rgba(99,64,18,0.6);
+  border-bottom-width: 3px;
+  text-shadow: 0 1px 0 rgba(255,243,200,0.65);
+  box-shadow:
+    inset 0 2px 2px rgba(255,246,205,0.8),
+    inset 0 -3px 5px rgba(125,75,15,0.3),
+    0 3px 12px rgba(15,22,10,0.45);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+.back-plate .arrow{ font-size: 1.05em; line-height: 1; }
+.back-plate:hover,
+.back-plate:focus-visible{
+  background: linear-gradient(180deg, #ffe79b 0%, #f7bf5c 52%, #db9834 100%);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 2px 2px rgba(255,248,215,0.85),
+    inset 0 -3px 5px rgba(125,75,15,0.28),
+    0 5px 16px rgba(255,190,110,0.5);
+}
+.back-plate:focus{ outline: none; }
+.back-plate:focus-visible{
+  outline: 2px solid rgba(255,221,160,0.9);
+  outline-offset: 3px;
+}
+
+/* ============================================================
+   THE PAGE PANEL — a leaf of warm paper, lamplit.
+   This is the room: a page from the house's own storybook,
+   resting in a pool of window light.
+   ============================================================ */
+.leaf-wrap{
+  position: relative;
+  width: min(92vw, 640px);
+  margin-top: 30px;
+}
+/* the lamp pool behind the paper — the home's window glow, softened */
+.leaf-wrap::before{
+  content:"";
+  position: absolute;
+  inset: -8% -6% -10%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 42%,
+              rgba(255,217,138,0.55) 0%,
+              rgba(255,185,94,0.22) 45%,
+              rgba(255,185,94,0) 72%);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.leaf{
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(248,238,219,0.985) 0%, rgba(233,219,189,0.985) 100%);
+  border: 1px solid rgba(110,88,56,0.4);
+  border-radius: 16px;
+  padding: 40px 38px 34px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,250,235,0.7),
+    0 10px 34px rgba(15,22,10,0.45);
+}
+/* a faint paper grain / age, kept very quiet */
+.leaf::after{
+  content:"";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 40% at 18% 10%, rgba(120,90,50,0.05), rgba(0,0,0,0) 60%),
+    radial-gradient(50% 45% at 88% 92%, rgba(120,90,50,0.06), rgba(0,0,0,0) 60%);
+}
+
+/* the little eyebrow, same voice as the home's "VISIT ROOMS" */
+.eyebrow{
+  margin: 0 0 10px;
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.eyebrow::before,
+.eyebrow::after{ content:"·"; margin: 0 10px; color: rgba(186,140,70,0.9); }
+
+h1.leaf-title{
+  margin: 0 0 22px;
+  text-align: center;
+  font-weight: normal;
+  font-size: clamp(1.7rem, 4.4vw, 2.3rem);
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+h1.leaf-title .amp{ color: var(--lamp-deep); font-style: italic; padding: 0 0.12em; }
+
+/* a thin hand-drawn divider: a sprig, not a hairline rule */
+.sprig{
+  display: block;
+  width: 90px;
+  height: 14px;
+  margin: 0 auto 24px;
+  color: rgba(150,110,60,0.8);
+}
+
+.leaf p{
+  margin: 0 0 16px;
+  font-size: 1.04rem;
+  line-height: 1.72;
+  color: var(--ink);
+}
+.leaf p.lead{ font-size: 1.12rem; }
+.leaf p:last-of-type{ margin-bottom: 4px; }
+.leaf em{ color: var(--ink-soft); }
+
+/* a small inset "whisper" — the answers-not-given note */
+.whisper{
+  margin: 26px 0 6px;
+  padding: 16px 20px;
+  border-left: 3px solid rgba(186,140,70,0.55);
+  background: rgba(255,236,196,0.4);
+  border-radius: 0 10px 10px 0;
+  font-style: italic;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+/* ---------- the way on: a single, gentle invitation ---------- */
+.leaf-foot{
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* the candy-red YouTube plate, the same friend as on the homepage */
+.yt-plate{
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: #fffdf6;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  padding: 11px 20px 11px 16px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ff5347 0%, #e3170a 55%, #c20d04 100%);
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,0.45),
+    inset 0 -4px 6px rgba(90,0,0,0.35),
+    0 5px 14px rgba(80,15,8,0.4),
+    0 2px 4px rgba(60,10,5,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.yt-plate .play{
+  width: 0; height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 13px solid #fffdf6;
+  filter: drop-shadow(0 1px 1px rgba(90,0,0,0.4));
+}
+.yt-plate:hover,
+.yt-plate:focus-visible{
+  transform: scale(1.05);
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,0.5),
+    inset 0 -4px 6px rgba(90,0,0,0.3),
+    0 8px 20px rgba(80,15,8,0.5),
+    0 0 0 5px rgba(255,224,150,0.32),
+    0 0 24px 7px rgba(255,205,120,0.5);
+}
+.yt-plate:focus{ outline: none; }
+.yt-plate:focus-visible{ outline: 2px solid rgba(255,221,160,0.9); outline-offset: 4px; }
+
+/* ---------- footer whisper, sister to the home's line ---------- */
+.page-footer{
+  margin-top: 30px;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: rgba(243,233,215,0.55);
+  text-shadow: 0 1px 3px rgba(20,28,14,0.6);
+  font-style: italic;
+  text-align: center;
+}
+
+/* ============================================================
+   FAIRY DUST — a few of the home's golden motes drift here too,
+   so the room breathes. Far fewer than the homepage; just a
+   memory of the light outside. Built by the small script below.
+   ============================================================ */
+.dust-field{
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.fairy{
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+              rgba(255,252,235,1) 0%,
+              rgba(255,210,120,0.95) 38%,
+              rgba(255,180,80,0) 75%);
+  box-shadow: 0 0 calc(var(--size) * 1.4) calc(var(--size) * 0.4) rgba(255,190,90,0.35);
+  opacity: 0;
+  animation: drift var(--dur) ease-in-out var(--delay) infinite;
+}
+@keyframes drift{
+  0%   { opacity: 0;    transform: translateY(0) scale(0.7); }
+  15%  { opacity: 0.85; }
+  50%  { transform: translateY(calc(var(--rise) * 0.5)) translateX(var(--sway)) scale(1.1); }
+  85%  { opacity: 0.7; }
+  100% { opacity: 0;    transform: translateY(var(--rise)) scale(0.8); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .fairy{ display: none !important; }
+  .back-plate, .yt-plate{ transition: none; transform: none !important; }
+}
+
+@media (max-width: 600px){
+  .leaf{ padding: 32px 24px 28px; }
+  .leaf p{ font-size: 1rem; }
+  .leaf-foot .yt-plate{ flex: 1 1 auto; justify-content: center; }
+  .world-backdrop{ filter: blur(10px) brightness(0.82); }
+}
+</style>
+</head>
+<body>
+
+<div class="world-backdrop" aria-hidden="true"></div>
+<div class="world-veil" aria-hidden="true"></div>
+<div class="dust-field" id="dustField" aria-hidden="true"></div>
+
+<!-- the plank by the door, home again -->
+<a class="back-plate" href="index.html" aria-label="Back to the house">
+  <span class="arrow" aria-hidden="true">&#8592;</span> back to the house
+</a>
+
+<main class="leaf-wrap">
+  <article class="leaf">
+    <p class="eyebrow">about the house</p>
+    <h1 class="leaf-title">Alex <span class="amp">&amp;</span> Daisy</h1>
+
+    <!-- a little hand-drawn sprig divider (SVG, no image file) -->
+    <svg class="sprig" viewBox="0 0 90 14" fill="none" aria-hidden="true">
+      <path d="M2 7 H38" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M52 7 H88" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M45 2 C42 5 42 9 45 12 C48 9 48 5 45 2 Z" fill="currentColor" opacity="0.85"/>
+      <circle cx="45" cy="7" r="1.3" fill="currentColor"/>
+    </svg>
+
+    <p class="lead">This is a small, handmade house. Everyone who lives here was
+      made at a kitchen table — out of clay, paper, paint, and a lot of patience.</p>
+
+    <p>It began in 2022 as a place to put little dinosaur puppet shows. The shows
+      went wrong constantly, which turned out to be the best part. We kept the house
+      and kept building rooms.</p>
+
+    <p>Daisy is a ragdoll cat who lived with us for twenty-one years. She is the
+      heart of this place and the name on the door. These days she stars as a small
+      doll — still soft, still in charge, still the reason the lamp stays lit.</p>
+
+    <p>Alex builds the dinosaurs and most of the trouble. He likes monsters, history,
+      and making things that nobody else has made before.</p>
+
+    <p class="whisper">We don't explain everything here. Some doors we leave a little
+      shut, some answers we leave unsaid. A house is friendlier that way — you're
+      meant to wander it, not be told about it.</p>
+
+    <p>So: come in, knock on a window, watch a show. The light's on for you.</p>
+
+    <div class="leaf-foot">
+      <a class="yt-plate" href="https://www.youtube.com/@alexanddaisy2022"
+         target="_blank" rel="noopener noreferrer" aria-label="Watch Alex and Daisy on YouTube">
+        <span class="play" aria-hidden="true"></span> watch on YouTube
+      </a>
+    </div>
+  </article>
+</main>
+
+<footer class="page-footer">every room here was made by hand</footer>
+
+<script>
+/* a quiet handful of golden motes — the home's fairy dust, fewer.
+   Pure decoration; respects reduced-motion via the CSS above. */
+(function(){
+  "use strict";
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var field = document.getElementById("dustField");
+  var COUNT = 10;
+  for (var i = 0; i < COUNT; i++){
+    var f = document.createElement("span");
+    f.className = "fairy";
+    f.style.left = (5 + Math.random() * 90) + "%";
+    f.style.top  = (20 + Math.random() * 70) + "%";
+    f.style.setProperty("--size", (5 + Math.random() * 7).toFixed(0) + "px");
+    f.style.setProperty("--rise", (-(80 + Math.random() * 140)).toFixed(0) + "px");
+    f.style.setProperty("--sway", ((Math.random() * 40) - 20).toFixed(0) + "px");
+    f.style.setProperty("--dur",  (8 + Math.random() * 7).toFixed(1) + "s");
+    f.style.setProperty("--delay",(Math.random() * 8).toFixed(1) + "s");
+    field.appendChild(f);
+  }
+})();
+</script>
+
+</body>
+</html>
