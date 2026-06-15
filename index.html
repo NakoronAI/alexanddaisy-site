@@ -535,6 +535,96 @@ body{
      shows — use a cheaper blur to keep scrolling silky */
   .world-backdrop{ filter: blur(10px) brightness(0.82); }
 }
+/* ============================================================
+   GIFT BOX  (the little wooden treasure chest, lower right)
+   ------------------------------------------------------------
+   The chest is a hotspot that leads to gift.html. The word GIFT
+   and a small garnet are laid on the chest's blank wooden panel
+   with CSS / SVG only — the artwork (house.png) is never touched.
+   Position is tuned with giftLeft / giftTop / giftTilt in the
+   EDIT HERE box, so it can be nudged in one line.
+   ============================================================ */
+.hotspot.is-gift{ container-type: inline-size; }
+
+/* the face laid on the wooden panel: GIFT stacked over the garnet.
+   The whole face is rotated to sit flat on the chest's perspective. */
+.gift-face{
+  position: absolute;
+  left: 50%;
+  top: 71%;
+  transform: translate(-50%, -50%) rotate(var(--gift-tilt, 0deg));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4cqw;
+  pointer-events: none;          /* the whole chest handles the click */
+  text-align: center;
+  line-height: 1;
+}
+
+/* GIFT — carved / branded into the tan wood of the panel */
+.gift-word{
+  font-family: Georgia, "Times New Roman", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-weight: 700;
+  font-size: 17cqw;              /* scales with the chest, not the screen */
+  letter-spacing: 0.16em;
+  margin-right: -0.16em;
+  color: #3a2414;               /* burnt-umber carving */
+  text-shadow:
+     0 1px 0   rgba(255,243,214,0.40),
+     0 -1px 1px rgba(36,18,8,0.55);
+  transition: color .35s ease, text-shadow .35s ease;
+}
+
+/* the garnet: a faceted gem in SVG — bigger now, with a faint,
+   slow twinkle so it catches the eye ("what's that?") */
+.gift-gem{
+  display: block;
+  width: 18cqw;                  /* bigger so it reads on a phone */
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 1px 2px rgba(30,6,10,0.55));
+}
+.gift-gem .gem-shine{ opacity: 0; }
+.gift-gem .gem-spark{
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: gemTwinkle 3.4s ease-in-out infinite;
+}
+.gift-gem .gem-spark.s2{ animation-delay: 1.3s; }
+.gift-gem .gem-spark.s3{ animation-delay: 2.3s; }
+@keyframes gemTwinkle{
+  0%, 100% { opacity: 0.10; transform: scale(0.6); }
+  50%      { opacity: 0.85; transform: scale(1.05); }
+}
+
+/* wake-up: the word warms and a single bright sweep crosses the
+   garnet on hover / focus / tap */
+.hotspot.is-gift:hover .gift-word,
+.hotspot.is-gift:focus-visible .gift-word,
+.hotspot.is-gift.is-lit .gift-word{
+  color: #2c1a0d;
+  text-shadow:
+     0 1px 0   rgba(255,247,224,0.55),
+     0 -1px 1px rgba(28,12,4,0.6),
+     0 0 6cqw  rgba(255,210,140,0.35);
+}
+.hotspot.is-gift:hover  .gift-gem .gem-shine,
+.hotspot.is-gift:focus-visible .gift-gem .gem-shine,
+.gift-face.shine .gem-shine{
+  animation: gemSweep 0.9s ease-out 1;
+}
+@keyframes gemSweep{
+  0%   { opacity: 0;    transform: translateX(0); }
+  16%  { opacity: 0.9;  }
+  100% { opacity: 0;    transform: translateX(26px); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hotspot.is-gift .gift-word{ transition: none; }
+  .gift-gem .gem-spark{ animation: none !important; opacity: 0.5; }
+  .gift-gem .gem-shine{ animation: none !important; }
+}
 </style>
 </head>
 <body>
@@ -702,12 +792,19 @@ const HOTSPOTS = [
     top: 77.5, left: 24,   width: 7.8, height: 15.5
   },
   {
-    name: "Contact postbox",
-    label: "Write to us",
-    aria: "Send us an email",
-    href: "mailto:hello@example.com",
-    type: "sign",
-    top: 80,   left: 66.2, width: 7.4, height: 16.5
+    name: "Gift box",
+    label: "",                /* "" = no floating tag; GIFT is laid on the panel */
+    aria: "Open the gift box",
+    href: "gift.html",        /* a small real page — never a dead link */
+    type: "gift",
+    /* the whole chest is the click target */
+    top: 79,   left: 66.2, width: 7.4, height: 17,
+    /* GIFT + garnet position, as % INSIDE the chest box.
+       giftTilt tilts the text to match the chest's panel: the
+       panel's top edge runs slightly DOWN to the right, so a small
+       POSITIVE tilt makes the word sit flat instead of pasted-on.
+       Nudge giftLeft / giftTop / giftTilt while watching the page. */
+    giftLeft: 49.5, giftTop: 71, giftTilt: 1.5
   },
   {
     name: "Alex & Daisy top sign",
@@ -746,8 +843,8 @@ const MENU = [
 
   [ { label: "Watch Videos", href: "#videos",
       aria: "Watch the videos" },
-    { label: "Write to Us", href: "mailto:hello@example.com",
-      aria: "Send us an email" } ],
+    { label: "Gift", href: "gift.html",
+      aria: "Open the gift box" } ],
 
   [ { label: "YouTube", href: "https://www.youtube.com/@alexanddaisy2022",
       aria: "Visit the Alex and Daisy YouTube channel" } ]
@@ -782,6 +879,52 @@ const SOCIAL = [
   const reducedMotion =
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* --- the garnet on the gift box: a faceted gem drawn in SVG.
+         Light core fading to a dark pavilion gives it depth (it
+         reads as translucent, not a flat stone); a few facets catch
+         light, three tiny sparkles twinkle slowly, and a bright bar
+         sweeps across on hover / tap. Only one gem exists, so the
+         gradient / clip ids are safe to hard-code. --- */
+  const GEM_SVG =
+    '<defs>' +
+      '<radialGradient id="gemCore" cx="48%" cy="36%" r="64%">' +
+        '<stop offset="0%" stop-color="#d24a58"/>' +
+        '<stop offset="44%" stop-color="#9c2031"/>' +
+        '<stop offset="100%" stop-color="#4a0b12"/>' +
+      '</radialGradient>' +
+      '<linearGradient id="gemTable" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0%" stop-color="#ef8b95"/>' +
+        '<stop offset="100%" stop-color="#b22f46"/>' +
+      '</linearGradient>' +
+      '<clipPath id="gemClip"><polygon points="12,1 21,9.5 12,23 3,9.5"/></clipPath>' +
+    '</defs>' +
+    '<polygon points="12,1 21,9.5 12,23 3,9.5" fill="url(#gemCore)"/>' +
+    /* pavilion (lower half) — deep and dark, draws the eye inward */
+    '<polygon points="3,9.5 12,10.8 12,23"  fill="#54101a"/>' +
+    '<polygon points="21,9.5 12,10.8 12,23" fill="#3e0a12"/>' +
+    /* crown bezels — light on the left, dark on the right */
+    '<polygon points="12,1 3,9.5 8.6,8.3"     fill="#c2384a"/>' +
+    '<polygon points="3,9.5 12,10.8 8.6,8.3"  fill="#9c2031"/>' +
+    '<polygon points="12,1 15.4,8.3 21,9.5"   fill="#7c1622"/>' +
+    '<polygon points="21,9.5 12,10.8 15.4,8.3" fill="#641019"/>' +
+    '<polygon points="12,1 8.6,8.3 12,4"      fill="#cf414f"/>' +
+    '<polygon points="12,1 12,4 15.4,8.3"     fill="#8a1d2a"/>' +
+    /* table (top facet) */
+    '<polygon points="12,4 15.4,8.3 12,10.8 8.6,8.3" fill="url(#gemTable)"/>' +
+    /* girdle hint + sharp table highlight + upper-left rim light */
+    '<polygon points="12,1 21,9.5 12,23 3,9.5" fill="none" ' +
+        'stroke="#e8808c" stroke-opacity="0.45" stroke-width="0.5"/>' +
+    '<polygon points="11.4,5.2 13.2,7.6 11,7.9" fill="#ffe9ec" fill-opacity="0.9"/>' +
+    '<path d="M12,1 L3,9.5" stroke="#ffd0d6" stroke-opacity="0.55" ' +
+        'stroke-width="0.5" fill="none"/>' +
+    /* three slow sparkles */
+    '<path class="gem-spark" d="M11,3.6 11.4,4.4 12.2,4.8 11.4,5.2 11,6 10.6,5.2 9.8,4.8 10.6,4.4Z" fill="#fff"/>' +
+    '<path class="gem-spark s2" d="M17,10.4 17.35,11.1 18,11.4 17.35,11.7 17,12.4 16.65,11.7 16,11.4 16.65,11.1Z" fill="#fff"/>' +
+    '<path class="gem-spark s3" d="M6.4,9.6 6.7,10.2 7.3,10.5 6.7,10.8 6.4,11.4 6.1,10.8 5.5,10.5 6.1,10.2Z" fill="#fff"/>' +
+    /* the bright sweep on hover / tap */
+    '<rect class="gem-shine" x="-7" y="0" width="5" height="24" rx="2.5" ' +
+        'fill="#ffe2e0" clip-path="url(#gemClip)"/>';
+
   /* links that start with http(s) open in a new tab */
   function setLinkTarget(a, href) {
     if (/^https?:/i.test(href)) {
@@ -802,7 +945,9 @@ const SOCIAL = [
   /* --- build one hotspot link on the picture --- */
   function buildHotspot(spot) {
     const a = document.createElement("a");
-    a.className = "hotspot" + (spot.type === "door" ? " is-door" : "");
+    a.className = "hotspot"
+      + (spot.type === "door" ? " is-door" : "")
+      + (spot.type === "gift" ? " is-gift" : "");
     a.href = spot.href;
     a.setAttribute("aria-label", spot.aria || spot.label || spot.name);
     setLinkTarget(a, spot.href);
@@ -821,12 +966,34 @@ const SOCIAL = [
       a.appendChild(tag);
     }
 
-    /* click: glow swell + a few dust motes + 0.4s pause, then go */
+    /* gift box: lay GIFT + the garnet on the chest's wooden panel */
+    let giftFace = null;
+    if (spot.type === "gift") {
+      giftFace = document.createElement("span");
+      giftFace.className = "gift-face";
+      giftFace.style.left = (spot.giftLeft != null ? spot.giftLeft : 50) + "%";
+      giftFace.style.top  = (spot.giftTop  != null ? spot.giftTop  : 72) + "%";
+      if (spot.giftTilt != null) {
+        giftFace.style.setProperty("--gift-tilt", spot.giftTilt + "deg");
+      }
+      giftFace.innerHTML =
+        '<span class="gift-word">GIFT</span>' +
+        '<svg class="gift-gem" viewBox="0 0 24 24" aria-hidden="true">' + GEM_SVG + '</svg>';
+      a.appendChild(giftFace);
+    }
+
+    /* click: glow swell + a few dust motes + 0.4s pause, then go.
+       The gift box gives the garnet one bright sweep on the way. */
     a.addEventListener("click", function (event) {
       event.preventDefault();
       a.classList.add("is-lit");
+      if (spot.type === "gift" && giftFace && !reducedMotion) {
+        giftFace.classList.remove("shine");
+        void giftFace.offsetWidth;          /* restart the light sweep */
+        giftFace.classList.add("shine");
+      }
       if (!reducedMotion) {
-        releaseDustMotes(a, spot.motes || 6);
+        releaseDustMotes(a, spot.motes || (spot.type === "gift" ? 5 : 6));
       }
       window.setTimeout(function () {
         a.classList.remove("is-lit");
