@@ -9,6 +9,12 @@
 <link rel="icon" type="image/png" href="/favicon.png?v=1">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=1">
 
+<!-- Baloo 2: the menu heading + footer typeface (rounded, friendly, reads
+     clearly for kids — chosen to step away from the "hotel front desk" look) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 /* ============================================================
    ALEX & DAISY — STORYBOOK HOUSE HOMEPAGE
@@ -34,6 +40,12 @@
   /* --- Glow strength (see also GLOW settings in the JS) --- */
   --glow-hover-opacity: 0.55;
   --glow-click-opacity: 0.9;
+
+  /* --- "VISIT ROOMS" gold sparkle — tune by changing only these numbers ---
+     --vr-shimmer-speed : how fast the sheen drifts across (smaller = faster)
+     --vr-glow          : warmth/strength of the gold halo (raise alpha = brighter) */
+  --vr-shimmer-speed: 5s;
+  --vr-glow: rgba(255,210,128,0.55);
 }
 
 *{ box-sizing: border-box; }
@@ -391,18 +403,39 @@ body{
   text-align: center;
 }
 .visit-rooms h2{
-  font-size: 1rem;
-  font-weight: normal;
-  letter-spacing: 0.34em;
-  color: rgba(250,242,226,0.96);
-  text-shadow: 0 1px 4px rgba(20,28,14,0.9), 0 0 16px rgba(20,28,14,0.5);
-  margin: 0 0 40px;          /* a quiet pause under the heading */
+  font-family: 'Baloo 2', system-ui, -apple-system, sans-serif;
+  font-size: clamp(1.7rem, 5.2vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: 0.10em;       /* heavy face, so keep tracking modest */
+  margin: 0 0 40px;             /* a quiet pause under the heading */
+
+  /* gold gradient text with a sheen that slowly drifts across */
+  background: linear-gradient(100deg,
+      #e6bd63 0%, #f4d896 26%, #fff7e6 46%,
+      #f4d896 62%, #ddac52 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+          color: transparent;
+  /* depth + warm halo (replaces the old flat text-shadow, which can't
+     show through clipped text) */
+  filter: drop-shadow(0 1px 1px rgba(54,36,10,0.6))
+          drop-shadow(0 0 14px var(--vr-glow));
+  animation: vrShimmer var(--vr-shimmer-speed) linear infinite;
+}
+@keyframes vrShimmer{
+  to{ background-position: 220% center; }
 }
 .visit-rooms h2::before,
 .visit-rooms h2::after{
-  content:"·";
-  margin: 0 12px;
-  color: rgba(255,225,170,0.8);
+  content:"\2726";                 /* ✦ — same star the gold About button uses */
+  -webkit-text-fill-color: initial;
+  color: rgba(255,224,150,0.92);
+  text-shadow: 0 0 8px rgba(255,196,110,0.6);
+  margin: 0 16px;
+  font-size: 0.62em;
+  vertical-align: 0.16em;
 }
 
 /* one .menu-row per line of buttons — set apart like plaques
@@ -483,11 +516,13 @@ body{
 /* ---------- footer whisper ---------- */
 .page-footer{
   margin-top: 72px;
-  font-size: 0.82rem;
-  letter-spacing: 0.16em;
-  color: rgba(247,238,222,0.72);
-  text-shadow: 0 1px 4px rgba(20,28,14,0.85);
-  font-style: italic;
+  font-family: 'Baloo 2', system-ui, -apple-system, sans-serif;
+  font-size: clamp(0.98rem, 2.7vw, 1.18rem);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: rgba(250,244,230,0.94);   /* a touch brighter so it reads cleanly */
+  text-shadow: 0 1px 3px rgba(20,28,14,0.92), 0 0 10px rgba(20,28,14,0.45);
+  font-style: normal;              /* drop the script-y italic */
   text-align: center;
 }
 
@@ -499,6 +534,7 @@ body{
   .dust-mote{ display: none !important; }
   .fairy-dust{ display: none !important; }
   .social-btn{ animation: none; }
+  .visit-rooms h2{ animation: none; background-position: 50% center; }
   .hotspot::before,
   .hotspot .hotspot-label,
   .menu-btn{
