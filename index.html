@@ -66,6 +66,35 @@
   --seam-mist-height: 280px;
   --seam-mist-width: 130vw;
   --seam-mist-speed: 16s;
+
+  /* --- WATER: the seam now reads as the surface of a RIVER — the
+     same water the orange egg drifted in on. Up near the waterline a
+     pale light slides ONE WAY (the current; "it came from there").
+     Down in the depths, a few air bubbles rise and vanish. Only the
+     water moves; the gold VISIT ROOMS heading and the menu buttons
+     stay perfectly still — lily pads floating on top. The whole water
+     layer is painted BEHIND the menu (z-index:-1), so bubbles pass
+     behind the buttons and never block a tap. house.png is untouched.
+     --water-rise    : how far the water reaches UP toward the seam.
+     --water-height  : depth of the moving water band.
+     --current-speed : how slowly the light streak drifts across
+                       (bigger = calmer). It only ever goes one way.
+     --current-glow  : strength of that drifting light (0 = off).
+     --bubble-glow   : brightness of an ordinary bubble's soft rim.
+     --ember-glow    : brightness of a rare orange/gold bubble — the
+                       warmth of the river's egg glowing from below. */
+  --water-rise:    190px;
+  --water-height:  540px;
+  --current-speed: 26s;
+  --current-glow:  0.30;
+  --bubble-glow:   0.64;
+  --ember-glow:    0.90;
+  /* --water-tint : a soft darkening of the water band (0 = none).
+     Water is a little darker than the bright forest above it, which
+     is true to life AND makes the pale current and the bubbles read
+     clearly instead of dissolving into the blur. The buttons sit on
+     top and stay perfectly legible. */
+  --water-tint:    0.17;
 }
 
 *{ box-sizing: border-box; }
@@ -427,6 +456,8 @@ body{
    ============================================================ */
 .visit-rooms{
   position: relative;        /* anchor for the soft seam haze below */
+  isolation: isolate;        /* keep the water layer (z-index:-1) tucked
+                                behind THIS menu, never behind the house */
   width: min(100%, 760px);
   margin-top: 96px;          /* a stretch of garden between house & menu */
   padding: 0 16px;
@@ -456,6 +487,87 @@ body{
   from{ transform: translateX(-52%) translateY(-5px) scale(1); }
   to  { transform: translateX(-48%) translateY(5px)  scale(1.05); }
 }
+
+/* ============================================================
+   THE RIVER WATER  (CSS makes the LOOK; JS only spawns bubbles)
+   A) .water-current — one pale light streak sliding ONE WAY near
+      the waterline. Never reverses. "The egg came from there."
+   B) .bubble        — a soft air bubble rising from the depths,
+      wobbling left/right like a real one, fading out BEFORE it
+      reaches the seam (the true surface is higher up).
+   C) .bubble.ember  — the rare warm one, lit orange/gold, as if
+      catching the light of the river's egg.
+   The whole layer sits behind the menu (z-index:-1) and never
+   takes a tap (pointer-events:none). house.png is untouched.
+   ============================================================ */
+.water{
+  position: absolute;
+  left: 50%;
+  top: calc(-1 * var(--water-rise));
+  width: 100vw;                 /* full landscape, like the seam mist */
+  height: var(--water-height);
+  transform: translateX(-50%);
+  z-index: -1;                  /* behind heading + buttons (lily pads) */
+  pointer-events: none;
+  overflow: hidden;             /* bubbles dissolve before the waterline */
+  /* water is a touch darker than the bright forest above, so the
+     current and bubbles read clearly. Fades to nothing top & bottom
+     so the band has no visible edge. */
+  background: linear-gradient(to bottom,
+      rgba(34,44,34, 0) 0%,
+      rgba(34,44,34, var(--water-tint)) 34%,
+      rgba(30,40,32, var(--water-tint)) 72%,
+      rgba(30,40,32, 0) 100%);
+}
+.water-current{
+  position: absolute;
+  left: -50%;
+  top: 0;
+  width: 200%;
+  height: 48%;                  /* lives up near the waterline */
+  background: repeating-linear-gradient(64deg,
+      transparent 0, transparent 130px,
+      rgba(230,234,226, var(--current-glow)) 190px,
+      transparent 250px, transparent 380px);
+  filter: blur(7px);
+  animation: riverFlow var(--current-speed) linear infinite;
+  will-change: transform;
+}
+@keyframes riverFlow{
+  from{ transform: translateX(0); }
+  to  { transform: translateX(-25%); }   /* seamless one-way loop */
+}
+.bubble{
+  position: absolute;
+  bottom: 0;
+  width: var(--bsize);
+  height: var(--bsize);
+  border-radius: 50%;
+  /* the soft rim is in the gradient itself — no per-bubble blur
+     filter, so a handful of these stay cheap even at 150% zoom */
+  background: radial-gradient(circle at 38% 33%,
+      rgba(246,250,246, var(--bubble-glow)) 0%,
+      rgba(220,232,224, calc(var(--bubble-glow) * 0.42)) 46%,
+      rgba(200,214,206, 0) 72%);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: bubbleRise var(--bdur) ease-in forwards;
+}
+.bubble.ember{
+  background: radial-gradient(circle at 38% 33%,
+      rgba(255,225,150, var(--ember-glow)) 0%,
+      rgba(255,176,92,  calc(var(--ember-glow) * 0.5)) 44%,
+      rgba(255,150,70, 0) 74%);
+}
+@keyframes bubbleRise{
+  0%  { transform: translate(0, 0) scale(0.7); opacity: 0; }
+  15% { opacity: 1; }
+  42% { transform: translate(var(--sway), -36%) scale(1); }
+  70% { transform: translate(calc(var(--sway) * -0.7), -64%) scale(1.05); }
+  88% { opacity: 0.85; }
+  100%{ transform: translate(0, -86%) scale(1.1); opacity: 0; }  /* gone before the seam */
+}
+
 .visit-rooms h2{
   font-family: 'Baloo 2', system-ui, -apple-system, sans-serif;
   font-size: clamp(1.7rem, 5.2vw, 2.5rem);
@@ -590,6 +702,7 @@ body{
   .social-btn{ animation: none; }
   .visit-rooms h2{ animation: none; background-position: 50% center; }
   .visit-rooms::before{ animation: none; }
+  .water{ display: none; }   /* still water: no current, no bubbles */
   .hotspot::before,
   .hotspot .hotspot-label,
   .menu-btn{
@@ -772,6 +885,7 @@ body{
      this is the navigation most visitors actually use.
      ============================================================ -->
 <nav class="visit-rooms" aria-label="Visit rooms">
+  <div class="water" id="waterLayer" aria-hidden="true"><span class="water-current"></span></div>
   <h2>VISIT&nbsp;ROOMS</h2>
   <div id="menuRows"></div>
   <div class="menu-social" id="menuSocial"></div>
@@ -1207,6 +1321,64 @@ const SOCIAL = [
   HOTSPOTS.forEach(function (spot) {
     stage.appendChild(buildHotspot(spot));
   });
+
+  /* ============================================================
+     THE RIVER — air bubbles rising behind the menu.
+     • The FIRST bubble is guaranteed within ~2s of this area
+       scrolling into view (the catch); a warm ember follows right
+       after for the opening beat. Then the pace turns gentle and
+       unpredictable — "ふっ…と one, a pause, then two".
+     • Tune the FEEL here; the LOOK lives in the :root water knobs. */
+  const WATER = {
+    maxAtOnce:    3,     // never more than this many bubbles at once
+    gapMin:       2.4,   // shortest quiet pause between spawns (seconds)
+    gapMax:       6.8,   // longest quiet pause (the mysterious silence)
+    emberChance:  0.17,  // ~1 in 6 ordinary bubbles is an orange/gold ember
+    catchAt:      0.5,   // first bubble, after the area appears (seconds)
+    emberCatchAt: 2.0    // a guaranteed warm ember right after, for the opening
+  };
+
+  const water = document.getElementById("waterLayer");
+  if (water && !reducedMotion) {
+    let alive = 0, started = false;
+
+    function spawnBubble(forceEmber) {
+      if (alive >= WATER.maxAtOnce) return;
+      const ember = forceEmber || Math.random() < WATER.emberChance;
+      const b = document.createElement("span");
+      b.className = "bubble" + (ember ? " ember" : "");
+      // gentle bias toward the centre so bubbles drift up BEHIND the
+      // menu buttons (the lily pads), not only along the edges
+      const c = (Math.random() + Math.random()) / 2;   // peak near 0.5
+      b.style.left = (10 + c * 80) + "%";
+      b.style.setProperty("--bsize",
+        (ember ? 16 + Math.random() * 9 : 12 + Math.random() * 9).toFixed(0) + "px");
+      b.style.setProperty("--bdur", (6.5 + Math.random() * 4).toFixed(1) + "s");
+      b.style.setProperty("--sway",
+        ((Math.random() < 0.5 ? -1 : 1) * (10 + Math.random() * 16)).toFixed(0) + "px");
+      alive++;
+      b.addEventListener("animationend", function () { b.remove(); alive--; });
+      water.appendChild(b);
+    }
+
+    function drift() {                       // the gentle, unpredictable pace
+      spawnBubble(false);
+      const gap = WATER.gapMin + Math.random() * (WATER.gapMax - WATER.gapMin);
+      setTimeout(drift, gap * 1000);
+    }
+
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && !started) {
+          started = true;
+          setTimeout(function () { spawnBubble(false); }, WATER.catchAt * 1000);      // catch #1
+          setTimeout(function () { spawnBubble(true);  }, WATER.emberCatchAt * 1000); // a warm one
+          setTimeout(drift, (WATER.emberCatchAt + 2.2) * 1000);                       // then drift
+        }
+      });
+    }, { threshold: 0.35 });
+    io.observe(water);
+  }
 })();
 </script>
 
