@@ -46,6 +46,26 @@
      --vr-glow          : warmth/strength of the gold halo (raise alpha = brighter) */
   --vr-shimmer-speed: 5s;
   --vr-glow: rgba(255,210,128,0.55);
+
+  /* --- SEAM: dissolve the hard line where the house picture meets
+     the blurred world below it. House.png itself is never touched —
+     we only fade the IMAGE's lower edge so it melts into the forest.
+     --seam-fade-start : how high up the picture stays fully solid.
+                         89% = solid to 89%, then dissolves to the
+                         bottom. Push HIGHER (92%) if the lowest signs
+                         look too soft; LOWER (84%) for a dreamier,
+                         longer fade. (Keep above ~80% so the painted
+                         sign text and the GIFT chest stay crisp.)
+     --seam-mist       : strength of the soft haze sitting on the seam
+                         (0 = off, 0.34 = gentle, 0.6 = foggy).
+     --seam-mist-rise  : how far that haze reaches UP into the picture.
+     --seam-mist-speed : how slowly the haze breathes (bigger = calmer). */
+  --seam-fade-start: 89%;
+  --seam-mist: 0.34;
+  --seam-mist-rise: 150px;
+  --seam-mist-height: 280px;
+  --seam-mist-width: 130vw;
+  --seam-mist-speed: 16s;
 }
 
 *{ box-sizing: border-box; }
@@ -147,6 +167,15 @@ body{
   display: block;
   width: 100%;
   height: auto;
+  /* Dissolve ONLY the picture's lower edge into the blurred world
+     beneath it, so the house meets the forest with no hard line.
+     This masks the image element alone — hotspots, the GIFT word,
+     the garnet and every glow live on separate layers and stay crisp.
+     house.png is not modified in any way. */
+  -webkit-mask-image: linear-gradient(to bottom,
+            #000 var(--seam-fade-start), transparent 100%);
+          mask-image: linear-gradient(to bottom,
+            #000 var(--seam-fade-start), transparent 100%);
 }
 
 /* ============================================================
@@ -397,10 +426,35 @@ body{
    sign — one plank of the artwork stepping down into the menu.
    ============================================================ */
 .visit-rooms{
+  position: relative;        /* anchor for the soft seam haze below */
   width: min(100%, 760px);
   margin-top: 96px;          /* a stretch of garden between house & menu */
   padding: 0 16px;
   text-align: center;
+}
+/* a soft breath of mist that sits ON the seam — it reaches a little
+   way up into the picture's faded edge and a little way down into the
+   garden gap, so the join reads as drifting forest haze, not a cut.
+   Painted under the heading/buttons; never blocks a tap. Tune with the
+   --seam-mist* knobs in :root (set --seam-mist:0 to switch it off). */
+.visit-rooms::before{
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: calc(-1 * var(--seam-mist-rise));
+  width: var(--seam-mist-width);
+  height: var(--seam-mist-height);
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: radial-gradient(closest-side,
+      rgba(228,224,206, var(--seam-mist)) 0%,
+      rgba(228,224,206, 0) 78%);
+  filter: blur(20px);
+  animation: seamDrift var(--seam-mist-speed) ease-in-out infinite alternate;
+}
+@keyframes seamDrift{
+  from{ transform: translateX(-52%) translateY(-5px) scale(1); }
+  to  { transform: translateX(-48%) translateY(5px)  scale(1.05); }
 }
 .visit-rooms h2{
   font-family: 'Baloo 2', system-ui, -apple-system, sans-serif;
@@ -535,6 +589,7 @@ body{
   .fairy-dust{ display: none !important; }
   .social-btn{ animation: none; }
   .visit-rooms h2{ animation: none; background-position: 50% center; }
+  .visit-rooms::before{ animation: none; }
   .hotspot::before,
   .hotspot .hotspot-label,
   .menu-btn{
