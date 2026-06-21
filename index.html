@@ -98,6 +98,12 @@
 html, body{
   margin: 0;
   padding: 0;
+  /* 横スクロール封じ。全幅レイヤー＝水(.water 100vw)と
+     seam-mist(.visit-rooms::before 130vw, 今は透明)が画面端から
+     数px〜15vw はみ出して横スクロールバーを出していたのを、ここで
+     確実にクリップする。見えている絵・水・ボタンは1pxも変わらない
+     （切れるのは画面外＆透明な部分だけ）。PC(150%)・iPhone 両対応。 */
+  overflow-x: hidden;
 }
 
 body{
