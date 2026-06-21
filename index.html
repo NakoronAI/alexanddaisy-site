@@ -111,10 +111,26 @@ html, body{
 html{
   overflow-x: hidden;   /* 古い環境用フォールバック（html だけなら二重化しない） */
   overflow-x: clip;     /* 本命：scroll コンテナを作らず横だけクリップ */
+  /* ★v15 横パン封じ：iPhone は overflow-x:clip だけでは指の横スライドが
+     残り、前景(家・メニュー)だけ横に動いて固定背景と剥がれて見えた。
+     touch-action で“横パンというジェスチャ自体”を禁止して根元から殺す。
+     pan-y = 縦スクロールは許可／pinch-zoom = ピンチ拡大は残す(a11y)。
+     overscroll-behavior-x = 横の慣性・バウンドも止める。 */
+  touch-action: pan-y pinch-zoom;
+  overscroll-behavior-x: none;
 }
 
 body{
   min-height: 100vh;
+  /* ★v15 横パン封じ（body側）。栞の教訓：body に overflow-x:HIDDEN を掛けると
+     片軸hiddenの副作用で縦が auto に化け、body が水の --water-tail を拾って
+     縦スクロールバーが二重化する。→ 二重化しない CLIP を使う（clip は縦を
+     auto に変えず scroll コンテナも作らない）。ルモ案の方向(body側も止める)は
+     採用しつつ、hidden の地雷だけ回避した形。 */
+  max-width: 100%;
+  overflow-x: clip;
+  touch-action: pan-y pinch-zoom;
+  overscroll-behavior-x: none;
   background: #4a563a;          /* deep moss fallback while the image loads */
   color: var(--paper);
   font-family: Georgia, "Times New Roman", "Hiragino Mincho ProN", "Yu Mincho", serif;
