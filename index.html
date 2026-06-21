@@ -60,37 +60,37 @@
                          it can't whiten the feet or fog the boundary —
                          the green water blends instead. Try 0.06–0.10
                          only if you want a hair of softening. */
-  --seam-fade-start: 95%;
+  --seam-fade-start: 96.5%;
   --seam-mist: 0;
   --seam-mist-rise: 150px;
   --seam-mist-height: 280px;
   --seam-mist-width: 130vw;
   --seam-mist-speed: 16s;
 
-  /* --- THE RIVER: a pale, slightly STAGNANT GREEN band sitting in the
-     gap between the house's feet and VISIT ROOMS — the doorway-water
-     the orange egg drifted in on. It reads as WATER first: an organic
-     mottled green surface (SVG noise, not stripes) that drifts slowly,
-     with air bubbles rising from the floor in gentle columns. Only the
-     water moves; the gold heading and the menu buttons stay perfectly
-     still — lily pads on top. Painted BEHIND the menu (z-index:-1).
-     NO stripes, NO sunrays, NO frosted glass. house.png is untouched.
-     --water-rise   : how far the band reaches UP toward the feet.
-     --water-height : total depth of the band.
-     --water-green  : how green / how opaque the water reads
-                      (0 = invisible, 0.50 = pond, 0.7 = thick murk).
-     --ripple-light : strength of the pale reflection patches on the
-                      surface (the bright ripples in the photo).
-     --ripple-dark  : strength of the darker green undulations.
-                      (Both together = the "面のゆらぎ". Keep them gentle;
-                      raise --ripple-light a little for more sparkle.)
-     --bubble-glow  : brightness of a rising bubble. */
-  --water-rise:    340px;
-  --water-height:  380px;
-  --water-green:   0.50;
-  --ripple-light:  0.60;
-  --ripple-dark:   0.55;
-  --bubble-glow:   0.78;
+  /* ── 水槽の断面（パスA：静止） ──────────────────────────────
+     家・Alex・Daisy・小恐竜・GIFT・看板は陸の上に残り、その手前に
+     浅い幻想の水があって、こちら側はその水を“断面”で覗いている。
+     川を横から見るのではなく、水槽の縁から覗くレイアウト。
+     --water-line  : 水際の高さ（家の足元の下）。下げる＝足元と小恐竜を
+                     陸（水の上）に残す。上げる＝水際が足元に近づく。
+     --water-tail  : メニューの下、フッターまで水中を伸ばす余分の高さ。
+     --water-top / -mid / -deep : 水中の縦グラデ。
+                     top=水際の明るいエメラルド／mid=メニューが乗る帯
+                     （木札化しても沈まないよう“暗くしない”）／deep=底だけ
+                     少し暗め。濁らせない＝alpha は控えめ・透明感キープ。
+     --wave-amp    : 水際の波打ちの強さ（控えめ。線にしない）。
+     --ripple-light / --ripple-dark : 水中の有機的な濃淡。ベタ塗りの段差
+                     （ファミコン/マッハバンド）を防ぐためのノイズの濃さ。
+     ※ 流れの動きはパスB、泡はパスC で足す。今は“静止の断面”だけ。 */
+  --water-line:   300px;
+  --water-tail:   260px;
+  --water-top:    rgba(150,182,150, 0.60);
+  --water-mid:    rgba(112,150,118, 0.66);
+  --water-deep:   rgba(68,100,78,   0.74);
+  --wave-amp:     14px;
+  --ripple-light: 0.26;
+  --ripple-dark:  0.22;
+  --bubble-glow:  0.78;
 }
 
 *{ box-sizing: border-box; }
@@ -458,7 +458,7 @@ body{
   margin-top: 220px;         /* a long quiet gap: feet → river → calm →
                                 VISIT ROOMS. The picture-book "間" before
                                 the menu. The green water band fills this
-                                gap from above (see --water-rise). */
+                                gap from above (see --water-line). */
   padding: 0 16px;
   text-align: center;
 }
@@ -510,43 +510,63 @@ body{
 .water{
   position: absolute;
   left: 50%;
-  top: calc(-1 * var(--water-rise));
+  top: calc(-1 * var(--water-line));
   width: 100vw;
-  height: var(--water-height);
+  /* 水際から下、メニューを抜けてフッターの下まで ずっと水中（断面）。
+     100% = visit-rooms の高さ。その上に water-line、下に tail を足す。 */
+  height: calc(var(--water-line) + 100% + var(--water-tail));
   transform: translateX(-50%);
-  z-index: -1;                  /* behind heading + buttons (lily pads) */
+  z-index: -1;                  /* メニュー（睡蓮の葉）の後ろ */
   pointer-events: none;
-  overflow: hidden;             /* noise + bubbles clipped to the band */
-  /* pale, slightly stagnant pond-green; a touch deeper toward the
-     depths. Uniform alpha — the MASK below does all the fading. */
+  overflow: hidden;
+  /* 水中の縦グラデ：上=水際の明るいエメラルド、中=メニューが乗る帯
+     （木札化しても読めるよう “暗くしない”）、底=少し暗め。多段stopで
+     ベタ塗りの段差（ファミコン/マッハバンド）を出さない。 */
   background: linear-gradient(to bottom,
-      rgba(120,140,96, var(--water-green)) 0%,
-      rgba(96,120,80,  var(--water-green)) 40%,
-      rgba(74,102,70,  var(--water-green)) 74%,
-      rgba(60,86,62,   var(--water-green)) 100%);
-  /* THE BAND SHAPE. Clear over the feet (top), readable water in the
-     middle, calm gap before the menu (bottom). Everything inside the
-     layer fades with this — so the feet & dino are never covered. */
+      var(--water-top)  0%,
+      var(--water-top)  18%,
+      var(--water-mid) 42%,
+      var(--water-mid) 66%,
+      var(--water-deep) 100%);
+  /* 上端=水際だけ やわらかく透明→不透明（家の足元が透ける）。下はフッター
+     までずっと不透明＝ずっと水中。波打ちは ::before で重ねる。 */
   --w-mask: linear-gradient(to bottom,
-      transparent 0%, transparent 15%,
-      #000 28%, #000 66%,
-      transparent 78%, transparent 100%);
+      transparent 0,
+      transparent calc(var(--water-line) - 80px),
+      #000 var(--water-line),
+      #000 100%);
   -webkit-mask-image: var(--w-mask);
           mask-image: var(--w-mask);
+}
+/* 波打つ水際 — くっきりした白い線ではなく、水中と同系の緑のやわらかい
+   濃淡を波形に重ね、水平の単調さをほどく。強めにぼかして“漫画の線”を
+   回避する（白い foam はパスBで別途）。上端に固定高さで乗るので縦に
+   伸びない。--wave-amp は :root で控えめに。 */
+.water::before{
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  top: calc(var(--water-line) - 80px);
+  height: 96px;
+  pointer-events:none;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='96' viewBox='0 0 1200 96' preserveAspectRatio='none'><path d='M0,50 C100,36 210,60 330,49 C450,38 545,62 665,50 C785,38 885,60 1005,49 C1105,40 1160,54 1200,47 L1200,96 L0,96 Z' fill='%2390b896' fill-opacity='0.5'/></svg>");
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+  filter: blur(3.5px);
 }
 /* the two drifting noise layers = the surface "面のゆらぎ".
    Oversized so the slow drift never exposes an edge. */
 .ripple{
   position: absolute;
-  left: -20%; top: -15%;
-  width: 140%; height: 130%;
+  left: -20%; top: -10%;
+  width: 140%; height: 120%;
   pointer-events: none;
-  will-change: transform;
+  /* パスA = 静止。流れ（ドリフト）はパスB で足す。今はノイズを薄く敷いて
+     水中の有機的な濃淡を作り、ベタ塗りの段差（マッハバンド）を防ぐだけ。 */
 }
-.ripple-a{ opacity: var(--ripple-light, 0.60);
-           animation: rippleA 56s ease-in-out infinite alternate; }
-.ripple-b{ opacity: var(--ripple-dark, 0.55);
-           animation: rippleB 73s ease-in-out infinite alternate; }
+.ripple-a{ opacity: var(--ripple-light, 0.26); }
+.ripple-b{ opacity: var(--ripple-dark, 0.22); }
 @keyframes rippleA{
   from{ transform: translate3d(0, 0, 0); }
   to  { transform: translate3d(-4%, 3%, 0); }   /* lazy, organic drift */
@@ -742,8 +762,8 @@ body{
     margin-right: auto;
     margin-top: 150px;         /* the quiet gap on mobile too: feet →
                                   river → calm → menu (scrolling is fine) */
-    --water-rise: 210px;       /* match the band to the smaller mobile gap */
-    --water-height: 300px;
+    --water-line: 210px;       /* モバイルは家〜メニューの間が狭いぶん水際も上へ */
+    --water-tail: 240px;
     padding: 0;
   }
   .visit-rooms h2{ margin-bottom: 34px; }
@@ -1351,6 +1371,7 @@ const SOCIAL = [
        scattered dots, and not a fizzy onsen.
      • Tune the FEEL here; the LOOK lives in the :root water knobs. */
   const WATER = {
+    enabled:    false,  // パスA = 泡なし（静止）。パスC で true に戻す
     maxAtOnce:  6,      // how many can be climbing at once (DOWN = calmer)
     gapMin:     0.7,    // shortest pause between releases (seconds)
     gapMax:     2.2,    // longest pause
@@ -1359,7 +1380,7 @@ const SOCIAL = [
   };
 
   const water = document.getElementById("waterLayer");
-  if (water && !reducedMotion) {
+  if (water && !reducedMotion && WATER.enabled) {
     let alive = 0, started = false;
 
     function spawnBubble() {
