@@ -98,12 +98,19 @@
 html, body{
   margin: 0;
   padding: 0;
-  /* 横スクロール封じ。全幅レイヤー＝水(.water 100vw)と
-     seam-mist(.visit-rooms::before 130vw, 今は透明)が画面端から
-     数px〜15vw はみ出して横スクロールバーを出していたのを、ここで
-     確実にクリップする。見えている絵・水・ボタンは1pxも変わらない
-     （切れるのは画面外＆透明な部分だけ）。PC(150%)・iPhone 両対応。 */
-  overflow-x: hidden;
+}
+/* 横スクロール封じ。全幅レイヤー＝水(.water 100vw)と seam-mist
+   (.visit-rooms::before 130vw, 今は透明)の左右はみ出しだけを root で
+   切り落とす。見えている絵・水・ボタンは1pxも変わらない（切れるのは
+   画面外＆透明な部分だけ）。PC(150%)・iPhone 両対応。
+   ★要点：hidden を html+body 両方に掛けると、片軸 hidden の副作用で
+   もう片軸(縦)が auto に化け、body がスクロール領域になって絶対配置の
+   水(下に --water-tail はみ出し)を拾い、縦スクロールバーが二重になる。
+   なので body には掛けず、html に clip を使う。clip は scroll コンテナを
+   作らない＝縦は1本のまま・横だけ消える。 */
+html{
+  overflow-x: hidden;   /* 古い環境用フォールバック（html だけなら二重化しない） */
+  overflow-x: clip;     /* 本命：scroll コンテナを作らず横だけクリップ */
 }
 
 body{
