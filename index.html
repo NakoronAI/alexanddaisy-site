@@ -615,16 +615,12 @@ body{
   position:absolute;
   inset:0;
   pointer-events:none;
-  background:
-      /* 水面近くで光が散る、やわらかい白っぽいにじみ（面・静止）。光は弱め。 */
-      radial-gradient(94% 46% at 50% 12%,
-          rgba(240,248,240, 0.12), rgba(240,248,240, 0) 64%),
-      /* 上=水面付近だけ薄く濁り → 50%で完全に透明（下半分は素の水＝澄む） */
-      linear-gradient(to bottom,
-          rgba(232,242,232, 0.16)  0%,
-          rgba(220,236,224, 0.08) 25%,
-          rgba(206,228,212, 0)    50%,
-          rgba(206,228,212, 0)    100%);
+  /* P1: 白ベールOFF。水面下“全体”を覆っていたミルク膜を止める。旧ベールの
+     stop %（0→25→50%透明）が巨大な .water 箱(約1600px)基準で、水面付近の
+     つもりが画面いっぱいに広がっていた＝濁り湯の主犯。いったん完全OFFで
+     “素の水”の床を確認する。後で水面の細い px 帯だけ足すならここに1枚入れる。
+     旧値は Git 履歴に残る。 */
+  background: none;
 }
 /* the two drifting noise layers = the surface "面のゆらぎ".
    Oversized so the slow drift never exposes an edge. */
