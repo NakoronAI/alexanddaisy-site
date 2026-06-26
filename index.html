@@ -82,11 +82,16 @@
      --ripple-light / --ripple-dark : 水中の有機的な濃淡。ベタ塗りの段差
                      （ファミコン/マッハバンド）を防ぐためのノイズの濃さ。
      ※ 流れの動きはパスB、泡はパスC で足す。今は“静止の断面”だけ。 */
-  --water-line:   300px;
+  /* ★--water-line は “.water を上へ配置する” ためだけに使う（水面を家の足元
+     すぐ下に着地させる）。mask や ::before の top には もう使わない＝二重使用
+     をやめた。これがループ原因だった。実機で 220〜245px の範囲で微調整。 */
+  --water-line:   235px;
   --water-tail:   260px;
-  --water-top:    rgba(150,182,150, 0.60);
-  --water-mid:    rgba(112,150,118, 0.66);
-  --water-deep:   rgba(68,100,78,   0.74);
+  /* ★土台は“不透明”＝後ろのぼかし背景を完全遮断（曇りガラス防止）。
+     透明感・濁り・薄膜は ③ベール(.water::after)で別に乗せる。 */
+  --water-top:    rgb(150,184,158);   /* 水際の明るい sageエメラルド（不透明） */
+  --water-mid:    rgb(104,148,118);   /* メニューが乗る帯（暗くしすぎない・不透明） */
+  --water-deep:   rgb( 50, 88, 70);   /* 底だけ少し深いティールグリーン（不透明） */
   --wave-amp:     14px;
   --ripple-light: 0.26;
   --ripple-dark:  0.22;
@@ -548,21 +553,31 @@ body{
   z-index: -1;                  /* メニュー（睡蓮の葉）の後ろ */
   pointer-events: none;
   overflow: hidden;
-  /* 水中の縦グラデ：上=水際の明るいエメラルド、中=メニューが乗る帯
-     （木札化しても読めるよう “暗くしない”）、底=少し暗め。多段stopで
-     ベタ塗りの段差（ファミコン/マッハバンド）を出さない。 */
-  background: linear-gradient(to bottom,
-      var(--water-top)  0%,
-      var(--water-top)  18%,
-      var(--water-mid) 42%,
-      var(--water-mid) 66%,
-      var(--water-deep) 100%);
-  /* 上端=水際だけ やわらかく透明→不透明（家の足元が透ける）。下はフッター
-     までずっと不透明＝ずっと水中。波打ちは ::before で重ねる。 */
+  /* ① 水の土台＝不透明。一番下に多段の縦グラデ（不透明）で背景を完全遮断し、
+     その上に「上から差す光のプール」と「底の陰」を薄く重ねて、ベタ塗りの
+     “ぺたーっ”を避けつつ奥行きを出す。どの層も不透明ベースの上なので、
+     後ろのぼかし背景は一切透けない（曇りガラスにならない）。 */
+  background:
+      /* 上から水面に差し込む やわらかい光のプール（面で、線ではない） */
+      radial-gradient(120% 56% at 50% 4%,
+          rgba(196,220,196, 0.42), rgba(196,220,196, 0) 60%),
+      /* 底の方の陰＝深さ。緩いグラデで段差を出さない */
+      radial-gradient(150% 72% at 50% 100%,
+          rgba(26, 56, 42, 0.42), rgba(26, 56, 42, 0) 58%),
+      /* 不透明の土台（多段stopでマッハバンド回避） */
+      linear-gradient(to bottom,
+          var(--water-top)  0%,
+          var(--water-top)  16%,
+          var(--water-mid) 44%,
+          var(--water-mid) 66%,
+          var(--water-deep) 100%);
+  /* ★マスクは “.water の上端” 基準で短くフェードするだけ＝水面のすぐ下から
+     不透明。--water-line には依存しない（二重使用をやめた）。これで上の
+     “透明窓”が一気に閉じ、後ろのぼかし背景が透けなくなる＝曇りガラス解消。 */
   --w-mask: linear-gradient(to bottom,
       transparent 0,
-      transparent calc(var(--water-line) - 80px),
-      #000 var(--water-line),
+      transparent 10px,
+      #000 30px,
       #000 100%);
   -webkit-mask-image: var(--w-mask);
           mask-image: var(--w-mask);
@@ -575,7 +590,9 @@ body{
   content:"";
   position:absolute;
   left:0; right:0;
-  top: calc(var(--water-line) - 80px);
+  /* ★.water の上端基準。-40px で高さ96pxの波が水面上端をまたぎ、家の足元
+     すぐ下に白っぽい水面帯が出る（--water-line には依存しない）。 */
+  top: -40px;
   height: 96px;
   pointer-events:none;
   background-image:
@@ -583,6 +600,30 @@ body{
   background-size:100% 100%;
   background-repeat:no-repeat;
   filter: blur(3.5px);
+}
+/* ③ 白っぽい半透明の水ベール ─────────────────────────────────
+   不透明の土台(①)・波(::before)・ノイズ(.ripple)の すべての上に最後に
+   重なる薄い膜。白〜薄緑の“少し濁りのある”半透明で、水の薄膜・濁り・
+   透明感を出す。★これは「裏の背景を見せる窓」ではない＝必ず①不透明土台の
+   上に乗るので、後ろのぼかし背景は透けない。上ほど少し濁り、深いほど澄む
+   （メニューの帯が沈まないように下は薄く）。線・破線・サンレイは一切なし、
+   やわらかい“面”だけ。.water のマスクで上端は水際で消える＝足元には乗らない。
+   ※今は静止。強めに作ってあるので、実機を見て opacity を下げて調整して。 */
+.water::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+      /* 水面近くで光が散る、やわらかい白っぽいにじみ（面・静止） */
+      radial-gradient(94% 46% at 50% 12%,
+          rgba(240,248,240, 0.20), rgba(240,248,240, 0) 64%),
+      /* 上=少し濁り → 下=澄む、の縦グラデ（多段で段差なし） */
+      linear-gradient(to bottom,
+          rgba(232,242,232, 0.26)  0%,
+          rgba(220,236,224, 0.15) 38%,
+          rgba(206,228,212, 0.07) 70%,
+          rgba(206,228,212, 0.02) 100%);
 }
 /* the two drifting noise layers = the surface "面のゆらぎ".
    Oversized so the slow drift never exposes an edge. */
