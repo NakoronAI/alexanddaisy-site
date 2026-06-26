@@ -590,16 +590,17 @@ body{
   content:"";
   position:absolute;
   left:0; right:0;
-  /* ★.water の上端基準。-40px で高さ96pxの波が水面上端をまたぎ、家の足元
-     すぐ下に白っぽい水面帯が出る（--water-line には依存しない）。 */
-  top: -40px;
-  height: 96px;
+  /* ★.water の上端基準。波を水際まで引き下げ、白い水面帯を“家の足元すぐ下の
+     細い帯”に閉じ込める。-40px→-6px で家側へのにじみ上がりをほぼ断つ。
+     （--water-line には依存しない）。 */
+  top: -6px;
+  height: 56px;
   pointer-events:none;
   background-image:
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='96' viewBox='0 0 1200 96' preserveAspectRatio='none'><path d='M0,50 C100,36 210,60 330,49 C450,38 545,62 665,50 C785,38 885,60 1005,49 C1105,40 1160,54 1200,47 L1200,96 L0,96 Z' fill='%2390b896' fill-opacity='0.5'/></svg>");
   background-size:100% 100%;
   background-repeat:no-repeat;
-  filter: blur(3.5px);
+  filter: blur(2px);
 }
 /* ③ 白っぽい半透明の水ベール ─────────────────────────────────
    不透明の土台(①)・波(::before)・ノイズ(.ripple)の すべての上に最後に
