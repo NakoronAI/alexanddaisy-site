@@ -566,17 +566,14 @@ body{
           rgba(26, 56, 42, 0.42), rgba(26, 56, 42, 0) 58%),
       /* 不透明の土台（多段stopでマッハバンド回避） */
       linear-gradient(to bottom,
-      /* P2: stop位置を %→px に変更（色は不変・ロックのまま）。%指定は巨大な
-         .water箱基準のため深いエメラルドが画面外(約800px下)に逃げ、画面に映る
-         水が明るい水面色だけで埋まっていた＝濁り湯の真因。pxに変えると箱の高さに
-         依存せず、水面から一定距離で深い色に着地する：
-           0〜40px = 明るい水面帯 / 130px=mid / 340px以降=完全に深いエメラルド。
-         ＝ナコロンの“青い線”の断面。強めに早く沈める→深すぎ/急すぎたら実機で
-         px数値を下げて調整。 */
+      /* P2→P3: stop は px 固定（色は不変・ロックのまま）。%指定だと深い色が画面外
+         へ逃げるため px に。P3で浅瀬帯をさらに上へ圧縮＝深い水を早く出す：
+           0〜24px = 明るい浅瀬帯 / 80px=mid / 220px以降=完全に深いエメラルド。
+         ＝ナコロンの“青い線”の断面。深すぎ/急すぎたら px を上げて調整。 */
           var(--water-top)  0,
-          var(--water-top)  40px,
-          var(--water-mid) 130px,
-          var(--water-deep) 340px,
+          var(--water-top)  24px,
+          var(--water-mid)  80px,
+          var(--water-deep) 220px,
           var(--water-deep) 100%);
   /* ★マスクは “.water の上端” 基準で短くフェードするだけ＝水面のすぐ下から
      不透明。--water-line には依存しない（二重使用をやめた）。これで上の
@@ -622,12 +619,14 @@ body{
   position:absolute;
   inset:0;
   pointer-events:none;
-  /* P1: 白ベールOFF。水面下“全体”を覆っていたミルク膜を止める。旧ベールの
-     stop %（0→25→50%透明）が巨大な .water 箱(約1600px)基準で、水面付近の
-     つもりが画面いっぱいに広がっていた＝濁り湯の主犯。いったん完全OFFで
-     “素の水”の床を確認する。後で水面の細い px 帯だけ足すならここに1枚入れる。
-     旧値は Git 履歴に残る。 */
-  background: none;
+  /* P3: 水面だけの極薄サーフェス靄を復活（ミルクベールには戻さない）。px 固定で
+     上部85pxだけ＝VISIT ROOMS まで白くしない。広い % 靄は永久禁止。白でなく
+     薄ミント(205,232,210)で“水っぽい艶”に。※.water のマスクで上端〜30pxは
+     フェードするので、艶は水面のすぐ下に出る。 */
+  background: linear-gradient(to bottom,
+      rgba(205, 232, 210, 0.13) 0%,
+      rgba(205, 232, 210, 0.07) 45px,
+      transparent 85px);
 }
 /* the two drifting noise layers = the surface "面のゆらぎ".
    Oversized so the slow drift never exposes an edge. */
