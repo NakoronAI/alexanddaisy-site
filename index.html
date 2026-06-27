@@ -1318,8 +1318,11 @@ const SOCIAL = [
   /* apply the simple settings from EDIT HERE */
   art.src = IMAGE_FILE;
   /* the blurred world behind the house uses the SAME image */
-  document.getElementById("worldBackdrop").style.backgroundImage =
-    'url("' + IMAGE_FILE + '")';
+  /* ★パス1（家のお化け切り分けテスト）: worldBackdrop に house.png を流すのを停止。
+     前景の art.src（家本体）は不変。スマホ最下部からお化けが消えるか実機確認用。
+     戻すとき＝下2行のコメントを外すだけ。森の空気は .world-veil が引き続き担当。 */
+  /* document.getElementById("worldBackdrop").style.backgroundImage =
+    'url("' + IMAGE_FILE + '")'; */
   document.documentElement.style.setProperty("--glow-hover-opacity", GLOW.hover);
   document.documentElement.style.setProperty("--glow-click-opacity", GLOW.click);
   if (SHOW_HOTSPOT_OUTLINES) stage.classList.add("show-outlines");
