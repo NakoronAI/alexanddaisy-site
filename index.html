@@ -86,7 +86,7 @@
      すぐ下に着地させる）。mask や ::before の top には もう使わない＝二重使用
      をやめた。これがループ原因だった。実機で 220〜245px の範囲で微調整。 */
   --water-line:   235px;
-  --water-tail:   260px;
+  --water-tail:   max(420px, 70vh);
   /* ★土台は“不透明”＝後ろのぼかし背景を完全遮断（曇りガラス防止）。
      透明感・濁り・薄膜は ③ベール(.water::after)で別に乗せる。 */
   --water-top:    rgb(150,184,158);   /* 水際の明るい sageエメラルド（不透明） */
@@ -881,7 +881,7 @@ body{
     margin-top: 150px;         /* the quiet gap on mobile too: feet →
                                   river → calm → menu (scrolling is fine) */
     --water-line: 165px;       /* モバイルは家〜メニューの間が狭いぶん水際も上へ */
-    --water-tail: 240px;
+    --water-tail: max(720px, 110vh);
     padding: 0;
   }
   .visit-rooms h2{ margin-bottom: 34px; }
