@@ -565,9 +565,7 @@ body{
          深部のみ「直線の蓋」でなく、光の届かない水底へシームレスに暗転して床色
          rgb(34,62,48) に溶け、iOSびろーんを覆う（ジェムの深海）。色変数 --water-* の
          定義は不変。白線・泡・サンレイ・全幅直線帯は無し。 */
-      /* 上から差し込む光のプール（控えめ・面/線ではない） */
-      radial-gradient(90% 140px at 50% 8px,
-          rgba(196,220,196, 0.14), rgba(196,220,196, 0) 100%),
+      /* ※「光プール」radial は撤去。水面の淡い処理は夢のベール(::before)に集約。 */
       /* 底の方の陰＝深さ（緩いグラデで段差を出さない） */
       radial-gradient(150% 72% at 50% 100%,
           rgba(26, 56, 42, 0.40), rgba(26, 56, 42, 0) 58%),
@@ -595,21 +593,24 @@ body{
    回避する（白い foam はパスBで別途）。上端に固定高さで乗るので縦に
    伸びない。--wave-amp は :root で控えめに。 */
 .water::before{
+  /* ★夢の水面ベール（旧：波SVGの“線”名残を撤去）。細い線でなく、水面直下〜VISIT ROOMS
+     手前まで届く“広く薄い半透明の光の面”。白・水色・薄緑・透明をゆるく混ぜ、下へ自然に消す。
+     z-indexで反射・PNGの上にふわっとかける（薄いので反射もPNGも殺さない）。新レイヤーでは
+     ない＝既存の::beforeを転用。線・サンレイ・曇りガラスにはしない。 */
   content:"";
-  display: none;        /* ★過去の「水面の白い帯/波SVG」名残を撤去（二重線の“白っぽい薄緑”の正体）。水面は線で作らない＝反射とPNGの境目がぼかしで溶ける。 */
   position:absolute;
   left:0; right:0;
-  /* ★.water の上端基準。波を水際まで引き下げ、白い水面帯を“家の足元すぐ下の
-     細い帯”に閉じ込める。-40px→-6px で家側へのにじみ上がりをほぼ断つ。
-     （--water-line には依存しない）。 */
-  top: -6px;
-  height: 56px;
+  top: 0;
+  height: 520px;            /* 水面直下〜VISIT ROOMS手前まで届く広い帯（下端で透明） */
+  z-index: 1;               /* 反射・PNGの上に薄くかぶせる */
   pointer-events:none;
-  background-image:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='96' viewBox='0 0 1200 96' preserveAspectRatio='none'><path d='M0,50 C100,36 210,60 330,49 C450,38 545,62 665,50 C785,38 885,60 1005,49 C1105,40 1160,54 1200,47 L1200,96 L0,96 Z' fill='%2390b896' fill-opacity='0.5'/></svg>");
-  background-size:100% 100%;
-  background-repeat:no-repeat;
-  filter: blur(2px);
+  background: linear-gradient(to bottom,
+      rgba(230,243,238, 0.18) 0,      /* 水際：白〜薄緑（線でなく面で名残を覆う） */
+      rgba(212,231,239, 0.15) 90px,   /* 薄い水色 */
+      rgba(216,235,223, 0.10) 220px,  /* 薄い緑 */
+      rgba(216,235,223, 0.04) 380px,
+      rgba(216,235,223, 0)    520px); /* VISIT ROOMS手前で消える */
+  filter: blur(6px);        /* 縞・名残を溶かす＝硬い線にしない */
 }
 /* ③ 白っぽい半透明の水ベール ─────────────────────────────────
    不透明の土台(①)・波(::before)・ノイズ(.ripple)の すべての上に最後に
@@ -632,7 +633,7 @@ body{
      注：scaleY(-1)後の座標系なので、マスクは「帯の下端(=画面の水際)を濃く、上端(=画面の下)を
      透明に」書く＝反転後に“水際で濃く・深くで消える”になる。位置/濃さは実機を見て微調整。 */
   background-image: url("house.png");
-  background-size: 2000px auto;            /* ★cover廃止＝固定スケール。横幅(スクロールバー等)に依存しない＝リロードで映りがズレない（演出寄りの安定鏡）。 */
+  background-size: max(100vw, min(285vh, 170vw)) auto;   /* ★巨大化修正：上の家(.house-stage)と完全に同じ式で拡縮＝どの端末でも上下の家が同スケール。固定pxやcoverの端末依存を終わらせる。 */
   background-position: center 84%;          /* Alex/Daisy＋暖色の窓のスライスを水際に固定（%は帯高に追従） */
   background-repeat: no-repeat;
   transform: scaleY(-1);
