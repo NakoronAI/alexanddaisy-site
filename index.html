@@ -612,45 +612,45 @@ body{
       rgba(216,235,223, 0)    520px); /* VISIT ROOMS手前で消える */
   filter: blur(6px);        /* 縞・名残を溶かす＝硬い線にしない */
 }
-/* ③ 白っぽい半透明の水ベール ─────────────────────────────────
-   不透明の土台(①)・波(::before)・ノイズ(.ripple)の すべての上に最後に
-   重なる薄い膜。白〜薄緑の“少し濁りのある”半透明で、水の薄膜・濁り・
-   透明感を出す。★これは「裏の背景を見せる窓」ではない＝必ず①不透明土台の
-   上に乗るので、後ろのぼかし背景は透けない。上ほど少し濁り、深いほど澄む
-   （メニューの帯が沈まないように下は薄く）。線・破線・サンレイは一切なし、
-   やわらかい“面”だけ。.water のマスクで上端は水際で消える＝足元には乗らない。
-   ※今は静止。強めに作ってあるので、実機を見て opacity を下げて調整して。 */
+/* ④ 水面の主素材（実写の水面写真）──────────────────────────────
+   旧：house.png をCSSで上下反転して水面に見せる“パーフェクト・ミラー”。
+   →単純反転のパース限界のため【完全撤去】。house.png参照・scaleY(-1)・
+   旧反射mask/opacity/position/size はすべて削除（コメントアウト保存もしない）。
+   新：実写の水面素材 water_surface_ripple_photo_v1.png（2059×764）を“水面の主素材”
+   として敷く。担当は反射の正確さではなく、水面のリアリティ・揺らぎ・光・色。
+   幅は前景の家(.house-stage)と同一式にハードリンク＝cover不使用で全端末スケール一致。
+   継ぎ目（上の家との水際）は上端maskのフェードイン＋既存の夢ベール(::before)で隠す。
+   ※第一段階＝この1枚だけ。house.png由来の反射ガイドはまだ足さない。
+   実機で：強すぎ→opacity/blur下げる、薄すぎ→opacity上げる（判定はナコロン）。 */
 .water::after{
   content:"";
   position:absolute;
   top: 0;
   left: 50%;
-  /* ★パーフェクト・ミラー：上の家(.house-stage)と完全に同一の式で幅を取り、background-size:100% auto
-     ＝家まるごとを同スケールで描く。cover廃止＝どの画面比でも1ドットも狂わない真の鏡。
-     scaleY(-1)で足元を蝶番にパタンと反転。height=幅×(941/1672)で画像が要素にぴったり収まる。
-     端末別のメディアクエリ微調整は不要（スケールが前景にハードリンクされ全端末で自動一致）。 */
-  width: max(100vw, min(285vh, 170vw));
-  height: calc(max(100vw, min(285vh, 170vw)) * 0.5628);
-  transform: translateX(-50%) scaleY(-1);
+  width: max(100vw, min(285vh, 170vw));                  /* ★家とハードリンク（cover廃止・全端末でスケール一致） */
+  height: calc(max(100vw, min(285vh, 170vw)) * 0.3711);  /* 新画像アスペクト 764/2059＝要素にぴったり収まる */
+  transform: translateX(-50%);                           /* ★scaleY(-1)削除＝反転しない（もう鏡ではない） */
   pointer-events:none;
-  background-image: url("house.png");
-  background-size: 100% auto;
-  background-position: center bottom;       /* 家の足元/地面を要素の下端へ→反転で水際(画面の最上部)に来る＝足元から反射開始 */
+  background-image: url("water_surface_ripple_photo_v1.png");
+  background-size: 100% auto;                             /* ★cover不使用（家と同スケール・1ドットも暴れない） */
+  background-position: center top;
   background-repeat: no-repeat;
-  filter: blur(9px) brightness(0.96) saturate(0.95);
-  opacity: 0.6;
-  /* scaleY(-1)後の座標系：mask(to top)で要素の下端(=反転後の水際)を濃く、上へ向かって透明に。
-     ＝画面では水際で濃く・深くで自然に消える。お化けにしない。house.pngは加工しない（CSS背景）。 */
-  -webkit-mask-image: linear-gradient(to top,
-      rgba(0,0,0,0.85) 0,
-      rgba(0,0,0,0.5)  140px,
-      rgba(0,0,0,0.2)  280px,
-      transparent      380px);
-          mask-image: linear-gradient(to top,
-      rgba(0,0,0,0.85) 0,
-      rgba(0,0,0,0.5)  140px,
-      rgba(0,0,0,0.2)  280px,
-      transparent      380px);
+  filter: blur(2px) brightness(0.97) saturate(0.95);     /* ★軽く馴染ませるだけ（白い霧・灰色の汚れにしない） */
+  opacity: 0.8;
+  /* 上端(=家との継ぎ目/水際)を透明から入れて接合線をぼかし、中段で水面をしっかり見せ、
+     下端で透明に消して中層PNG・水底へ溶かす。線・サンレイ・全幅一様帯は無し。 */
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent      0,
+      rgba(0,0,0,0.55) 44px,
+      rgba(0,0,0,0.92) 120px,
+      rgba(0,0,0,0.92) 62%,
+      transparent      100%);
+          mask-image: linear-gradient(to bottom,
+      transparent      0,
+      rgba(0,0,0,0.55) 44px,
+      rgba(0,0,0,0.92) 120px,
+      rgba(0,0,0,0.92) 62%,
+      transparent      100%);
 }
 /* ④.5 中層＝水中の反射画像（空と森が水面下に映る）──────────────────
    不透明土台(④)の上・既存rippleの手前に敷く専用レイヤー。★水面エッジでは
