@@ -621,31 +621,30 @@ body{
 .water::after{
   content:"";
   position:absolute;
-  inset:0;
+  left:0; right:0; top:0;
+  height: 340px;                       /* ★水面直下の反射ゾーンだけ＝足元の水鏡。下まで引っ張らない。 */
   pointer-events:none;
-  /* ★3層プランの「上層」＝家の反射の気配。house.png を“反射っぽいぼかし”で水面直下だけに
-     にじませ、中層へ向けてマスクでスッと消す。鏡面にしない・顔を出さない・強blur(16px)＋
-     低opacity(0.4)で色だけの気配にする＝反転はblurで代替（ルモ承認の「反射っぽいぼかし」）。
-     これは house.png ファイルの加工ではない（CSS背景・旧world-backdropと同じ手法）。下端で
-     消える＝下層のルモPNG森へ自然に受け渡す（＝中層の移行帯）。fixedではなく.water内＝
-     スクロールで流れ去る＝お化けは構造的に出ない。
-     反転を“本物の鏡”にしたい時は transform: scaleY(-1) を足す（実機を見てから）。 */
+  /* ★上層＝家の上下反転の反射（水鏡）。transform: scaleY(-1) で house.png を上下反転＝
+     足元に家が逆さに映る。水面の帯だけに出し、下端で消えて下層のルモPNG森へ渡す（＝中層）。
+     blur(10px)＋opacity 0.55＝顔は溶けるが反転は見える強さ。house.png ファイルは加工しない
+     （CSS背景）。inset:0でなく top:0/height:340px＝.water内をスクロール＝お化けは出ない。
+     注：scaleY(-1)後の座標系なので、マスクは「帯の下端(=画面の水際)を濃く、上端(=画面の下)を
+     透明に」書く＝反転後に“水際で濃く・深くで消える”になる。位置/濃さは実機を見て微調整。 */
   background-image: url("house.png");
   background-size: cover;
-  background-position: center 78%;
+  background-position: center bottom;
   background-repeat: no-repeat;
-  filter: blur(14px) brightness(0.95) saturate(0.95);
-  opacity: 0.42;
+  transform: scaleY(-1);
+  filter: blur(10px) brightness(0.96) saturate(0.95);
+  opacity: 0.55;
   -webkit-mask-image: linear-gradient(to bottom,
-      rgba(0,0,0,0.75) 0,
-      rgba(0,0,0,0.65) 70px,
-      rgba(0,0,0,0.25) 150px,
-      transparent 240px);
+      transparent 0,
+      rgba(0,0,0,0.42) 160px,
+      rgba(0,0,0,0.88) 340px);
           mask-image: linear-gradient(to bottom,
-      rgba(0,0,0,0.75) 0,
-      rgba(0,0,0,0.65) 70px,
-      rgba(0,0,0,0.25) 150px,
-      transparent 240px);
+      transparent 0,
+      rgba(0,0,0,0.42) 160px,
+      rgba(0,0,0,0.88) 340px);
 }
 /* ④.5 中層＝水中の反射画像（空と森が水面下に映る）──────────────────
    不透明土台(④)の上・既存rippleの手前に敷く専用レイヤー。★水面エッジでは
@@ -669,15 +668,15 @@ body{
   filter: saturate(0.72) brightness(0.92) blur(1.6px);
   /* 水面近くは薄く、中〜下ほどPNGの森色が出る（ルモ指定マスク）。 */
   -webkit-mask-image: linear-gradient(to bottom,
-      rgba(0,0,0,0.12) 0,
+      rgba(0,0,0,0.05) 0,
       rgba(0,0,0,0.28) 120px,
-      rgba(0,0,0,0.55) 260px,
-      rgba(0,0,0,0.70) 100%);
+      rgba(0,0,0,0.58) 260px,
+      rgba(0,0,0,0.72) 100%);
           mask-image: linear-gradient(to bottom,
-      rgba(0,0,0,0.12) 0,
+      rgba(0,0,0,0.05) 0,
       rgba(0,0,0,0.28) 120px,
-      rgba(0,0,0,0.55) 260px,
-      rgba(0,0,0,0.70) 100%);
+      rgba(0,0,0,0.58) 260px,
+      rgba(0,0,0,0.72) 100%);
 }
 /* the two drifting noise layers = the surface "面のゆらぎ".
    Oversized so the slow drift never exposes an edge. */
