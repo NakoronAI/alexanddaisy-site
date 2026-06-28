@@ -565,9 +565,8 @@ body{
          深部のみ「直線の蓋」でなく、光の届かない水底へシームレスに暗転して床色
          rgb(34,62,48) に溶け、iOSびろーんを覆う（ジェムの深海）。色変数 --water-* の
          定義は不変。白線・泡・サンレイ・全幅直線帯は無し。 */
-      /* 上から差し込む光のプール（控えめ・面/線ではない） */
-      radial-gradient(90% 140px at 50% 8px,
-          rgba(196,220,196, 0.14), rgba(196,220,196, 0) 100%),
+      /* ※「上から差し込む光のプール」radial は撤去。90%幅×140pxの平たい楕円が、広い画面で
+         中央の水平スライス＝白っぽい線に見えたため（栞の“幅広・平たい楕円＝帯になる”教訓）。 */
       /* 底の方の陰＝深さ（緩いグラデで段差を出さない） */
       radial-gradient(150% 72% at 50% 100%,
           rgba(26, 56, 42, 0.40), rgba(26, 56, 42, 0) 58%),
@@ -632,11 +631,11 @@ body{
      透明に」書く＝反転後に“水際で濃く・深くで消える”になる。位置/濃さは実機を見て微調整。 */
   background-image: url("house.png");
   background-size: cover;
-  background-position: center bottom;
+  background-position: center 76%;       /* ★PCはcoverが横合わせ＝bottomだと暗い地面が水面に来て緑on緑で消える。暖色の窓がある76%を水面に。 */
   background-repeat: no-repeat;
   transform: scaleY(-1);
-  filter: blur(10px) brightness(0.96) saturate(0.95);
-  opacity: 0.55;
+  filter: blur(9px) brightness(0.97) saturate(0.96);
+  opacity: 0.60;
   -webkit-mask-image: linear-gradient(to bottom,
       transparent 0,
       rgba(0,0,0,0.42) 160px,
