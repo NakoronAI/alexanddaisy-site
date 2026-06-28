@@ -661,7 +661,7 @@ body{
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
-  opacity: 0.38;            /* 実機で最初に触るのはここ */
+  opacity: 0.70;            /* ★反射PNGを主役に。0.38だと不透明ベタ緑＋上層(ripple/after)に挟まれ油絵化→まず0.70。ただし6層サンドイッチが本質（栞v21参照）：効かなければ上層の引き算 or mix-blend-mode:screen へ。色ロック/土台/波/水際/ripple/after は不変。 */
   filter: saturate(0.95) brightness(1.02) blur(0.4px);
   -webkit-mask-image: linear-gradient(to bottom,
       rgba(0,0,0,0)    0,
