@@ -583,8 +583,8 @@ body{
      不透明。--water-line には依存しない（二重使用をやめた）。これで上の
      “透明窓”が一気に閉じ、後ろのぼかし背景が透けなくなる＝曇りガラス解消。 */
   --w-mask: linear-gradient(to bottom,
-      transparent 0,
-      transparent 10px,
+      #000 0,
+      #000 10px,
       #000 30px,
       #000 100%);
   -webkit-mask-image: var(--w-mask);
@@ -596,6 +596,7 @@ body{
    伸びない。--wave-amp は :root で控えめに。 */
 .water::before{
   content:"";
+  display: none;        /* ★過去の「水面の白い帯/波SVG」名残を撤去（二重線の“白っぽい薄緑”の正体）。水面は線で作らない＝反射とPNGの境目がぼかしで溶ける。 */
   position:absolute;
   left:0; right:0;
   /* ★.water の上端基準。波を水際まで引き下げ、白い水面帯を“家の足元すぐ下の
@@ -622,7 +623,7 @@ body{
   content:"";
   position:absolute;
   left:0; right:0; top:0;
-  height: 340px;                       /* ★水面直下の反射ゾーンだけ＝足元の水鏡。下まで引っ張らない。 */
+  height: 260px;                       /* ★反射は上だけ＝水面直下260pxで消す（ルモ指定 200〜260px）。下まで引っ張らない。 */
   pointer-events:none;
   /* ★上層＝家の上下反転の反射（水鏡）。transform: scaleY(-1) で house.png を上下反転＝
      足元に家が逆さに映る。水面の帯だけに出し、下端で消えて下層のルモPNG森へ渡す（＝中層）。
@@ -631,20 +632,20 @@ body{
      注：scaleY(-1)後の座標系なので、マスクは「帯の下端(=画面の水際)を濃く、上端(=画面の下)を
      透明に」書く＝反転後に“水際で濃く・深くで消える”になる。位置/濃さは実機を見て微調整。 */
   background-image: url("house.png");
-  background-size: cover;
-  background-position: center bottom;
+  background-size: 2000px auto;            /* ★cover廃止＝固定スケール。横幅(スクロールバー等)に依存しない＝リロードで映りがズレない（演出寄りの安定鏡）。 */
+  background-position: center 84%;          /* Alex/Daisy＋暖色の窓のスライスを水際に固定（%は帯高に追従） */
   background-repeat: no-repeat;
   transform: scaleY(-1);
-  filter: blur(10px) brightness(0.96) saturate(0.95);
-  opacity: 0.55;
+  filter: blur(11px) brightness(0.97) saturate(0.96);
+  opacity: 0.68;
   -webkit-mask-image: linear-gradient(to bottom,
       transparent 0,
-      rgba(0,0,0,0.42) 160px,
-      rgba(0,0,0,0.88) 340px);
+      rgba(0,0,0,0.5)  120px,
+      rgba(0,0,0,0.92) 260px);
           mask-image: linear-gradient(to bottom,
       transparent 0,
-      rgba(0,0,0,0.42) 160px,
-      rgba(0,0,0,0.88) 340px);
+      rgba(0,0,0,0.5)  120px,
+      rgba(0,0,0,0.92) 260px);
 }
 /* ④.5 中層＝水中の反射画像（空と森が水面下に映る）──────────────────
    不透明土台(④)の上・既存rippleの手前に敷く専用レイヤー。★水面エッジでは
@@ -664,19 +665,19 @@ body{
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
-  opacity: 0.50;            /* ★ルモ指定：壁紙化したPNGを水の下地まで薄める。 */
+  opacity: 0.42;            /* ★ルモ指定：下地として少し弱める（壁紙化を避ける）。完全には消さない＝中〜下で森と空の色が見える。 */
   filter: saturate(0.72) brightness(0.92) blur(1.6px);
-  /* 水面近くは薄く、中〜下ほどPNGの森色が出る（ルモ指定マスク）。 */
+  /* 上は反射が勝つ・中〜下でPNGの森色が出る。 */
   -webkit-mask-image: linear-gradient(to bottom,
       rgba(0,0,0,0.05) 0,
-      rgba(0,0,0,0.28) 120px,
-      rgba(0,0,0,0.58) 260px,
-      rgba(0,0,0,0.72) 100%);
+      rgba(0,0,0,0.24) 120px,
+      rgba(0,0,0,0.50) 260px,
+      rgba(0,0,0,0.62) 100%);
           mask-image: linear-gradient(to bottom,
       rgba(0,0,0,0.05) 0,
-      rgba(0,0,0,0.28) 120px,
-      rgba(0,0,0,0.58) 260px,
-      rgba(0,0,0,0.72) 100%);
+      rgba(0,0,0,0.24) 120px,
+      rgba(0,0,0,0.50) 260px,
+      rgba(0,0,0,0.62) 100%);
 }
 /* the two drifting noise layers = the surface "面のゆらぎ".
    Oversized so the slow drift never exposes an edge. */
