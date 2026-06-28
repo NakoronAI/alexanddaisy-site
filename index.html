@@ -559,49 +559,26 @@ body{
      “ぺたーっ”を避けつつ奥行きを出す。どの層も不透明ベースの上なので、
      後ろのぼかし背景は一切透けない（曇りガラスにならない）。 */
   background:
-      /* ★水面の泡＝白いまだら（ルモGo・ナコロン実機判断）。旧①②（82%×30px の細い
-         楕円1枚＋薄linear）は、1枚の均一グラデゆえPC/スマホとも「細い直線の白帯」に
-         化けた＝形のバグ。対策：大小バラバラの白い楕円を高さ違い(y≈0付近とy≈30付近)で
-         重ね、帯を太く・縁を不揃いにして直線の切り口を消す。最後に薄い白の下地linearを
-         一枚だけ敷き、楕円の隙間が暗く落ちないようにする。x は % 指定なので幅に依存せず
-         散る。使う白は泡用rgba＝色ロック(--water-top/mid/deep)とは別物・不変。
-         ★実機でミルク湯に戻ったら：層を足さず、この群の alpha を一括で少し下げるだけ。 */
-      radial-gradient(220px 70px at 16% 2px,   rgba(240,251,246, 0.40), transparent 68%),
-      radial-gradient(260px 92px at 44% -10px, rgba(240,251,246, 0.34), transparent 68%),
-      radial-gradient(200px 64px at 67% 14px,  rgba(240,251,246, 0.40), transparent 68%),
-      radial-gradient(280px 84px at 90% 0px,   rgba(236,249,243, 0.30), transparent 68%),
-      radial-gradient(160px 56px at 33% 30px,  rgba(228,246,238, 0.24), transparent 72%),
-      radial-gradient(190px 60px at 78% 34px,  rgba(228,246,238, 0.22), transparent 72%),
-      linear-gradient(to bottom,
-          rgba(228,246,238, 0.16) 0px,
-          rgba(220,242,232, 0.10) 50px,
-          rgba(220,242,232, 0)    120px),
-      /* 上から差し込む光のプール。白を水面に集中させるため px 固定で上部だけに
-         圧縮（旧 40%＝箱の約600px下まで白が垂れていたのを止める）。面・線ではない。
-         弱ければ高さ/alpha を上げ、まだ垂れるなら高さを下げて実機調整。 */
-      radial-gradient(90% 150px at 50% 10px,
-          rgba(196,220,196, 0.18), rgba(196,220,196, 0) 100%),
-      /* 底の方の陰＝深さ。緩いグラデで段差を出さない */
+      /* ── 3層プラン（家の反射→森の反射→深い水底）の「中身」を司る土台 ──
+         旧：泡(白線の素)＋不透明ベタ緑(濁り湯の本丸)。両方とも撤去した。
+         新：上〜中段は“透明”＝下層のルモPNG(森と空の反射)がそのまま水の中身として見える。
+         深部のみ「直線の蓋」でなく、光の届かない水底へシームレスに暗転して床色
+         rgb(34,62,48) に溶け、iOSびろーんを覆う（ジェムの深海）。色変数 --water-* の
+         定義は不変。白線・泡・サンレイ・全幅直線帯は無し。 */
+      /* 上から差し込む光のプール（控えめ・面/線ではない） */
+      radial-gradient(90% 140px at 50% 8px,
+          rgba(196,220,196, 0.14), rgba(196,220,196, 0) 100%),
+      /* 底の方の陰＝深さ（緩いグラデで段差を出さない） */
       radial-gradient(150% 72% at 50% 100%,
-          rgba(26, 56, 42, 0.42), rgba(26, 56, 42, 0) 58%),
-      /* 不透明の土台（多段stopでマッハバンド回避） */
+          rgba(26, 56, 42, 0.40), rgba(26, 56, 42, 0) 58%),
+      /* 最下層＝バグ隠しの深海。上〜90%は透明（PNGの森が水の中身）。残り約10%だけ
+         床色へシームレスに暗転＝メニューより下(tail帯)で深くなる。直線の蓋にしない。
+         メニューに被って暗くなるようなら 90% をさらに下げる。 */
       linear-gradient(to bottom,
-      /* P2→P3: stop は px 固定（色は不変・ロックのまま）。%指定だと深い色が画面外
-         へ逃げるため px に。P3で浅瀬帯をさらに上へ圧縮＝深い水を早く出す：
-           0〜24px = 明るい浅瀬帯 / 80px=mid / 220px以降=完全に深いエメラルド。
-         ＝ナコロンの“青い線”の断面。深すぎ/急すぎたら px を上げて調整。 */
-          /* ★実験(ルモGo)：濃い緑の板(④)を捨てる。上〜中段を半透明にして、PNGを
-             "緑の壁の上の貼り紙"でなく"水中に透ける光"にする。お化け(world-backdrop)は
-             既に停止＝透かしても家は出ない＝深緑の床＋world-veilの森光が"深い水"として透ける。
-             色(hue)はロック値と同一channelのまま alpha だけ付与＝--water-* 変数は不変。
-             深部(260px〜)は不透明で"底"を残す。濁る→上段alpha↓／暗い→floor明るく／
-             弱い→全体alpha↑。実験なので失敗したら旧値(全部不透明var)に戻すだけ。 */
-          rgba(150,184,158, 0.35) 0,
-          rgba(150,184,158, 0.35) 24px,
-          rgba(104,148,118, 0.62) 80px,
-          rgba( 50, 88, 70, 0.92) 200px,
-          var(--water-deep)       260px,
-          var(--water-deep)       100%);
+          rgba(34, 62, 48, 0)    0,
+          rgba(34, 62, 48, 0)    90%,
+          rgba(34, 62, 48, 0.55) 96%,
+          rgba(34, 62, 48, 0.9)  100%);
   /* ★マスクは “.water の上端” 基準で短くフェードするだけ＝水面のすぐ下から
      不透明。--water-line には依存しない（二重使用をやめた）。これで上の
      “透明窓”が一気に閉じ、後ろのぼかし背景が透けなくなる＝曇りガラス解消。 */
@@ -646,14 +623,29 @@ body{
   position:absolute;
   inset:0;
   pointer-events:none;
-  /* P3: 水面だけの極薄サーフェス靄を復活（ミルクベールには戻さない）。px 固定で
-     上部85pxだけ＝VISIT ROOMS まで白くしない。広い % 靄は永久禁止。白でなく
-     薄ミント(205,232,210)で“水っぽい艶”に。※.water のマスクで上端〜30pxは
-     フェードするので、艶は水面のすぐ下に出る。 */
-  background: linear-gradient(to bottom,
-      rgba(205, 232, 210, 0.13) 0%,
-      rgba(205, 232, 210, 0.07) 45px,
-      transparent 85px);
+  /* ★3層プランの「上層」＝家の反射の気配。house.png を“反射っぽいぼかし”で水面直下だけに
+     にじませ、中層へ向けてマスクでスッと消す。鏡面にしない・顔を出さない・強blur(16px)＋
+     低opacity(0.4)で色だけの気配にする＝反転はblurで代替（ルモ承認の「反射っぽいぼかし」）。
+     これは house.png ファイルの加工ではない（CSS背景・旧world-backdropと同じ手法）。下端で
+     消える＝下層のルモPNG森へ自然に受け渡す（＝中層の移行帯）。fixedではなく.water内＝
+     スクロールで流れ去る＝お化けは構造的に出ない。
+     反転を“本物の鏡”にしたい時は transform: scaleY(-1) を足す（実機を見てから）。 */
+  background-image: url("house.png");
+  background-size: cover;
+  background-position: center 58%;
+  background-repeat: no-repeat;
+  filter: blur(16px) brightness(0.92) saturate(0.9);
+  opacity: 0.40;
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0,
+      rgba(0,0,0,0.8) 24px,
+      rgba(0,0,0,0.8) 66px,
+      transparent 168px);
+          mask-image: linear-gradient(to bottom,
+      transparent 0,
+      rgba(0,0,0,0.8) 24px,
+      rgba(0,0,0,0.8) 66px,
+      transparent 168px);
 }
 /* ④.5 中層＝水中の反射画像（空と森が水面下に映る）──────────────────
    不透明土台(④)の上・既存rippleの手前に敷く専用レイヤー。★水面エッジでは
@@ -673,18 +665,20 @@ body{
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
-  opacity: 0.70;            /* ★反射PNGを主役に。0.38だと不透明ベタ緑＋上層(ripple/after)に挟まれ油絵化→まず0.70。ただし6層サンドイッチが本質（栞v21参照）：効かなければ上層の引き算 or mix-blend-mode:screen へ。色ロック/土台/波/水際/ripple/after は不変。 */
-  filter: saturate(0.95) brightness(1.02) blur(0.4px);
+  opacity: 0.85;            /* ★3層プランの「下層」＝水の中身そのもの。不透明ベタ緑を撤去したので PNG(森と空の反射)が主役として見える。強すぎ→下げる／弱すぎ→上げる。 */
+  filter: saturate(0.98) brightness(1.03) blur(0.8px);
+  /* 水面直下(～60px)は薄め＝上層の家の反射に譲り、そこから下は中身として濃く出す。
+     一番下は1.0のまま＝PNGの暗い底が深海の床に溶ける（土台の暗転と二重で受ける）。 */
   -webkit-mask-image: linear-gradient(to bottom,
       rgba(0,0,0,0)    0,
-      rgba(0,0,0,0.75) 42px,
-      rgba(0,0,0,1)    110px,
-      rgba(0,0,0,0.92) 100%);
+      rgba(0,0,0,0.55) 60px,
+      rgba(0,0,0,1)    130px,
+      rgba(0,0,0,1)    100%);
           mask-image: linear-gradient(to bottom,
       rgba(0,0,0,0)    0,
-      rgba(0,0,0,0.75) 42px,
-      rgba(0,0,0,1)    110px,
-      rgba(0,0,0,0.92) 100%);
+      rgba(0,0,0,0.55) 60px,
+      rgba(0,0,0,1)    130px,
+      rgba(0,0,0,1)    100%);
 }
 /* the two drifting noise layers = the surface "面のゆらぎ".
    Oversized so the slow drift never exposes an edge. */
