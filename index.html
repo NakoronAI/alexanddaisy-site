@@ -632,24 +632,25 @@ body{
   transform: translateX(-50%);                           /* ★scaleY(-1)削除＝反転しない（もう鏡ではない） */
   pointer-events:none;
   background-image: url("water_surface_ripple_photo_v1.png");
-  background-size: 100% auto;                             /* ★cover不使用（家と同スケール・1ドットも暴れない） */
+  background-size: 110% auto;                             /* ★1.10倍に拡大（cover不使用／position:center topで上端中央基準＝足元を保持したまま像を大きく） */
   background-position: center top;
   background-repeat: no-repeat;
   filter: blur(2px) brightness(0.97) saturate(0.95);     /* ★軽く馴染ませるだけ（白い霧・灰色の汚れにしない） */
   opacity: 0.8;
-  /* 上端(=家との継ぎ目/水際)を透明から入れて接合線をぼかし、中段で水面をしっかり見せ、
+  /* 上端(=家との継ぎ目/水際)はごく短く薄フェード＝接合線だけ隠す。足元反射(上端すぐ下)は
+     消さずに見せる（ナコロン：接合線は隠す・でも足元は消さない）。中段で水面をしっかり見せ、
      下端で透明に消して中層PNG・水底へ溶かす。線・サンレイ・全幅一様帯は無し。 */
   -webkit-mask-image: linear-gradient(to bottom,
       transparent      0,
-      rgba(0,0,0,0.55) 44px,
-      rgba(0,0,0,0.92) 120px,
-      rgba(0,0,0,0.92) 62%,
+      rgba(0,0,0,0.70) 16px,
+      rgba(0,0,0,0.92) 56px,
+      rgba(0,0,0,0.92) 64%,
       transparent      100%);
           mask-image: linear-gradient(to bottom,
       transparent      0,
-      rgba(0,0,0,0.55) 44px,
-      rgba(0,0,0,0.92) 120px,
-      rgba(0,0,0,0.92) 62%,
+      rgba(0,0,0,0.70) 16px,
+      rgba(0,0,0,0.92) 56px,
+      rgba(0,0,0,0.92) 64%,
       transparent      100%);
 }
 /* ④.5 中層＝水中の反射画像（空と森が水面下に映る）──────────────────
