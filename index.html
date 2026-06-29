@@ -223,7 +223,7 @@ body{
   /* ★足元接地：家全体をほんの少し下げて Daisy/Alex/Giga の足先を水際へ寄せる。
      transform は描画位置だけ動かす＝後続の .water（水際ぼかし）は不動＝きれいな境界は崩さない。
      まず 1vh で小さく。足が届かなければ 1.5vh → 2vh へ。上の看板/屋根が窮屈になったら戻す。 */
-  transform: translateY(1vh);
+  transform: translateY(2vh);
 }
 
 /* The artwork itself. Never cropped, aspect ratio preserved. */
@@ -675,8 +675,8 @@ body{
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
-  opacity: 0.52;            /* ★ナコロン：画面下を明るく＝ルモPNGの鮮やかな色をもう少し出す（壁紙化しない範囲で上げる）。上の鏡面(::after)は別レイヤー＝鏡面の色・明るさは不変。 */
-  filter: saturate(0.88) brightness(1.06) blur(1.6px);  /* ★下層だけ明るく鮮やか（モネ調）。maskは滑らかなまま＝明暗の段差線は出ない。 */
+  opacity: 0.62;            /* ★ナコロン：画面下を明るく＝ルモPNGの鮮やかな色をしっかり出す（前回0.52は控えめすぎた）。上の鏡面(::after)は別レイヤー＝鏡面の色・明るさは不変。 */
+  filter: saturate(1.02) brightness(1.18) blur(1.6px);  /* ★下層をはっきり明るく鮮やか（モネ調）。maskは滑らかなまま＝明暗の段差線は出ない。強すぎたら brightness/opacity を下げる。 */
   /* 上は反射が勝つ・中〜下でPNGの森色が出る。 */
   -webkit-mask-image: linear-gradient(to bottom,
       rgba(0,0,0,0.05) 0,
