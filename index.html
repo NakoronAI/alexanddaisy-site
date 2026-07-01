@@ -729,31 +729,31 @@ body{
 }
 
 /* ============================================================
-   MOBILE / TABLET RIVER SAFETY PATCH v17
-   PC keeps the v13/v15 best-balance river motion.
+   MOBILE / TABLET RIVER SAFETY PATCH v18
+   PC keeps the v13/v15 best-balance river motion untouched.
 
-   v16 successfully removed heavy animated SVG filters, but it also
-   slowed mobile/tablet background motion so much that the river looked
-   stopped. v17 removes the mobile/tablet animation overrides and lets
-   those screens inherit the PC river-current timing, while keeping the
-   lighter mobile layers that prevent flicker.
+   v18 keeps the static SVG-filter fix from v16/v17, but raises the
+   mobile/tablet visibility of the inherited PC river motion. Tablet is
+   only slightly stronger. Phone keeps the flicker-prone lower ::after
+   layer off, but lets the softer ::before layer move again so the river
+   does not look frozen.
    ============================================================ */
 
 @media (min-width: 601px) and (max-width: 900px){
   .river-current{
-    opacity: 0.46;
-    filter: blur(1.25px) saturate(1.02);
+    opacity: 0.56;
+    filter: blur(0.95px) saturate(1.04);
   }
 
   .river-current::before{
-    opacity: 0.16;
-    filter: blur(1.8px);
+    opacity: 0.23;
+    filter: blur(1.45px);
   }
 
   .river-current::after{
-    top: 48%;
-    opacity: 0.12;
-    filter: blur(1.7px);
+    top: 46%;
+    opacity: 0.18;
+    filter: blur(1.45px);
   }
 }
 
@@ -800,16 +800,14 @@ body{
   .world-backdrop{ filter: blur(10px) brightness(0.82); }
 
   .river-current{
-    opacity: 0.28;
-    mix-blend-mode: soft-light;
-    filter: blur(1.65px) saturate(0.96);
+    opacity: 0.42;
+    mix-blend-mode: screen;
+    filter: blur(1.25px) saturate(1.00);
   }
 
   .river-current::before{
-    opacity: 0.07;
-    filter: blur(2.1px);
-    animation: none;
-    background-position: 0 0, 0 0;
+    opacity: 0.15;
+    filter: blur(1.85px);
   }
 
   .river-current::after{
@@ -817,12 +815,12 @@ body{
   }
 
   .ripple-a{
-    opacity: 0.20;
+    opacity: 0.22;
     animation-duration: 28s;
   }
 
   .ripple-b{
-    opacity: 0.14;
+    opacity: 0.16;
     animation-duration: 42s;
   }
 }
