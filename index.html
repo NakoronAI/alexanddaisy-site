@@ -729,44 +729,31 @@ body{
 }
 
 /* ============================================================
-   MOBILE / TABLET RIVER SAFETY PATCH v16
-   PC keeps the v13/v15 best-balance river exactly as-is.
-   Tablet: quiet movement. Phone: no flashing lower light band.
+   MOBILE / TABLET RIVER SAFETY PATCH v17
+   PC keeps the v13/v15 best-balance river motion.
+
+   v16 successfully removed heavy animated SVG filters, but it also
+   slowed mobile/tablet background motion so much that the river looked
+   stopped. v17 removes the mobile/tablet animation overrides and lets
+   those screens inherit the PC river-current timing, while keeping the
+   lighter mobile layers that prevent flicker.
    ============================================================ */
 
 @media (min-width: 601px) and (max-width: 900px){
   .river-current{
     opacity: 0.46;
     filter: blur(1.25px) saturate(1.02);
-    animation: riverCurrentDriftTablet 64s linear infinite;
   }
 
   .river-current::before{
     opacity: 0.16;
     filter: blur(1.8px);
-    animation: riverCurrentFillTablet 82s linear infinite;
   }
 
   .river-current::after{
     top: 48%;
     opacity: 0.12;
     filter: blur(1.7px);
-    animation: riverCurrentLowerTablet 96s linear infinite;
-  }
-
-  @keyframes riverCurrentDriftTablet {
-    0%   { background-position: 0 0, 0 0; }
-    100% { background-position: 0 320px, 0 -260px; }
-  }
-
-  @keyframes riverCurrentFillTablet {
-    0%   { background-position: 0 0, 0 0; }
-    100% { background-position: 0 360px, 0 -300px; }
-  }
-
-  @keyframes riverCurrentLowerTablet {
-    0%   { background-position: 0 0, 0 0; }
-    100% { background-position: 0 260px, 0 -220px; }
   }
 }
 
@@ -816,7 +803,6 @@ body{
     opacity: 0.28;
     mix-blend-mode: soft-light;
     filter: blur(1.65px) saturate(0.96);
-    animation: riverCurrentDriftPhone 90s linear infinite;
   }
 
   .river-current::before{
@@ -838,11 +824,6 @@ body{
   .ripple-b{
     opacity: 0.14;
     animation-duration: 42s;
-  }
-
-  @keyframes riverCurrentDriftPhone {
-    0%   { background-position: 0 0, 0 0; }
-    100% { background-position: 0 180px, 0 -140px; }
   }
 }
 
