@@ -16,16 +16,17 @@
 <style>
 /* ============================================================
    ALEX & DAISY — STORYBOOK HOUSE HOMEPAGE
+   v16: static SVG water filters + mobile/tablet quiet river
    ============================================================ */
 
 :root{
-  --page-top:    #d8e0be;   
-  --page-bottom: #71845c;   
-  --paper:       #f3e9d7;   
-  --ink:         #3b3128;   
+  --page-top:    #d8e0be;
+  --page-bottom: #71845c;
+  --paper:       #f3e9d7;
+  --ink:         #3b3128;
   --ink-soft:    #6e5f50;
-  --lamp:        #ffd98a;   
-  --lamp-deep:   #ffb95e;   
+  --lamp:        #ffd98a;
+  --lamp-deep:   #ffb95e;
 
   --glow-hover-opacity: 0.55;
   --glow-click-opacity: 0.9;
@@ -41,10 +42,10 @@
   --seam-mist-speed: 16s;
 
   --water-line:   235px;
-  --water-tail:   260px;   
-  --water-top:    rgb(150,184,158);   
-  --water-mid:    rgb(104,148,118);   
-  --water-deep:   rgb( 50, 88, 70);   
+  --water-tail:   260px;
+  --water-top:    rgb(150,184,158);
+  --water-mid:    rgb(104,148,118);
+  --water-deep:   rgb( 50, 88, 70);
   --wave-amp:     14px;
   --ripple-light: 0.26;
   --ripple-dark:  0.22;
@@ -58,9 +59,9 @@ html, body{
 }
 
 html{
-  background: rgb(34,62,48);   
-  overflow-x: hidden;   
-  overflow-x: clip;     
+  background: rgb(34,62,48);
+  overflow-x: hidden;
+  overflow-x: clip;
   touch-action: pan-y pinch-zoom;
   overscroll-behavior-x: none;
 }
@@ -71,7 +72,7 @@ body{
   overflow-x: clip;
   touch-action: pan-y pinch-zoom;
   overscroll-behavior-x: none;
-  background: rgb(34,62,48);    
+  background: rgb(34,62,48);
   color: var(--paper);
   font-family: Georgia, "Times New Roman", "Hiragino Mincho ProN", "Yu Mincho", serif;
   display: flex;
@@ -82,10 +83,10 @@ body{
 
 .world-backdrop{
   position: fixed;
-  inset: -48px;                     
+  inset: -48px;
   z-index: -2;
-  background-size: cover;           
-  background-position: center 22%;  
+  background-size: cover;
+  background-position: center 22%;
   filter: blur(18px) brightness(0.82) saturate(0.92);
   transform: scale(1.08);
   pointer-events: none;
@@ -109,12 +110,12 @@ body{
   width: 100%;
   overflow: hidden;
   display: flex;
-  justify-content: center;   
+  justify-content: center;
 }
 
 .house-stage{
   position: relative;
-  flex: none;                
+  flex: none;
   width: max(100vw, min(285vh, 170vw));
   transform: translateY(2vh);
 }
@@ -149,7 +150,7 @@ body{
               rgba(255,217,138,0.95) 0%,
               rgba(255,185,94,0.45) 45%,
               rgba(255,185,94,0.0) 75%);
-  mix-blend-mode: screen;       
+  mix-blend-mode: screen;
   opacity: 0;
   transition: opacity 0.45s ease;
   pointer-events: none;
@@ -271,7 +272,7 @@ body{
   display: flex;
   align-items: center;
   gap: 14px;
-  justify-content: flex-start;   
+  justify-content: flex-start;
 }
 .social-btn{
   display: inline-flex;
@@ -293,9 +294,9 @@ body{
   border-radius: 14px;
   background: linear-gradient(180deg, #ff5347 0%, #e3170a 55%, #c20d04 100%);
   box-shadow:
-    inset 0 2px 3px rgba(255,255,255,0.45),   
-    inset 0 -4px 6px rgba(90,0,0,0.35),       
-    0 5px 14px rgba(80,15,8,0.45),            
+    inset 0 2px 3px rgba(255,255,255,0.45),
+    inset 0 -4px 6px rgba(90,0,0,0.35),
+    0 5px 14px rgba(80,15,8,0.45),
     0 2px 4px rgba(60,10,5,0.4);
   animation: social-bob 3.6s ease-in-out infinite alternate;
 }
@@ -321,8 +322,8 @@ body{
     inset 0 2px 3px rgba(255,255,255,0.5),
     inset 0 -4px 6px rgba(90,0,0,0.3),
     0 8px 20px rgba(80,15,8,0.5),
-    0 0 0 6px rgba(255,224,150,0.35),         
-    0 0 26px 8px rgba(255,205,120,0.55);      
+    0 0 0 6px rgba(255,224,150,0.35),
+    0 0 26px 8px rgba(255,205,120,0.55);
 }
 
 .show-outlines .hotspot{
@@ -331,10 +332,10 @@ body{
 }
 
 .visit-rooms{
-  position: relative;        
-  isolation: isolate;        
+  position: relative;
+  isolation: isolate;
   width: min(100%, 760px);
-  margin-top: 220px;         
+  margin-top: 220px;
   padding: 0 16px;
   text-align: center;
 }
@@ -365,7 +366,7 @@ body{
   width: 100vw;
   height: calc(var(--water-line) + 100% + var(--water-tail));
   transform: translateX(-50%);
-  z-index: -1;                  
+  z-index: -1;
   pointer-events: none;
   overflow: hidden;
   background:
@@ -389,36 +390,33 @@ body{
   position:absolute;
   left:0; right:0;
   top: 0;
-  height: 520px;            
-  z-index: 1;               
+  height: 520px;
+  z-index: 1;
   pointer-events:none;
   background: linear-gradient(to bottom,
-      rgba(230,243,238, 0.06) 0,      
-      rgba(212,231,239, 0.12) 110px,  
-      rgba(216,235,223, 0.09) 240px,  
+      rgba(230,243,238, 0.06) 0,
+      rgba(212,231,239, 0.12) 110px,
+      rgba(216,235,223, 0.09) 240px,
       rgba(216,235,223, 0.04) 380px,
-      rgba(216,235,223, 0)    520px); 
-  filter: blur(6px);        
+      rgba(216,235,223, 0)    520px);
+  filter: blur(6px);
 }
-/* ④ 水面の主素材（実写の水面写真）────────────────────────────── */
+
 .water::after{
   content:"";
   position:absolute;
   top: 0;
   left: 50%;
-  width: max(100vw, min(285vh, 170vw));                  
-  height: calc(max(100vw, min(285vh, 170vw)) * 0.3711);  
-  transform: translateX(-50%);                           
+  width: max(100vw, min(285vh, 170vw));
+  height: calc(max(100vw, min(285vh, 170vw)) * 0.3711);
+  transform: translateX(-50%);
   pointer-events:none;
   background-image: url("water_surface_ripple_photo_v1.png");
-  background-size: 110% auto;                             
+  background-size: 110% auto;
   background-position: center top;
   background-repeat: no-repeat;
-  
-  /* ★ビックリハウス（横スライド）を廃止し、さらさら川用の弱い屈折フィルターを適用 */
-  filter: blur(1.5px) brightness(0.97) saturate(0.95) url(#real-water-ripple);     
+  filter: blur(1.5px) brightness(0.97) saturate(0.95) url(#real-water-ripple);
   opacity: 0.8;
-  
   -webkit-mask-image: linear-gradient(to bottom,
       transparent      0,
       rgba(0,0,0,0.70) 16px,
@@ -438,12 +436,12 @@ body{
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background-image: url("water_reflection_sky_forest.png.png");  
+  background-image: url("water_reflection_sky_forest.png.png");
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
-  opacity: 0.74;            
-  filter: saturate(1.16) brightness(0.94) contrast(1.08) blur(1.4px);  
+  opacity: 0.74;
+  filter: saturate(1.16) brightness(0.94) contrast(1.08) blur(1.4px);
   -webkit-mask-image: linear-gradient(to bottom,
       rgba(0,0,0,0.05) 0,
       rgba(0,0,0,0.24) 120px,
@@ -456,8 +454,6 @@ body{
       rgba(0,0,0,0.62) 100%);
 }
 
-/* 下だけ別の生き物みたいに動くのはやめる。
-   今回は水面全体をひとつの川として見せたいので、個別うねり層は停止。 */
 .lower-water-undulate,
 .lower-water-undulate::after{
   display:none;
@@ -489,9 +485,6 @@ body{
   to  { transform: translate3d(10%, -2%, 0); }
 }
 
-/* 川のせせらぎと光の反射。
-   サインポール錯視版：横方向には動かさず、Y方向だけ動かす。
-   これで横タイルの継ぎ目による「I」縦線を出さない。 */
 .river-current {
   position: absolute;
   inset: -8px 0 0;
@@ -501,7 +494,6 @@ body{
   mix-blend-mode: screen;
   filter: blur(0.72px) saturate(1.08) url(#gentle-river-undulate);
   overflow: hidden;
-
   background:
     repeating-linear-gradient(5deg,
       rgba(255,255,255,0) 0 10px,
@@ -517,12 +509,9 @@ body{
       rgba(224,255,235,0.060) 28px,
       rgba(197,236,255,0.036) 33px,
       rgba(255,255,255,0.00) 40px);
-
-  /* 横幅ピクセル指定をやめて、一枚布にする */
   background-size: 100% 100%, 100% 100%;
   background-position: 0 0, 0 0;
   background-repeat: repeat-y;
-
   -webkit-mask-image: linear-gradient(to bottom,
       transparent 0,
       rgba(0,0,0,0.16) 14px,
@@ -539,12 +528,9 @@ body{
       rgba(0,0,0,0.54) 68%,
       rgba(0,0,0,0.34) 90%,
       transparent 100%);
-
   animation: riverCurrentDrift 680s linear infinite;
 }
 
-/* 同じ川の流れを薄く重ねて、きらめきの密度を作る。
-   これも横には動かさない。 */
 .river-current::before{
   content:"";
   position:absolute;
@@ -574,8 +560,6 @@ body{
   animation: riverCurrentFill 840s linear infinite;
 }
 
-/* 下の方でも同じ川の流れが分かるように、下半分だけ少し強調。
-   ここも横方向には動かさないので、縦の継ぎ目は出ない。 */
 .river-current::after{
   content:"";
   position:absolute;
@@ -621,26 +605,21 @@ body{
   0%   { background-position: 0 0, 0 0; }
   100% { background-position: 0 18000px, 0 -14000px; }
 }
-
 @keyframes riverCurrentFill {
   0%   { background-position: 0 0, 0 0; }
   100% { background-position: 0 22000px, 0 -16000px; }
 }
-
 @keyframes riverCurrentLowerDrift {
   0%   { background-position: 0 0, 0 0; }
   100% { background-position: 0 17000px, 0 -13000px; }
 }
 
-/* 旧演出の発生処理は残していません。 */
-
 .visit-rooms h2{
   font-family: 'Baloo 2', system-ui, -apple-system, sans-serif;
   font-size: clamp(1.7rem, 5.2vw, 2.5rem);
   font-weight: 700;
-  letter-spacing: 0.10em;       
-  margin: 0 0 40px;             
-
+  letter-spacing: 0.10em;
+  margin: 0 0 40px;
   background: linear-gradient(100deg,
       #e6bd63 0%, #f4d896 26%, #fff7e6 46%,
       #f4d896 62%, #ddac52 100%);
@@ -658,7 +637,7 @@ body{
 }
 .visit-rooms h2::before,
 .visit-rooms h2::after{
-  content:"\2726";                 
+  content:"\2726";
   -webkit-text-fill-color: initial;
   color: rgba(255,224,150,0.92);
   text-shadow: 0 0 8px rgba(255,196,110,0.6);
@@ -672,7 +651,7 @@ body{
   flex-wrap: wrap;
   gap: 12px;
   justify-content: center;
-  margin: 0 0 26px;          
+  margin: 0 0 26px;
 }
 
 .menu-btn{
@@ -715,13 +694,13 @@ body{
   border-radius: 14px;
   text-shadow: 0 1px 0 rgba(255,243,200,0.65);
   box-shadow:
-    inset 0 2px 2px rgba(255,246,205,0.8),    
-    inset 0 -3px 5px rgba(125,75,15,0.3),     
+    inset 0 2px 2px rgba(255,246,205,0.8),
+    inset 0 -3px 5px rgba(125,75,15,0.3),
     0 3px 12px rgba(15,22,10,0.45);
 }
 .menu-btn.menu-feature::before,
 .menu-btn.menu-feature::after{
-  content:"\2726";                 
+  content:"\2726";
   font-size: 0.78em;
   color: rgba(110,68,14,0.9);
 }
@@ -743,44 +722,51 @@ body{
   font-size: clamp(0.98rem, 2.7vw, 1.18rem);
   font-weight: 500;
   letter-spacing: 0.05em;
-  color: rgba(250,244,230,0.94);   
+  color: rgba(250,244,230,0.94);
   text-shadow: 0 1px 3px rgba(20,28,14,0.92), 0 0 10px rgba(20,28,14,0.45);
-  font-style: normal;              
+  font-style: normal;
   text-align: center;
 }
 
-
 /* ============================================================
-   MOBILE / TABLET RIVER SAFETY PATCH
-   PC keeps the v13 "best balance" river exactly as-is.
-   Small/medium screens use shorter mathematically-looped travel
-   so mobile GPUs do not flicker from 10000px+ background motion.
+   MOBILE / TABLET RIVER SAFETY PATCH v16
+   PC keeps the v13/v15 best-balance river exactly as-is.
+   Tablet: quiet movement. Phone: no flashing lower light band.
    ============================================================ */
 
-@media (max-width: 900px){
+@media (min-width: 601px) and (max-width: 900px){
   .river-current{
-    animation: riverCurrentDriftMobile 10s linear infinite;
+    opacity: 0.46;
+    filter: blur(1.25px) saturate(1.02);
+    animation: riverCurrentDriftTablet 64s linear infinite;
   }
+
   .river-current::before{
-    animation: riverCurrentFillMobile 12s linear infinite;
+    opacity: 0.16;
+    filter: blur(1.8px);
+    animation: riverCurrentFillTablet 82s linear infinite;
   }
+
   .river-current::after{
-    animation: riverCurrentLowerDriftMobile 9s linear infinite;
+    top: 48%;
+    opacity: 0.12;
+    filter: blur(1.7px);
+    animation: riverCurrentLowerTablet 96s linear infinite;
   }
 
-  @keyframes riverCurrentDriftMobile {
+  @keyframes riverCurrentDriftTablet {
     0%   { background-position: 0 0, 0 0; }
-    100% { background-position: 0 238.91px, 0 -240.59px; }
+    100% { background-position: 0 320px, 0 -260px; }
   }
 
-  @keyframes riverCurrentFillMobile {
+  @keyframes riverCurrentFillTablet {
     0%   { background-position: 0 0, 0 0; }
-    100% { background-position: 0 342.83px, 0 -352.48px; }
+    100% { background-position: 0 360px, 0 -300px; }
   }
 
-  @keyframes riverCurrentLowerDriftMobile {
+  @keyframes riverCurrentLowerTablet {
     0%   { background-position: 0 0, 0 0; }
-    100% { background-position: 0 190.73px, 0 -168.41px; }
+    100% { background-position: 0 260px, 0 -220px; }
   }
 }
 
@@ -814,9 +800,9 @@ body{
     max-width: 360px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 150px;         
-    --water-line: 165px;       
-    --water-tail: 240px;   
+    margin-top: 150px;
+    --water-line: 165px;
+    --water-tail: 240px;
     padding: 0;
   }
   .visit-rooms h2{ margin-bottom: 34px; }
@@ -824,8 +810,40 @@ body{
   .menu-btn{ flex: 0 1 auto; }
   .menu-social{ margin-top: 46px; padding-top: 30px; }
   .page-footer{ margin-top: 60px; }
-
   .world-backdrop{ filter: blur(10px) brightness(0.82); }
+
+  .river-current{
+    opacity: 0.28;
+    mix-blend-mode: soft-light;
+    filter: blur(1.65px) saturate(0.96);
+    animation: riverCurrentDriftPhone 90s linear infinite;
+  }
+
+  .river-current::before{
+    opacity: 0.07;
+    filter: blur(2.1px);
+    animation: none;
+    background-position: 0 0, 0 0;
+  }
+
+  .river-current::after{
+    display: none;
+  }
+
+  .ripple-a{
+    opacity: 0.20;
+    animation-duration: 28s;
+  }
+
+  .ripple-b{
+    opacity: 0.14;
+    animation-duration: 42s;
+  }
+
+  @keyframes riverCurrentDriftPhone {
+    0%   { background-position: 0 0, 0 0; }
+    100% { background-position: 0 180px, 0 -140px; }
+  }
 }
 
 .hotspot.is-gift{ container-type: inline-size; }
@@ -839,7 +857,7 @@ body{
   flex-direction: column;
   align-items: center;
   gap: 4cqw;
-  pointer-events: none;          
+  pointer-events: none;
   text-align: center;
   line-height: 1;
 }
@@ -847,10 +865,10 @@ body{
 .gift-word{
   font-family: Georgia, "Times New Roman", "Hiragino Mincho ProN", "Yu Mincho", serif;
   font-weight: 700;
-  font-size: 17cqw;              
+  font-size: 17cqw;
   letter-spacing: 0.16em;
   margin-right: -0.16em;
-  color: #3a2414;               
+  color: #3a2414;
   text-shadow:
      0 1px 0   rgba(255,243,214,0.40),
      0 -1px 1px rgba(36,18,8,0.55);
@@ -859,7 +877,7 @@ body{
 
 .gift-gem{
   display: block;
-  width: 20cqw;                  
+  width: 20cqw;
   height: auto;
   overflow: visible;
   filter:
@@ -927,37 +945,20 @@ body{
 <body>
 
 <svg style="width:0; height:0; position:absolute;" aria-hidden="true" focusable="false">
-  <!-- さらさら川用の屈折フィルター。
-       旧版の海っぽい丸いうねりではなく、横長の細い筋にして弱く揺らす。 -->
+  <!-- v16: SVG filters are static. Water distortion no longer recalculates every frame. -->
   <filter id="real-water-ripple" x="-8%" y="-8%" width="116%" height="116%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.002 0.08" numOctaves="2" result="noise">
-      <animate attributeName="baseFrequency" values="0.002 0.08; 0.003 0.10; 0.002 0.08" dur="8s" repeatCount="indefinite" />
-    </feTurbulence>
-    <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+    <feTurbulence type="fractalNoise" baseFrequency="0.0025 0.09" numOctaves="2" result="noise" />
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.2" xChannelSelector="R" yChannelSelector="G" />
   </filter>
 
-  <!-- 川全体にかける、ごく薄いうねり。
-       流れは保ったまま、ほんの少しだけ水らしい揺れを足す。 -->
   <filter id="gentle-river-undulate" x="-8%" y="-8%" width="116%" height="116%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.0032 0.022" numOctaves="2" seed="5" result="gentleNoise">
-      <animate attributeName="baseFrequency" values="0.0038 0.026; 0.0048 0.033; 0.0042 0.028; 0.0038 0.026" dur="6.4s" repeatCount="indefinite" />
-    </feTurbulence>
-    <feDisplacementMap in="SourceGraphic" in2="gentleNoise" scale="3.6" xChannelSelector="R" yChannelSelector="G">
-      <animate attributeName="scale" values="3.8; 5.4; 4.5; 3.8" dur="6.4s" repeatCount="indefinite" />
-    </feDisplacementMap>
+    <feTurbulence type="fractalNoise" baseFrequency="0.0042 0.028" numOctaves="2" seed="5" result="gentleNoise" />
+    <feDisplacementMap in="SourceGraphic" in2="gentleNoise" scale="3.4" xChannelSelector="R" yChannelSelector="G" />
   </filter>
 
-  <!-- 下部専用のうねりフィルター。
-       上の水際は守り、緑〜水中反射だけを少し大きめに揺らす。 -->
   <filter id="lower-water-undulate-filter" x="-14%" y="-14%" width="128%" height="128%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.004 0.024" numOctaves="2" seed="11" result="lowerNoise">
-      <animate attributeName="baseFrequency"
-               values="0.004 0.024; 0.008 0.034; 0.006 0.028; 0.004 0.024"
-               dur="6.8s" repeatCount="indefinite" />
-    </feTurbulence>
-    <feDisplacementMap in="SourceGraphic" in2="lowerNoise" scale="12" xChannelSelector="R" yChannelSelector="G">
-      <animate attributeName="scale" values="10; 20; 14; 18; 10" dur="6.8s" repeatCount="indefinite" />
-    </feDisplacementMap>
+    <feTurbulence type="fractalNoise" baseFrequency="0.006 0.028" numOctaves="2" seed="11" result="lowerNoise" />
+    <feDisplacementMap in="SourceGraphic" in2="lowerNoise" scale="10" xChannelSelector="R" yChannelSelector="G" />
   </filter>
 </svg>
 
@@ -983,7 +984,6 @@ body{
   a little house, handmade with love
 </footer>
 
-
 <script>
 /* ╔══════════════════════════════════════════════════════════════╗
    ║                                                              ║
@@ -996,13 +996,13 @@ const IMAGE_FILE = "house.png";
 const SHOW_HOTSPOT_OUTLINES = false;
 
 const GLOW = {
-  hover: 0.55,   
-  click: 0.90    
+  hover: 0.55,
+  click: 0.90
 };
 
 const SPARKLES = {
   enabled: true,
-  count: 22        
+  count: 22
 };
 
 const HOTSPOTS = [
@@ -1065,16 +1065,16 @@ const HOTSPOTS = [
   },
   {
     name: "Gift box",
-    label: "",                
+    label: "",
     aria: "Open the gift box",
-    href: "gift.html",        
+    href: "gift.html",
     type: "gift",
     top: 79,   left: 66.2, width: 7.4, height: 17,
     giftLeft: 49.5, giftTop: 71, giftTilt: 1.5
   },
   {
     name: "Alex & Daisy top sign",
-    label: "",                
+    label: "",
     aria: "Alex and Daisy home sign",
     href: "#top",
     type: "sign",
@@ -1206,7 +1206,7 @@ const SOCIAL = [
       a.classList.add("is-lit");
       if (spot.type === "gift" && giftFace && !reducedMotion) {
         giftFace.classList.remove("shine");
-        void giftFace.offsetWidth;          
+        void giftFace.offsetWidth;
         giftFace.classList.add("shine");
       }
       if (!reducedMotion) {
@@ -1272,10 +1272,10 @@ const SOCIAL = [
   function buildFairyDust() {
     if (!SPARKLES.enabled || reducedMotion) return;
     const tones = [
-      ["255,216,110", "255,170,60"],   
-      ["255,196,86",  "230,140,40"],   
-      ["255,232,170", "255,196,120"],  
-      ["255,184,128", "240,140,80"]    
+      ["255,216,110", "255,170,60"],
+      ["255,196,86",  "230,140,40"],
+      ["255,232,170", "255,196,120"],
+      ["255,184,128", "240,140,80"]
     ];
     for (let i = 0; i < SPARKLES.count; i++) {
       const dust = document.createElement("span");
@@ -1305,7 +1305,6 @@ const SOCIAL = [
   HOTSPOTS.forEach(function (spot) {
     stage.appendChild(buildHotspot(spot));
   });
-
 
 })();
 </script>
