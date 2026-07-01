@@ -729,52 +729,50 @@ body{
 }
 
 /* ============================================================
-   MOBILE / TABLET RIVER SAFETY PATCH v18
+   MOBILE / TABLET RIVER SAFETY PATCH v19
    PC keeps the v13/v15 best-balance river motion untouched.
 
-   v18 keeps the static SVG-filter fix from v16/v17, but raises the
-   mobile/tablet visibility of the inherited PC river motion. Tablet is
-   only slightly stronger. Phone keeps the flicker-prone lower ::after
-   layer off, but lets the softer ::before layer move again so the river
-   does not look frozen.
+   v19 does NOT touch the desktop river.
+   Tablet: same river idea, but a little brighter and faster so the
+   motion reads more clearly on a vertical screen.
+   Phone: use a separate coarse, low-density current pattern. The old
+   flicker-prone lower ::after layer stays off, but the visible phone
+   current is thicker and faster so it no longer looks like a still image.
    ============================================================ */
 
 @media (min-width: 601px) and (max-width: 900px){
   .river-current{
-    opacity: 0.56;
-    filter: blur(0.95px) saturate(1.04);
+    opacity: 0.66;
+    filter: blur(0.75px) saturate(1.06);
+    animation: riverCurrentDriftTabletVisible 520s linear infinite;
   }
 
   .river-current::before{
-    opacity: 0.23;
-    filter: blur(1.45px);
+    opacity: 0.31;
+    filter: blur(1.2px);
+    animation: riverCurrentFillTabletVisible 650s linear infinite;
   }
 
   .river-current::after{
-    top: 46%;
-    opacity: 0.18;
-    filter: blur(1.45px);
+    top: 44%;
+    opacity: 0.28;
+    filter: blur(1.15px);
+    animation: riverCurrentLowerTabletVisible 500s linear infinite;
   }
-}
 
-@media (prefers-reduced-motion: reduce){
-  .dust-mote{ display: none !important; }
-  .fairy-dust{ display: none !important; }
-  .social-btn{ animation: none; }
-  .visit-rooms h2{ animation: none; background-position: 50% center; }
-  .visit-rooms::before{ animation: none; }
-  .ripple{ animation: none; }
-  .river-current,
-  .river-current::before,
-  .river-current::after,
-  .lower-water-undulate{ animation: none; }
-  .river-current{ opacity: 0.54; }
-  .lower-water-undulate{ opacity: 0; }
-  .hotspot::before,
-  .hotspot .hotspot-label,
-  .menu-btn{
-    transition: opacity 0.2s linear;
-    transform: none !important;
+  @keyframes riverCurrentDriftTabletVisible {
+    0%   { background-position: 0 0, 0 0; }
+    100% { background-position: 0 18000px, 0 -14000px; }
+  }
+
+  @keyframes riverCurrentFillTabletVisible {
+    0%   { background-position: 0 0, 0 0; }
+    100% { background-position: 0 22000px, 0 -16000px; }
+  }
+
+  @keyframes riverCurrentLowerTabletVisible {
+    0%   { background-position: 0 0, 0 0; }
+    100% { background-position: 0 17000px, 0 -13000px; }
   }
 }
 
@@ -800,14 +798,50 @@ body{
   .world-backdrop{ filter: blur(10px) brightness(0.82); }
 
   .river-current{
-    opacity: 0.42;
+    opacity: 0.58;
     mix-blend-mode: screen;
-    filter: blur(1.25px) saturate(1.00);
+    filter: blur(0.95px) saturate(1.04);
+    background:
+      repeating-linear-gradient(4deg,
+        rgba(255,255,255,0) 0 26px,
+        rgba(215,255,238,0.00) 32px,
+        rgba(215,255,238,0.070) 40px,
+        rgba(255,238,184,0.090) 48px,
+        rgba(215,255,238,0.050) 56px,
+        rgba(255,255,255,0.00) 68px),
+      repeating-linear-gradient(-3deg,
+        rgba(255,255,255,0) 0 34px,
+        rgba(197,236,255,0.00) 42px,
+        rgba(197,236,255,0.055) 50px,
+        rgba(224,255,235,0.065) 58px,
+        rgba(197,236,255,0.040) 66px,
+        rgba(255,255,255,0.00) 82px);
+    background-size: 100% 420px, 100% 520px;
+    background-position: 0 0, 0 0;
+    background-repeat: repeat-y;
+    animation: riverCurrentPhoneVisible 18s linear infinite;
   }
 
   .river-current::before{
-    opacity: 0.15;
-    filter: blur(1.85px);
+    opacity: 0.24;
+    filter: blur(1.45px);
+    background:
+      repeating-linear-gradient(5deg,
+        rgba(255,255,255,0) 0 38px,
+        rgba(255,255,255,0.00) 46px,
+        rgba(225,255,245,0.080) 56px,
+        rgba(255,238,184,0.070) 65px,
+        rgba(255,255,255,0.00) 84px),
+      repeating-linear-gradient(-4deg,
+        rgba(255,255,255,0) 0 46px,
+        rgba(190,232,255,0.00) 54px,
+        rgba(190,232,255,0.060) 64px,
+        rgba(224,255,235,0.055) 74px,
+        rgba(255,255,255,0.00) 96px);
+    background-size: 100% 560px, 100% 680px;
+    background-position: 0 0, 0 0;
+    background-repeat: repeat-y;
+    animation: riverCurrentPhoneSoft 27s linear infinite;
   }
 
   .river-current::after{
@@ -815,13 +849,23 @@ body{
   }
 
   .ripple-a{
-    opacity: 0.22;
-    animation-duration: 28s;
+    opacity: 0.24;
+    animation-duration: 22s;
   }
 
   .ripple-b{
-    opacity: 0.16;
-    animation-duration: 42s;
+    opacity: 0.18;
+    animation-duration: 34s;
+  }
+
+  @keyframes riverCurrentPhoneVisible {
+    0%   { background-position: 0 0, 0 0; }
+    100% { background-position: 0 520px, 0 -420px; }
+  }
+
+  @keyframes riverCurrentPhoneSoft {
+    0%   { background-position: 0 0, 0 0; }
+    100% { background-position: 0 560px, 0 -460px; }
   }
 }
 
