@@ -729,20 +729,19 @@ body{
 }
 
 /* ============================================================
-   MOBILE / TABLET RIVER SAFETY PATCH v20
-   PC keeps the v13/v15 best-balance river motion untouched.
+   MOBILE / TABLET RIVER SAFETY PATCH v21
+   PC and large tablet keep the completed v20 look.
 
-   v20 focus:
-   - Do not touch desktop rules above this block.
-   - The visible "flash" is usually the animation loop reset.
-   - Small screens must not use short 18s/27s phone loops.
-   - All mobile/tablet river-current layers now use the long desktop
-     680s / 840s / 620s timing so the reset comes very rarely.
-   - Phone still uses wider, lower-density streaks so the motion is
-     visible on a small screen without becoming an LED sign.
+   v21 focus:
+   - Desktop rules above this block are not touched.
+   - Large tablet remains close to PC and is already successful.
+   - Mini tablet and phone no longer animate background-position.
+   - Small devices use a large transparent current sheet moved by
+     transform: translate3d(), which mobile GPUs handle more smoothly.
+   - The reset happens far less often than the old visible 3-second hitch.
    ============================================================ */
 
-/* Large tablet: close to PC, just a little clearer on a vertical screen. */
+/* Large tablet: keep the successful PC-like river. */
 @media (min-width: 701px) and (max-width: 900px){
   .river-current{
     opacity: 0.68;
@@ -764,34 +763,104 @@ body{
   }
 }
 
-/* Mini tablet / large phone: reduce the flicker-prone lower layer,
-   but keep a readable current with the long desktop loop timing. */
+/* Mini tablet / large phone: use transform-moved sheets instead of
+   background-position. This avoids the small-device redraw hitch. */
 @media (min-width: 601px) and (max-width: 700px){
   .river-current{
-    opacity: 0.66;
-    filter: blur(0.9px) saturate(1.05);
-    animation: riverCurrentDrift 680s linear infinite;
+    opacity: 0.72;
+    mix-blend-mode: screen;
+    filter: blur(0.82px) saturate(1.06);
+    background: none;
+    animation: none;
+    transform: translateZ(0);
+    will-change: transform;
+    contain: paint;
   }
 
   .river-current::before{
-    opacity: 0.30;
-    filter: blur(1.35px);
-    animation: riverCurrentFill 840s linear infinite;
+    content:"";
+    position:absolute;
+    left:-8%;
+    right:-8%;
+    top:-150%;
+    height:430%;
+    pointer-events:none;
+    opacity:0.72;
+    mix-blend-mode:screen;
+    filter: blur(0.9px);
+    background:
+      repeating-linear-gradient(5deg,
+        rgba(255,255,255,0) 0 22px,
+        rgba(220,255,240,0.00) 28px,
+        rgba(220,255,240,0.072) 36px,
+        rgba(255,238,184,0.082) 45px,
+        rgba(220,255,240,0.052) 54px,
+        rgba(255,255,255,0.00) 72px),
+      repeating-linear-gradient(-4deg,
+        rgba(255,255,255,0) 0 30px,
+        rgba(190,232,255,0.00) 38px,
+        rgba(190,232,255,0.056) 48px,
+        rgba(224,255,235,0.060) 58px,
+        rgba(190,232,255,0.036) 68px,
+        rgba(255,255,255,0.00) 92px);
+    background-size: 100% auto, 100% auto;
+    background-position: 0 0, 0 0;
+    background-repeat: repeat;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    animation: riverSheetMiniA 42s linear infinite;
   }
 
   .river-current::after{
-    display: none;
+    content:"";
+    display:block;
+    position:absolute;
+    left:-10%;
+    right:-10%;
+    top:-150%;
+    height:430%;
+    pointer-events:none;
+    opacity:0.24;
+    mix-blend-mode:screen;
+    filter: blur(1.55px);
+    background:
+      repeating-linear-gradient(3deg,
+        rgba(255,255,255,0) 0 48px,
+        rgba(225,255,245,0.00) 58px,
+        rgba(225,255,245,0.065) 70px,
+        rgba(255,238,184,0.052) 82px,
+        rgba(255,255,255,0.00) 112px),
+      repeating-linear-gradient(-3deg,
+        rgba(255,255,255,0) 0 60px,
+        rgba(190,232,255,0.00) 70px,
+        rgba(190,232,255,0.048) 84px,
+        rgba(224,255,235,0.046) 98px,
+        rgba(255,255,255,0.00) 132px);
+    background-size: 100% auto, 100% auto;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    animation: riverSheetMiniB 64s linear infinite reverse;
   }
 
   .ripple-a{
-    opacity: 0.22;
-    animation-duration: 48s;
+    opacity: 0.20;
+    animation-duration: 56s;
   }
 
   .ripple-b{
-    opacity: 0.16;
-    animation-duration: 72s;
+    opacity: 0.14;
+    animation-duration: 84s;
   }
+}
+
+@keyframes riverSheetMiniA{
+  from{ transform: translate3d(0, 0, 0); }
+  to  { transform: translate3d(0, 1120px, 0); }
+}
+
+@keyframes riverSheetMiniB{
+  from{ transform: translate3d(0, 0, 0); }
+  to  { transform: translate3d(0, 960px, 0); }
 }
 
 @media (max-width: 600px){
@@ -816,65 +885,100 @@ body{
   .world-backdrop{ filter: blur(10px) brightness(0.82); }
 
   .river-current{
-    opacity: 0.64;
+    opacity: 0.70;
     mix-blend-mode: screen;
     filter: blur(0.95px) saturate(1.04);
-    background:
-      repeating-linear-gradient(4deg,
-        rgba(255,255,255,0) 0 26px,
-        rgba(215,255,238,0.00) 32px,
-        rgba(215,255,238,0.072) 40px,
-        rgba(255,238,184,0.092) 48px,
-        rgba(215,255,238,0.052) 56px,
-        rgba(255,255,255,0.00) 68px),
-      repeating-linear-gradient(-3deg,
-        rgba(255,255,255,0) 0 34px,
-        rgba(197,236,255,0.00) 42px,
-        rgba(197,236,255,0.056) 50px,
-        rgba(224,255,235,0.066) 58px,
-        rgba(197,236,255,0.040) 66px,
-        rgba(255,255,255,0.00) 82px);
-    background-size: 100% 100%, 100% 100%;
-    background-position: 0 0, 0 0;
-    background-repeat: repeat-y;
-    animation: riverCurrentDrift 680s linear infinite;
+    background: none;
+    animation: none;
+    transform: translateZ(0);
+    will-change: transform;
+    contain: paint;
   }
 
   .river-current::before{
-    opacity: 0.25;
-    filter: blur(1.45px);
+    content:"";
+    position:absolute;
+    left:-10%;
+    right:-10%;
+    top:-170%;
+    height:470%;
+    pointer-events:none;
+    opacity:0.76;
+    mix-blend-mode:screen;
+    filter: blur(1.0px);
     background:
-      repeating-linear-gradient(5deg,
-        rgba(255,255,255,0) 0 38px,
-        rgba(255,255,255,0.00) 46px,
-        rgba(225,255,245,0.078) 56px,
-        rgba(255,238,184,0.068) 65px,
-        rgba(255,255,255,0.00) 84px),
-      repeating-linear-gradient(-4deg,
-        rgba(255,255,255,0) 0 46px,
-        rgba(190,232,255,0.00) 54px,
-        rgba(190,232,255,0.058) 64px,
-        rgba(224,255,235,0.052) 74px,
-        rgba(255,255,255,0.00) 96px);
-    background-size: 100% 100%, 100% 100%;
+      repeating-linear-gradient(4deg,
+        rgba(255,255,255,0) 0 32px,
+        rgba(215,255,238,0.00) 40px,
+        rgba(215,255,238,0.076) 52px,
+        rgba(255,238,184,0.088) 64px,
+        rgba(215,255,238,0.050) 76px,
+        rgba(255,255,255,0.00) 108px),
+      repeating-linear-gradient(-3deg,
+        rgba(255,255,255,0) 0 44px,
+        rgba(197,236,255,0.00) 54px,
+        rgba(197,236,255,0.056) 68px,
+        rgba(224,255,235,0.060) 82px,
+        rgba(197,236,255,0.038) 96px,
+        rgba(255,255,255,0.00) 136px);
+    background-size: 100% auto, 100% auto;
     background-position: 0 0, 0 0;
-    background-repeat: repeat-y;
-    animation: riverCurrentFill 840s linear infinite;
+    background-repeat: repeat;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    animation: riverSheetPhoneA 50s linear infinite;
   }
 
   .river-current::after{
-    display: none;
+    content:"";
+    display:block;
+    position:absolute;
+    left:-12%;
+    right:-12%;
+    top:-170%;
+    height:470%;
+    pointer-events:none;
+    opacity:0.18;
+    mix-blend-mode:screen;
+    filter: blur(1.9px);
+    background:
+      repeating-linear-gradient(3deg,
+        rgba(255,255,255,0) 0 70px,
+        rgba(225,255,245,0.00) 84px,
+        rgba(225,255,245,0.052) 102px,
+        rgba(255,238,184,0.044) 120px,
+        rgba(255,255,255,0.00) 170px),
+      repeating-linear-gradient(-3deg,
+        rgba(255,255,255,0) 0 86px,
+        rgba(190,232,255,0.00) 100px,
+        rgba(190,232,255,0.040) 120px,
+        rgba(224,255,235,0.036) 140px,
+        rgba(255,255,255,0.00) 196px);
+    background-size: 100% auto, 100% auto;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    animation: riverSheetPhoneB 78s linear infinite reverse;
   }
 
   .ripple-a{
-    opacity: 0.18;
-    animation-duration: 60s;
+    opacity: 0.16;
+    animation-duration: 70s;
   }
 
   .ripple-b{
-    opacity: 0.12;
-    animation-duration: 90s;
+    opacity: 0.10;
+    animation-duration: 105s;
   }
+}
+
+@keyframes riverSheetPhoneA{
+  from{ transform: translate3d(0, 0, 0); }
+  to  { transform: translate3d(0, 1260px, 0); }
+}
+
+@keyframes riverSheetPhoneB{
+  from{ transform: translate3d(0, 0, 0); }
+  to  { transform: translate3d(0, 1040px, 0); }
 }
 
 .hotspot.is-gift{ container-type: inline-size; }
