@@ -729,50 +729,68 @@ body{
 }
 
 /* ============================================================
-   MOBILE / TABLET RIVER SAFETY PATCH v19
+   MOBILE / TABLET RIVER SAFETY PATCH v20
    PC keeps the v13/v15 best-balance river motion untouched.
 
-   v19 does NOT touch the desktop river.
-   Tablet: same river idea, but a little brighter and faster so the
-   motion reads more clearly on a vertical screen.
-   Phone: use a separate coarse, low-density current pattern. The old
-   flicker-prone lower ::after layer stays off, but the visible phone
-   current is thicker and faster so it no longer looks like a still image.
+   v20 focus:
+   - Do not touch desktop rules above this block.
+   - The visible "flash" is usually the animation loop reset.
+   - Small screens must not use short 18s/27s phone loops.
+   - All mobile/tablet river-current layers now use the long desktop
+     680s / 840s / 620s timing so the reset comes very rarely.
+   - Phone still uses wider, lower-density streaks so the motion is
+     visible on a small screen without becoming an LED sign.
    ============================================================ */
 
-@media (min-width: 601px) and (max-width: 900px){
+/* Large tablet: close to PC, just a little clearer on a vertical screen. */
+@media (min-width: 701px) and (max-width: 900px){
   .river-current{
-    opacity: 0.66;
-    filter: blur(0.75px) saturate(1.06);
-    animation: riverCurrentDriftTabletVisible 520s linear infinite;
+    opacity: 0.68;
+    filter: blur(0.78px) saturate(1.06);
+    animation: riverCurrentDrift 680s linear infinite;
   }
 
   .river-current::before{
-    opacity: 0.31;
+    opacity: 0.32;
     filter: blur(1.2px);
-    animation: riverCurrentFillTabletVisible 650s linear infinite;
+    animation: riverCurrentFill 840s linear infinite;
   }
 
   .river-current::after{
     top: 44%;
-    opacity: 0.28;
+    opacity: 0.24;
     filter: blur(1.15px);
-    animation: riverCurrentLowerTabletVisible 500s linear infinite;
+    animation: riverCurrentLowerDrift 620s linear infinite;
+  }
+}
+
+/* Mini tablet / large phone: reduce the flicker-prone lower layer,
+   but keep a readable current with the long desktop loop timing. */
+@media (min-width: 601px) and (max-width: 700px){
+  .river-current{
+    opacity: 0.66;
+    filter: blur(0.9px) saturate(1.05);
+    animation: riverCurrentDrift 680s linear infinite;
   }
 
-  @keyframes riverCurrentDriftTabletVisible {
-    0%   { background-position: 0 0, 0 0; }
-    100% { background-position: 0 18000px, 0 -14000px; }
+  .river-current::before{
+    opacity: 0.30;
+    filter: blur(1.35px);
+    animation: riverCurrentFill 840s linear infinite;
   }
 
-  @keyframes riverCurrentFillTabletVisible {
-    0%   { background-position: 0 0, 0 0; }
-    100% { background-position: 0 22000px, 0 -16000px; }
+  .river-current::after{
+    display: none;
   }
 
-  @keyframes riverCurrentLowerTabletVisible {
-    0%   { background-position: 0 0, 0 0; }
-    100% { background-position: 0 17000px, 0 -13000px; }
+  .ripple-a{
+    opacity: 0.22;
+    animation-duration: 48s;
+  }
+
+  .ripple-b{
+    opacity: 0.16;
+    animation-duration: 72s;
   }
 }
 
@@ -798,50 +816,50 @@ body{
   .world-backdrop{ filter: blur(10px) brightness(0.82); }
 
   .river-current{
-    opacity: 0.58;
+    opacity: 0.64;
     mix-blend-mode: screen;
     filter: blur(0.95px) saturate(1.04);
     background:
       repeating-linear-gradient(4deg,
         rgba(255,255,255,0) 0 26px,
         rgba(215,255,238,0.00) 32px,
-        rgba(215,255,238,0.070) 40px,
-        rgba(255,238,184,0.090) 48px,
-        rgba(215,255,238,0.050) 56px,
+        rgba(215,255,238,0.072) 40px,
+        rgba(255,238,184,0.092) 48px,
+        rgba(215,255,238,0.052) 56px,
         rgba(255,255,255,0.00) 68px),
       repeating-linear-gradient(-3deg,
         rgba(255,255,255,0) 0 34px,
         rgba(197,236,255,0.00) 42px,
-        rgba(197,236,255,0.055) 50px,
-        rgba(224,255,235,0.065) 58px,
+        rgba(197,236,255,0.056) 50px,
+        rgba(224,255,235,0.066) 58px,
         rgba(197,236,255,0.040) 66px,
         rgba(255,255,255,0.00) 82px);
-    background-size: 100% 420px, 100% 520px;
+    background-size: 100% 100%, 100% 100%;
     background-position: 0 0, 0 0;
     background-repeat: repeat-y;
-    animation: riverCurrentPhoneVisible 18s linear infinite;
+    animation: riverCurrentDrift 680s linear infinite;
   }
 
   .river-current::before{
-    opacity: 0.24;
+    opacity: 0.25;
     filter: blur(1.45px);
     background:
       repeating-linear-gradient(5deg,
         rgba(255,255,255,0) 0 38px,
         rgba(255,255,255,0.00) 46px,
-        rgba(225,255,245,0.080) 56px,
-        rgba(255,238,184,0.070) 65px,
+        rgba(225,255,245,0.078) 56px,
+        rgba(255,238,184,0.068) 65px,
         rgba(255,255,255,0.00) 84px),
       repeating-linear-gradient(-4deg,
         rgba(255,255,255,0) 0 46px,
         rgba(190,232,255,0.00) 54px,
-        rgba(190,232,255,0.060) 64px,
-        rgba(224,255,235,0.055) 74px,
+        rgba(190,232,255,0.058) 64px,
+        rgba(224,255,235,0.052) 74px,
         rgba(255,255,255,0.00) 96px);
-    background-size: 100% 560px, 100% 680px;
+    background-size: 100% 100%, 100% 100%;
     background-position: 0 0, 0 0;
     background-repeat: repeat-y;
-    animation: riverCurrentPhoneSoft 27s linear infinite;
+    animation: riverCurrentFill 840s linear infinite;
   }
 
   .river-current::after{
@@ -849,23 +867,13 @@ body{
   }
 
   .ripple-a{
-    opacity: 0.24;
-    animation-duration: 22s;
+    opacity: 0.18;
+    animation-duration: 60s;
   }
 
   .ripple-b{
-    opacity: 0.18;
-    animation-duration: 34s;
-  }
-
-  @keyframes riverCurrentPhoneVisible {
-    0%   { background-position: 0 0, 0 0; }
-    100% { background-position: 0 520px, 0 -420px; }
-  }
-
-  @keyframes riverCurrentPhoneSoft {
-    0%   { background-position: 0 0, 0 0; }
-    100% { background-position: 0 560px, 0 -460px; }
+    opacity: 0.12;
+    animation-duration: 90s;
   }
 }
 
