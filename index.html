@@ -9,8 +9,6 @@
 <link rel="icon" type="image/png" href="/favicon.png?v=1">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=1">
 
-<!-- Baloo 2: the menu heading + footer typeface (rounded, friendly, reads
-     clearly for kids — chosen to step away from the "hotel front desk" look) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -18,48 +16,23 @@
 <style>
 /* ============================================================
    ALEX & DAISY — STORYBOOK HOUSE HOMEPAGE
-   ------------------------------------------------------------
-   STYLE NOTES
-   - The artwork (house.jpg) is the hero.
-   - The page around it is a quiet evening: soft dusk paper,
-     a faint vignette, nothing that competes with the house.
-   - Hotspots are invisible until hovered/focused, then they
-     "wake up" with a warm inner lamp-light glow.
    ============================================================ */
 
 :root{
-  /* --- Page palette (quiet dusk paper) --- */
-  --page-top:    #d8e0be;   /* soft leaf light */
-  --page-bottom: #71845c;   /* quiet moss */
-  --paper:       #f3e9d7;   /* warm paper for text panels */
-  --ink:         #3b3128;   /* warm ink for text */
+  --page-top:    #d8e0be;   
+  --page-bottom: #71845c;   
+  --paper:       #f3e9d7;   
+  --ink:         #3b3128;   
   --ink-soft:    #6e5f50;
-  --lamp:        #ffd98a;   /* warm window light */
-  --lamp-deep:   #ffb95e;   /* deeper amber for click */
+  --lamp:        #ffd98a;   
+  --lamp-deep:   #ffb95e;   
 
-  /* --- Glow strength (see also GLOW settings in the JS) --- */
   --glow-hover-opacity: 0.55;
   --glow-click-opacity: 0.9;
 
-  /* --- "VISIT ROOMS" gold sparkle — tune by changing only these numbers ---
-     --vr-shimmer-speed : how fast the sheen drifts across (smaller = faster)
-     --vr-glow          : warmth/strength of the gold halo (raise alpha = brighter) */
   --vr-shimmer-speed: 5s;
   --vr-glow: rgba(255,210,128,0.55);
 
-  /* --- SEAM: the house picture's lower edge melts into the river
-     below it. house.png itself is NEVER touched — we only fade the
-     IMAGE element's bottom. Kept HIGH so Alex & Daisy's feet and the
-     little dino stay crisp; only the garden strip below them softens,
-     and the green water (further down) does the real blending.
-     --seam-fade-start : how high the picture stays fully solid.
-                         95% = solid to 95% (feet crisp), then a short
-                         soft fade. LOWER (90%) = dreamier/softer feet;
-                         HIGHER (97%) = feet razor-sharp, harder edge.
-     --seam-mist       : the old cream haze on the seam. OFF now (0) so
-                         it can't whiten the feet or fog the boundary —
-                         the green water blends instead. Try 0.06–0.10
-                         only if you want a hair of softening. */
   --seam-fade-start: 96.5%;
   --seam-mist: 0;
   --seam-mist-rise: 150px;
@@ -67,35 +40,14 @@
   --seam-mist-width: 130vw;
   --seam-mist-speed: 16s;
 
-  /* ── 水槽の断面（パスA：静止） ──────────────────────────────
-     家・Alex・Daisy・小恐竜・GIFT・看板は陸の上に残り、その手前に
-     浅い幻想の水があって、こちら側はその水を“断面”で覗いている。
-     川を横から見るのではなく、水槽の縁から覗くレイアウト。
-     --water-line  : 水際の高さ（家の足元の下）。下げる＝足元と小恐竜を
-                     陸（水の上）に残す。上げる＝水際が足元に近づく。
-     --water-tail  : メニューの下、フッターまで水中を伸ばす余分の高さ。
-     --water-top / -mid / -deep : 水中の縦グラデ。
-                     top=水際の明るいエメラルド／mid=メニューが乗る帯
-                     （木札化しても沈まないよう“暗くしない”）／deep=底だけ
-                     少し暗め。濁らせない＝alpha は控えめ・透明感キープ。
-     --wave-amp    : 水際の波打ちの強さ（控えめ。線にしない）。
-     --ripple-light / --ripple-dark : 水中の有機的な濃淡。ベタ塗りの段差
-                     （ファミコン/マッハバンド）を防ぐためのノイズの濃さ。
-     ※ 流れの動きはパスB、泡はパスC で足す。今は“静止の断面”だけ。 */
-  /* ★--water-line は “.water を上へ配置する” ためだけに使う（水面を家の足元
-     すぐ下に着地させる）。mask や ::before の top には もう使わない＝二重使用
-     をやめた。これがループ原因だった。実機で 220〜245px の範囲で微調整。 */
   --water-line:   235px;
-  --water-tail:   260px;   /* ★v20の max(420px,70vh) は空きスクロール(void)を増やすだけと判明→260pxに戻す。床が深緑になったので水の下は床が続いて受ける。 */
-  /* ★土台は“不透明”＝後ろのぼかし背景を完全遮断（曇りガラス防止）。
-     透明感・濁り・薄膜は ③ベール(.water::after)で別に乗せる。 */
-  --water-top:    rgb(150,184,158);   /* 水際の明るい sageエメラルド（不透明） */
-  --water-mid:    rgb(104,148,118);   /* メニューが乗る帯（暗くしすぎない・不透明） */
-  --water-deep:   rgb( 50, 88, 70);   /* 底だけ少し深いティールグリーン（不透明） */
+  --water-tail:   260px;   
+  --water-top:    rgb(150,184,158);   
+  --water-mid:    rgb(104,148,118);   
+  --water-deep:   rgb( 50, 88, 70);   
   --wave-amp:     14px;
   --ripple-light: 0.26;
   --ripple-dark:  0.22;
-  --bubble-glow:  0.78;
 }
 
 *{ box-sizing: border-box; }
@@ -104,40 +56,22 @@ html, body{
   margin: 0;
   padding: 0;
 }
-/* 横スクロール封じ。全幅レイヤー＝水(.water 100vw)と seam-mist
-   (.visit-rooms::before 130vw, 今は透明)の左右はみ出しだけを root で
-   切り落とす。見えている絵・水・ボタンは1pxも変わらない（切れるのは
-   画面外＆透明な部分だけ）。PC(150%)・iPhone 両対応。
-   ★要点：hidden を html+body 両方に掛けると、片軸 hidden の副作用で
-   もう片軸(縦)が auto に化け、body がスクロール領域になって絶対配置の
-   水(下に --water-tail はみ出し)を拾い、縦スクロールバーが二重になる。
-   なので body には掛けず、html に clip を使う。clip は scroll コンテナを
-   作らない＝縦は1本のまま・横だけ消える。 */
+
 html{
-  background: rgb(34,62,48);   /* ★深い水の床（body と同値）。iOS のオーバースクロール枠もこの色にして、最下部に汚い緑/白を出さない。 */
-  overflow-x: hidden;   /* 古い環境用フォールバック（html だけなら二重化しない） */
-  overflow-x: clip;     /* 本命：scroll コンテナを作らず横だけクリップ */
-  /* ★v15 横パン封じ：iPhone は overflow-x:clip だけでは指の横スライドが
-     残り、前景(家・メニュー)だけ横に動いて固定背景と剥がれて見えた。
-     touch-action で“横パンというジェスチャ自体”を禁止して根元から殺す。
-     pan-y = 縦スクロールは許可／pinch-zoom = ピンチ拡大は残す(a11y)。
-     overscroll-behavior-x = 横の慣性・バウンドも止める。 */
+  background: rgb(34,62,48);   
+  overflow-x: hidden;   
+  overflow-x: clip;     
   touch-action: pan-y pinch-zoom;
   overscroll-behavior-x: none;
 }
 
 body{
   min-height: 100vh;
-  /* ★v15 横パン封じ（body側）。栞の教訓：body に overflow-x:HIDDEN を掛けると
-     片軸hiddenの副作用で縦が auto に化け、body が水の --water-tail を拾って
-     縦スクロールバーが二重化する。→ 二重化しない CLIP を使う（clip は縦を
-     auto に変えず scroll コンテナも作らない）。ルモ案の方向(body側も止める)は
-     採用しつつ、hidden の地雷だけ回避した形。 */
   max-width: 100%;
   overflow-x: clip;
   touch-action: pan-y pinch-zoom;
   overscroll-behavior-x: none;
-  background: rgb(34,62,48);    /* ★深い水の床。world-backdrop の家を消した今、布の下に最後まで出るのはここ。moss(#4a563a)は水とケンカする汚い緑だったので、水の底より一段深いティールグリーンに変更。スクロール最下部でも「水が深くなって続く」ように見せる。--water-deep(50,88,70)より敢えて暗い＝明るい床に逆転させない。実機で要微調整。 */
+  background: rgb(34,62,48);    
   color: var(--paper);
   font-family: Georgia, "Times New Roman", "Hiragino Mincho ProN", "Yu Mincho", serif;
   display: flex;
@@ -146,108 +80,55 @@ body{
   padding: 0 0 48px;
 }
 
-/* ============================================================
-   THE WORLD BACKDROP (cinematic, CSS-only)
-   ------------------------------------------------------------
-   A softly enlarged, blurred, slightly darkened echo of the
-   SAME house artwork fills the whole landscape screen, so the
-   portrait picture sits inside its own world instead of plain
-   side bars. It is fixed in place, so the foreground house
-   scrolls over it with a natural storybook depth (parallax).
-   The image file is set automatically from IMAGE_FILE in the
-   EDIT HERE box — you never need to edit it here.
-   ============================================================ */
 .world-backdrop{
   position: fixed;
-  inset: -48px;                     /* oversized so blur has no hard edges */
+  inset: -48px;                     
   z-index: -2;
-  background-size: cover;           /* image is set by the script */
-  background-position: center 22%;  /* keep the sunny treetops in view */
+  background-size: cover;           
+  background-position: center 22%;  
   filter: blur(18px) brightness(0.82) saturate(0.92);
   transform: scale(1.08);
   pointer-events: none;
 }
 
-/* quiet light over the backdrop: a sunlit clearing, leaf-shadow
-   dapple at the edges, and a gentle vignette so the eye settles
-   on the house. No purple, no neon — only forest light. */
 .world-veil{
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   background:
-    /* soft sun from above the sign */
     radial-gradient(90% 55% at 50% 0%, rgba(255,248,220,0.18), rgba(0,0,0,0) 60%),
-    /* large, soft leaf shadows drifting in from the corners */
     radial-gradient(40% 34% at 6% 12%,  rgba(26,36,18,0.34), rgba(0,0,0,0) 70%),
     radial-gradient(42% 36% at 96% 8%,  rgba(26,36,18,0.30), rgba(0,0,0,0) 70%),
     radial-gradient(36% 30% at 88% 78%, rgba(26,36,18,0.26), rgba(0,0,0,0) 70%),
-    /* natural vignette toward the edges */
     radial-gradient(120% 90% at 50% 42%, rgba(0,0,0,0) 52%, rgba(22,30,16,0.42) 100%),
-    /* grounding shade at the very bottom */
     linear-gradient(180deg, rgba(0,0,0,0) 78%, rgba(20,28,14,0.35) 100%);
 }
 
-/* ---------- The stage that holds the artwork ---------- */
-/* The window onto the scene: full page width, and it crops away
-   whatever part of the (deliberately oversized) artwork doesn't
-   fit — like looking at a wide theater stage through the screen. */
 .stage-window{
   width: 100%;
   overflow: hidden;
   display: flex;
-  justify-content: center;   /* keep the house centered in the crop */
+  justify-content: center;   
 }
 
 .house-stage{
   position: relative;
-  flex: none;                /* never shrink: overflow IS the design */
-  /* CINEMATIC CROP SIZING:
-     The artwork is rendered LARGER than the screen and centered,
-     so the forest edges crop away and the house itself stands
-     big, with the first view cutting cleanly at the lower row of
-     name plaques (Mr. T / Videos / Lumo). Scrolling reveals the
-     porch, Alex & Daisy, and the garden signs.
-
-       - 285vh: THE CUT DIAL (the main number to tune).
-                285 = the first view ends right at the lower
-                name plaques. 260 = smaller house, cut moves
-                down past the lower windows. 320 = bigger house,
-                cut moves up to the Welcome oval.
-       - 170vw: phone guard — on narrow screens the crop never
-                goes past 1.7x the screen width, so the house
-                always fits nicely on mobile.
-       - 100vw: never smaller than the full screen width. */
+  flex: none;                
   width: max(100vw, min(285vh, 170vw));
-  /* ★足元接地：家全体をほんの少し下げて Daisy/Alex/Giga の足先を水際へ寄せる。
-     transform は描画位置だけ動かす＝後続の .water（水際ぼかし）は不動＝きれいな境界は崩さない。
-     まず 1vh で小さく。足が届かなければ 1.5vh → 2vh へ。上の看板/屋根が窮屈になったら戻す。 */
   transform: translateY(2vh);
 }
 
-/* The artwork itself. Never cropped, aspect ratio preserved. */
 .house-stage img.house-art{
   display: block;
   width: 100%;
   height: auto;
-  /* Dissolve ONLY the picture's lower edge into the blurred world
-     beneath it, so the house meets the forest with no hard line.
-     This masks the image element alone — hotspots, the GIFT word,
-     the garnet and every glow live on separate layers and stay crisp.
-     house.png is not modified in any way. */
   -webkit-mask-image: linear-gradient(to bottom,
             #000 var(--seam-fade-start), transparent 100%);
           mask-image: linear-gradient(to bottom,
             #000 var(--seam-fade-start), transparent 100%);
 }
 
-/* ============================================================
-   HOTSPOTS
-   - Created by JavaScript from the HOTSPOTS list (see EDIT HERE).
-   - Positioned with percentage top/left/width/height so they
-     scale perfectly with the image at any screen size.
-   ============================================================ */
 .hotspot{
   position: absolute;
   display: block;
@@ -257,10 +138,8 @@ body{
   margin: 0;
   cursor: pointer;
   border-radius: 14px;
-  /* keep the artwork visible: the glow lives in ::before */
 }
 
-/* warm inner lamp-light, invisible until hover/focus */
 .hotspot::before{
   content:"";
   position: absolute;
@@ -270,7 +149,7 @@ body{
               rgba(255,217,138,0.95) 0%,
               rgba(255,185,94,0.45) 45%,
               rgba(255,185,94,0.0) 75%);
-  mix-blend-mode: screen;       /* light "adds" onto the painting */
+  mix-blend-mode: screen;       
   opacity: 0;
   transition: opacity 0.45s ease;
   pointer-events: none;
@@ -281,26 +160,22 @@ body{
   opacity: var(--glow-hover-opacity);
 }
 
-/* doors get a slightly fuller, but still gentle, light */
 .hotspot.is-door:hover::before,
 .hotspot.is-door:focus-visible::before{
   opacity: calc(var(--glow-hover-opacity) + 0.15);
 }
 
-/* click: the light swells for a moment */
 .hotspot.is-lit::before{
   opacity: var(--glow-click-opacity) !important;
   transition: opacity 0.18s ease;
 }
 
-/* elegant keyboard focus: a thin candle-gold line */
 .hotspot:focus{ outline: none; }
 .hotspot:focus-visible{
   outline: 2px solid rgba(255,221,160,0.85);
   outline-offset: 3px;
 }
 
-/* small floating name tag that appears on hover/focus */
 .hotspot .hotspot-label{
   position: absolute;
   left: 50%;
@@ -325,7 +200,6 @@ body{
   transform: translateX(-50%) translateY(0);
 }
 
-/* ---------- tiny golden dust motes (created on click) ---------- */
 .dust-mote{
   position: absolute;
   width: 4px;
@@ -342,14 +216,6 @@ body{
   100% { opacity: 0;   transform: translateY(-34px) scale(1.1); }
 }
 
-/* ---------- fairy dust (created by the script) ----------------------
-   Golden-amber magic motes over the scene. Each mote is TWO parts:
-     .fairy-dust  = the invisible carrier that drifts upward in a
-                    gentle S-shaped sway (zig, zag, zig)
-     .fairy-core  = the glowing light itself, which twinkles:
-                    swelling, shrinking, breathing its halo
-   Round motes mix with little four-point star sparkles.
-   All colors/sizes/timings are randomized per mote by the script. */
 .fairy-dust{
   position: absolute;
   pointer-events: none;
@@ -370,7 +236,6 @@ body{
     0 0 calc(var(--size) * 1.6) calc(var(--size) * 0.45) rgba(var(--c2), 0.30);
   animation: fairy-twinkle var(--tw) ease-in-out var(--delay) infinite;
 }
-/* some motes are tiny four-point stars instead of round glows */
 .fairy-dust.is-star .fairy-core{
   border-radius: 0;
   clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%,
@@ -381,7 +246,6 @@ body{
               rgba(var(--c2), 0.2)  100%);
 }
 
-/* the upward S-curve journey: rise, sway right, sway left, fade */
 @keyframes fairy-rise{
   0%   { opacity: 0;
          transform: translate3d(0, 0, 0); }
@@ -395,20 +259,11 @@ body{
          transform: translate3d(0, var(--rise), 0); }
 }
 
-/* the heartbeat of the light: swell, brighten, breathe */
 @keyframes fairy-twinkle{
   0%, 100% { transform: scale(0.65) rotate(0deg);  filter: brightness(0.9); }
   50%      { transform: scale(1.35) rotate(22deg); filter: brightness(1.9); }
 }
 
-/* ============================================================
-   SOCIAL ICON ROW — real-world buttons under the menu.
-   The red YouTube "candy" button lives here now (it used to
-   float over the artwork; the artwork stays art-only).
-   YouTube sits on the LEFT; the open space to its right is
-   reserved for future icons (Instagram, …) from the SOCIAL
-   list in the EDIT HERE box.
-   ============================================================ */
 .menu-social{
   margin-top: 52px;
   padding-top: 32px;
@@ -416,7 +271,7 @@ body{
   display: flex;
   align-items: center;
   gap: 14px;
-  justify-content: flex-start;   /* ← "center" centers the icons */
+  justify-content: flex-start;   
 }
 .social-btn{
   display: inline-flex;
@@ -432,20 +287,18 @@ body{
   outline-offset: 4px;
 }
 
-/* the candy-red YouTube button (same friendly look as before) */
 .social-yt{
   width: 70px;
   height: 48px;
   border-radius: 14px;
   background: linear-gradient(180deg, #ff5347 0%, #e3170a 55%, #c20d04 100%);
   box-shadow:
-    inset 0 2px 3px rgba(255,255,255,0.45),   /* candy highlight   */
-    inset 0 -4px 6px rgba(90,0,0,0.35),       /* underside shading */
-    0 5px 14px rgba(80,15,8,0.45),            /* drop shadow       */
+    inset 0 2px 3px rgba(255,255,255,0.45),   
+    inset 0 -4px 6px rgba(90,0,0,0.35),       
+    0 5px 14px rgba(80,15,8,0.45),            
     0 2px 4px rgba(60,10,5,0.4);
   animation: social-bob 3.6s ease-in-out infinite alternate;
 }
-/* the white play triangle */
 .social-yt::after{
   content:"";
   width: 0;
@@ -456,12 +309,10 @@ body{
   border-left:   15px solid #fffdf6;
   filter: drop-shadow(0 1px 1px rgba(90,0,0,0.4));
 }
-/* gentle bobbing, like a sign swaying on a breeze */
 @keyframes social-bob{
   from { transform: translateY(-2px) rotate(-1.5deg); }
   to   { transform: translateY( 2px) rotate( 1.5deg); }
 }
-/* point at it: a happy lift and a warm halo */
 .social-yt:hover,
 .social-yt:focus-visible{
   animation: none;
@@ -470,42 +321,23 @@ body{
     inset 0 2px 3px rgba(255,255,255,0.5),
     inset 0 -4px 6px rgba(90,0,0,0.3),
     0 8px 20px rgba(80,15,8,0.5),
-    0 0 0 6px rgba(255,224,150,0.35),         /* golden ring  */
-    0 0 26px 8px rgba(255,205,120,0.55);      /* warm halo    */
+    0 0 0 6px rgba(255,224,150,0.35),         
+    0 0 26px 8px rgba(255,205,120,0.55);      
 }
 
-/* ---------- debugging aid: outlines for placing hotspots ----------
-   Turned on/off with SHOW_HOTSPOT_OUTLINES in the JS EDIT HERE box. */
 .show-outlines .hotspot{
   outline: 1px dashed rgba(255,120,120,0.9);
   background: rgba(255,120,120,0.12);
 }
 
-/* ============================================================
-   "VISIT ROOMS" — the main menu under the picture.
-   On phones this is how most visitors actually navigate, so
-   the buttons are big (44px+ tall), clear, and arranged in
-   friendly rows (set row by row in MENU, in the EDIT HERE box).
-   The About button wears the same honey-gold as the painted
-   sign — one plank of the artwork stepping down into the menu.
-   ============================================================ */
 .visit-rooms{
-  position: relative;        /* anchor for the soft seam haze below */
-  isolation: isolate;        /* keep the water layer (z-index:-1) tucked
-                                behind THIS menu, never behind the house */
+  position: relative;        
+  isolation: isolate;        
   width: min(100%, 760px);
-  margin-top: 220px;         /* a long quiet gap: feet → river → calm →
-                                VISIT ROOMS. The picture-book "間" before
-                                the menu. The green water band fills this
-                                gap from above (see --water-line). */
+  margin-top: 220px;         
   padding: 0 16px;
   text-align: center;
 }
-/* a soft breath of mist that sits ON the seam — it reaches a little
-   way up into the picture's faded edge and a little way down into the
-   garden gap, so the join reads as drifting forest haze, not a cut.
-   Painted under the heading/buttons; never blocks a tap. Tune with the
-   --seam-mist* knobs in :root (set --seam-mist:0 to switch it off). */
 .visit-rooms::before{
   content: "";
   position: absolute;
@@ -526,64 +358,24 @@ body{
   to  { transform: translateX(-48%) translateY(5px)  scale(1.05); }
 }
 
-/* ============================================================
-   THE RIVER WATER — built to read as WATER first (rebuild #2).
-   No stripes, no repeating lines. The surface is a "面のゆらぎ":
-   organic mottled green made with SVG feTurbulence noise that
-   drifts slowly. A vertical MASK shapes the whole band, so the
-   green, the ripple noise AND the bubbles all fade out over the
-   feet (nothing is ever painted on the feet or the little dino)
-   and fade out again into a calm gap before the menu. Bubbles
-   rise from the very BOTTOM of the water in gentle columns and
-   dissolve before they reach the feet.
-     .water     — the green band: flat-ish pond colour + the mask.
-     .ripple    — two SVG turbulence layers (light & dark patches)
-                  drifting slowly = the surface undulation. The
-                  filter is computed ONCE and only TRANSFORM moves,
-                  so it stays cheap at 150% zoom. house.png is never
-                  filtered — only this separate water layer is.
-     .bubble    — an air bubble rising from the floor upward.
-   Sits behind the menu (z-index:-1), takes no taps. house.png
-   is untouched. Only the water moves — heading & buttons are still.
-   ============================================================ */
 .water{
   position: absolute;
   left: 50%;
   top: calc(-1 * var(--water-line));
   width: 100vw;
-  /* 水際から下、メニューを抜けてフッターの下まで ずっと水中（断面）。
-     100% = visit-rooms の高さ。その上に water-line、下に tail を足す。 */
   height: calc(var(--water-line) + 100% + var(--water-tail));
   transform: translateX(-50%);
-  z-index: -1;                  /* メニュー（睡蓮の葉）の後ろ */
+  z-index: -1;                  
   pointer-events: none;
   overflow: hidden;
-  /* ① 水の土台＝不透明。一番下に多段の縦グラデ（不透明）で背景を完全遮断し、
-     その上に「上から差す光のプール」と「底の陰」を薄く重ねて、ベタ塗りの
-     “ぺたーっ”を避けつつ奥行きを出す。どの層も不透明ベースの上なので、
-     後ろのぼかし背景は一切透けない（曇りガラスにならない）。 */
   background:
-      /* ── 3層プラン（家の反射→森の反射→深い水底）の「中身」を司る土台 ──
-         旧：泡(白線の素)＋不透明ベタ緑(濁り湯の本丸)。両方とも撤去した。
-         新：上〜中段は“透明”＝下層のルモPNG(森と空の反射)がそのまま水の中身として見える。
-         深部のみ「直線の蓋」でなく、光の届かない水底へシームレスに暗転して床色
-         rgb(34,62,48) に溶け、iOSびろーんを覆う（ジェムの深海）。色変数 --water-* の
-         定義は不変。白線・泡・サンレイ・全幅直線帯は無し。 */
-      /* ※「光プール」radial は撤去。水面の淡い処理は夢のベール(::before)に集約。 */
-      /* 底の方の陰＝深さ（緩いグラデで段差を出さない） */
       radial-gradient(150% 72% at 50% 100%,
           rgba(26, 56, 42, 0.40), rgba(26, 56, 42, 0) 58%),
-      /* 最下層＝バグ隠しの深海。上〜90%は透明（PNGの森が水の中身）。残り約10%だけ
-         床色へシームレスに暗転＝メニューより下(tail帯)で深くなる。直線の蓋にしない。
-         メニューに被って暗くなるようなら 90% をさらに下げる。 */
       linear-gradient(to bottom,
           rgba(34, 62, 48, 0)    0,
           rgba(34, 62, 48, 0)    90%,
           rgba(34, 62, 48, 0.55) 96%,
           rgba(34, 62, 48, 0.9)  100%);
-  /* ★マスクは “.water の上端” 基準で短くフェードするだけ＝水面のすぐ下から
-     不透明。--water-line には依存しない（二重使用をやめた）。これで上の
-     “透明窓”が一気に閉じ、後ろのぼかし背景が透けなくなる＝曇りガラス解消。 */
   --w-mask: linear-gradient(to bottom,
       #000 0,
       #000 10px,
@@ -592,58 +384,41 @@ body{
   -webkit-mask-image: var(--w-mask);
           mask-image: var(--w-mask);
 }
-/* 波打つ水際 — くっきりした白い線ではなく、水中と同系の緑のやわらかい
-   濃淡を波形に重ね、水平の単調さをほどく。強めにぼかして“漫画の線”を
-   回避する（白い foam はパスBで別途）。上端に固定高さで乗るので縦に
-   伸びない。--wave-amp は :root で控えめに。 */
 .water::before{
-  /* ★夢の水面ベール（旧：波SVGの“線”名残を撤去）。細い線でなく、水面直下〜VISIT ROOMS
-     手前まで届く“広く薄い半透明の光の面”。白・水色・薄緑・透明をゆるく混ぜ、下へ自然に消す。
-     z-indexで反射・PNGの上にふわっとかける（薄いので反射もPNGも殺さない）。新レイヤーでは
-     ない＝既存の::beforeを転用。線・サンレイ・曇りガラスにはしない。 */
   content:"";
   position:absolute;
   left:0; right:0;
   top: 0;
-  height: 520px;            /* 水面直下〜VISIT ROOMS手前まで届く広い帯（下端で透明） */
-  z-index: 1;               /* 反射・PNGの上に薄くかぶせる */
+  height: 520px;            
+  z-index: 1;               
   pointer-events:none;
   background: linear-gradient(to bottom,
-      rgba(230,243,238, 0.06) 0,      /* ★水際は薄く＝足元の反射の始点を隠さない（ルモ指定） */
-      rgba(212,231,239, 0.12) 110px,  /* 少し下でベールが効く（薄い水色） */
-      rgba(216,235,223, 0.09) 240px,  /* 薄い緑 */
+      rgba(230,243,238, 0.06) 0,      
+      rgba(212,231,239, 0.12) 110px,  
+      rgba(216,235,223, 0.09) 240px,  
       rgba(216,235,223, 0.04) 380px,
-      rgba(216,235,223, 0)    520px); /* VISIT ROOMS手前で消える */
-  filter: blur(6px);        /* 縞・名残を溶かす＝硬い線にしない */
+      rgba(216,235,223, 0)    520px); 
+  filter: blur(6px);        
 }
-/* ④ 水面の主素材（実写の水面写真）──────────────────────────────
-   旧：house.png をCSSで上下反転して水面に見せる“パーフェクト・ミラー”。
-   →単純反転のパース限界のため【完全撤去】。house.png参照・scaleY(-1)・
-   旧反射mask/opacity/position/size はすべて削除（コメントアウト保存もしない）。
-   新：実写の水面素材 water_surface_ripple_photo_v1.png（2059×764）を“水面の主素材”
-   として敷く。担当は反射の正確さではなく、水面のリアリティ・揺らぎ・光・色。
-   幅は前景の家(.house-stage)と同一式にハードリンク＝cover不使用で全端末スケール一致。
-   継ぎ目（上の家との水際）は上端maskのフェードイン＋既存の夢ベール(::before)で隠す。
-   ※第一段階＝この1枚だけ。house.png由来の反射ガイドはまだ足さない。
-   実機で：強すぎ→opacity/blur下げる、薄すぎ→opacity上げる（判定はナコロン）。 */
+/* ④ 水面の主素材（実写の水面写真）────────────────────────────── */
 .water::after{
   content:"";
   position:absolute;
   top: 0;
   left: 50%;
-  width: max(100vw, min(285vh, 170vw));                  /* ★家とハードリンク（cover廃止・全端末でスケール一致） */
-  height: calc(max(100vw, min(285vh, 170vw)) * 0.3711);  /* 新画像アスペクト 764/2059＝要素にぴったり収まる */
-  transform: translateX(-50%);                           /* ★scaleY(-1)削除＝反転しない（もう鏡ではない） */
+  width: max(100vw, min(285vh, 170vw));                  
+  height: calc(max(100vw, min(285vh, 170vw)) * 0.3711);  
+  transform: translateX(-50%);                           
   pointer-events:none;
   background-image: url("water_surface_ripple_photo_v1.png");
-  background-size: 110% auto;                             /* ★1.10倍に拡大（cover不使用／position:center topで上端中央基準＝足元を保持したまま像を大きく） */
+  background-size: 110% auto;                             
   background-position: center top;
   background-repeat: no-repeat;
-  filter: blur(2px) brightness(0.97) saturate(0.95);     /* ★軽く馴染ませるだけ（白い霧・灰色の汚れにしない） */
+  
+  /* ★ビックリハウス（横スライド）を廃止し、さらさら川用の弱い屈折フィルターを適用 */
+  filter: blur(1.5px) brightness(0.97) saturate(0.95) url(#real-water-ripple);     
   opacity: 0.8;
-  /* 上端(=家との継ぎ目/水際)はごく短く薄フェード＝接合線だけ隠す。足元反射(上端すぐ下)は
-     消さずに見せる（ナコロン：接合線は隠す・でも足元は消さない）。中段で水面をしっかり見せ、
-     下端で透明に消して中層PNG・水底へ溶かす。線・サンレイ・全幅一様帯は無し。 */
+  
   -webkit-mask-image: linear-gradient(to bottom,
       transparent      0,
       rgba(0,0,0,0.70) 16px,
@@ -657,27 +432,18 @@ body{
       rgba(0,0,0,0.92) 64%,
       transparent      100%);
 }
-/* ④.5 中層＝水中の反射画像（空と森が水面下に映る）──────────────────
-   不透明土台(④)の上・既存rippleの手前に敷く専用レイヤー。★水面エッジでは
-   ない＝下の大きな緑エリアを「冥界/背景板」から「空と森が映る浅い水」へ
-   近づける。中身は別素材 water_reflection_sky_forest.png（house.png の加工
-   ではない・家/Alex/Daisy/GIFT/卵/看板/文字なし・空/雲/緑/黄緑/金/ティール
-   の抽象反射）。house.png や .world-backdrop は反射のネタ元にしない。
-   不透明土台の上に乗るので後ろのぼかし背景は透けない（曇りガラスに戻らない）。
-   今は静止（動きは後工程）。実機で：強すぎ→opacity下げる／弱すぎ→上げる。
-   mask で水際を溶かす（自前mask＋.water上端maskの二重がけでなじむ）。
-   色ロック(--water-*)には一切触れていない。*/
+
 .water-reflection-image{
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: url("water_reflection_sky_forest.png.png");  /* ★実ファイルは二重拡張子(.png.png)。旧 .png(単) は404でPNGがずっと表示されず＝緑のまま見えた本当の原因。これは美術調整でなくファイル名修正。 */
+  z-index: 0;
+  background-image: url("water_reflection_sky_forest.png.png");  
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
-  opacity: 0.62;            /* ★ナコロン：画面下を明るく＝ルモPNGの鮮やかな色をしっかり出す（前回0.52は控えめすぎた）。上の鏡面(::after)は別レイヤー＝鏡面の色・明るさは不変。 */
-  filter: saturate(1.02) brightness(1.18) blur(1.6px);  /* ★下層をはっきり明るく鮮やか（モネ調）。maskは滑らかなまま＝明暗の段差線は出ない。強すぎたら brightness/opacity を下げる。 */
-  /* 上は反射が勝つ・中〜下でPNGの森色が出る。 */
+  opacity: 0.74;            
+  filter: saturate(1.16) brightness(0.94) contrast(1.08) blur(1.4px);  
   -webkit-mask-image: linear-gradient(to bottom,
       rgba(0,0,0,0.05) 0,
       rgba(0,0,0,0.24) 120px,
@@ -689,61 +455,192 @@ body{
       rgba(0,0,0,0.50) 260px,
       rgba(0,0,0,0.62) 100%);
 }
-/* the two drifting noise layers = the surface "面のゆらぎ".
-   Oversized so the slow drift never exposes an edge. */
+
+/* 下だけ別の生き物みたいに動くのはやめる。
+   今回は水面全体をひとつの川として見せたいので、個別うねり層は停止。 */
+.lower-water-undulate,
+.lower-water-undulate::after{
+  display:none;
+}
+
 .ripple{
   position: absolute;
   left: -20%; top: -10%;
   width: 140%; height: 120%;
   pointer-events: none;
-  /* パスA = 静止。流れ（ドリフト）はパスB で足す。今はノイズを薄く敷いて
-     水中の有機的な濃淡を作り、ベタ塗りの段差（マッハバンド）を防ぐだけ。 */
+  z-index: 2;
+  mix-blend-mode: soft-light;
+  will-change: transform;
 }
-.ripple-a{ opacity: var(--ripple-light, 0.26); }
-.ripple-b{ opacity: var(--ripple-dark, 0.22); }
+.ripple-a{
+  opacity: 0.34;
+  animation: rippleA 16s linear infinite;
+}
+.ripple-b{
+  opacity: 0.24;
+  animation: rippleB 23s linear infinite reverse;
+}
 @keyframes rippleA{
   from{ transform: translate3d(0, 0, 0); }
-  to  { transform: translate3d(-4%, 3%, 0); }   /* lazy, organic drift */
+  to  { transform: translate3d(-12%, 2%, 0); }
 }
 @keyframes rippleB{
   from{ transform: translate3d(0, 0, 0); }
-  to  { transform: translate3d(4%, -2%, 0); }   /* the other way = it morphs */
+  to  { transform: translate3d(10%, -2%, 0); }
 }
-/* an air bubble rising from the FLOOR of the water upward. It is born
-   at bottom:0 (the depths, where the mask is still transparent) and
-   becomes visible as it climbs into the green, dissolving before it
-   reaches the feet. Travels a real PIXEL distance (--rise). */
-.bubble{
+
+/* 川のせせらぎと光の反射。
+   サインポール錯視版：横方向には動かさず、Y方向だけ動かす。
+   これで横タイルの継ぎ目による「I」縦線を出さない。 */
+.river-current {
   position: absolute;
-  left: 0;
-  bottom: var(--b-bottom, 0%);   /* the water floor */
-  width: var(--bsize);
-  height: var(--bsize);
-  border-radius: 50%;
-  background: radial-gradient(circle at 38% 32%,
-      rgba(244,250,242, var(--bubble-glow)) 0%,
-      rgba(214,232,216, calc(var(--bubble-glow) * 0.40)) 48%,
-      rgba(200,214,202, 0) 72%);
-  opacity: 0;
-  will-change: transform, opacity;
-  animation: bubbleRise var(--bdur) ease-in forwards;
+  inset: -8px 0 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0.84;
+  mix-blend-mode: screen;
+  filter: blur(0.72px) saturate(1.08) url(#gentle-river-undulate);
+  overflow: hidden;
+
+  background:
+    repeating-linear-gradient(5deg,
+      rgba(255,255,255,0) 0 10px,
+      rgba(215,255,238,0.00) 14px,
+      rgba(215,255,238,0.052) 18px,
+      rgba(255,238,184,0.074) 23px,
+      rgba(215,255,238,0.044) 28px,
+      rgba(255,255,255,0.00) 34px),
+    repeating-linear-gradient(-4deg,
+      rgba(255,255,255,0) 0 14px,
+      rgba(197,236,255,0.00) 18px,
+      rgba(197,236,255,0.046) 23px,
+      rgba(224,255,235,0.060) 28px,
+      rgba(197,236,255,0.036) 33px,
+      rgba(255,255,255,0.00) 40px);
+
+  /* 横幅ピクセル指定をやめて、一枚布にする */
+  background-size: 100% 100%, 100% 100%;
+  background-position: 0 0, 0 0;
+  background-repeat: repeat-y;
+
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0,
+      rgba(0,0,0,0.16) 14px,
+      rgba(0,0,0,0.56) 52px,
+      rgba(0,0,0,0.62) 34%,
+      rgba(0,0,0,0.54) 68%,
+      rgba(0,0,0,0.34) 90%,
+      transparent 100%);
+          mask-image: linear-gradient(to bottom,
+      transparent 0,
+      rgba(0,0,0,0.16) 14px,
+      rgba(0,0,0,0.56) 52px,
+      rgba(0,0,0,0.62) 34%,
+      rgba(0,0,0,0.54) 68%,
+      rgba(0,0,0,0.34) 90%,
+      transparent 100%);
+
+  animation: riverCurrentDrift 680s linear infinite;
 }
-@keyframes bubbleRise{
-  0%  { transform: translate(0, 0) scale(0.6); opacity: 0; }
-  10% { opacity: 1; }
-  55% { transform: translate(var(--sway), calc(var(--rise) * -0.55)) scale(1); }
-  85% { transform: translate(calc(var(--sway) * -0.6), calc(var(--rise) * -0.85)) scale(1.05); opacity: 0.9; }
-  100%{ transform: translate(0, calc(var(--rise) * -1)) scale(1.1); opacity: 0; }
+
+/* 同じ川の流れを薄く重ねて、きらめきの密度を作る。
+   これも横には動かさない。 */
+.river-current::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:0.42;
+  mix-blend-mode:screen;
+  background:
+    repeating-linear-gradient(4deg,
+      rgba(255,255,255,0) 0 12px,
+      rgba(220,255,240,0.00) 16px,
+      rgba(220,255,240,0.040) 20px,
+      rgba(255,240,190,0.058) 26px,
+      rgba(220,255,240,0.034) 31px,
+      rgba(255,255,255,0.00) 38px),
+    repeating-linear-gradient(-3deg,
+      rgba(255,255,255,0) 0 18px,
+      rgba(190,232,255,0.00) 22px,
+      rgba(190,232,255,0.038) 27px,
+      rgba(224,255,235,0.050) 32px,
+      rgba(190,232,255,0.030) 36px,
+      rgba(255,255,255,0.00) 44px);
+  background-size: 100% 100%, 100% 100%;
+  background-position: 0 0, 0 0;
+  background-repeat: repeat-y;
+  filter: blur(1.15px);
+  animation: riverCurrentFill 840s linear infinite;
 }
+
+/* 下の方でも同じ川の流れが分かるように、下半分だけ少し強調。
+   ここも横方向には動かさないので、縦の継ぎ目は出ない。 */
+.river-current::after{
+  content:"";
+  position:absolute;
+  left:-4%; right:-4%; top:40%; bottom:-4%;
+  pointer-events:none;
+  opacity:0.88;
+  mix-blend-mode:screen;
+  background:
+    repeating-linear-gradient(5deg,
+      rgba(255,255,255,0) 0 12px,
+      rgba(220,255,240,0.00) 16px,
+      rgba(220,255,240,0.080) 21px,
+      rgba(255,238,184,0.062) 26px,
+      rgba(220,255,240,0.048) 31px,
+      rgba(255,255,255,0.00) 38px),
+    repeating-linear-gradient(-4deg,
+      rgba(255,255,255,0) 0 16px,
+      rgba(190,232,255,0.00) 20px,
+      rgba(190,232,255,0.060) 25px,
+      rgba(224,255,235,0.042) 30px,
+      rgba(190,232,255,0.034) 34px,
+      rgba(255,255,255,0.00) 42px);
+  background-size: 100% 100%, 100% 100%;
+  background-position: 0 0, 0 0;
+  background-repeat: repeat-y;
+  filter: blur(0.82px);
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0,
+      rgba(0,0,0,0.24) 12px,
+      rgba(0,0,0,0.72) 34%,
+      rgba(0,0,0,0.84) 74%,
+      transparent 100%);
+          mask-image: linear-gradient(to bottom,
+      transparent 0,
+      rgba(0,0,0,0.24) 12px,
+      rgba(0,0,0,0.72) 34%,
+      rgba(0,0,0,0.84) 74%,
+      transparent 100%);
+  animation: riverCurrentLowerDrift 620s linear infinite;
+}
+
+@keyframes riverCurrentDrift {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 0 18000px, 0 -14000px; }
+}
+
+@keyframes riverCurrentFill {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 0 22000px, 0 -16000px; }
+}
+
+@keyframes riverCurrentLowerDrift {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 0 17000px, 0 -13000px; }
+}
+
+/* 旧演出の発生処理は残していません。 */
 
 .visit-rooms h2{
   font-family: 'Baloo 2', system-ui, -apple-system, sans-serif;
   font-size: clamp(1.7rem, 5.2vw, 2.5rem);
   font-weight: 700;
-  letter-spacing: 0.10em;       /* heavy face, so keep tracking modest */
-  margin: 0 0 40px;             /* a quiet pause under the heading */
+  letter-spacing: 0.10em;       
+  margin: 0 0 40px;             
 
-  /* gold gradient text with a sheen that slowly drifts across */
   background: linear-gradient(100deg,
       #e6bd63 0%, #f4d896 26%, #fff7e6 46%,
       #f4d896 62%, #ddac52 100%);
@@ -752,8 +649,6 @@ body{
           background-clip: text;
   -webkit-text-fill-color: transparent;
           color: transparent;
-  /* depth + warm halo (replaces the old flat text-shadow, which can't
-     show through clipped text) */
   filter: drop-shadow(0 1px 1px rgba(54,36,10,0.6))
           drop-shadow(0 0 14px var(--vr-glow));
   animation: vrShimmer var(--vr-shimmer-speed) linear infinite;
@@ -763,7 +658,7 @@ body{
 }
 .visit-rooms h2::before,
 .visit-rooms h2::after{
-  content:"\2726";                 /* ✦ — same star the gold About button uses */
+  content:"\2726";                 
   -webkit-text-fill-color: initial;
   color: rgba(255,224,150,0.92);
   text-shadow: 0 0 8px rgba(255,196,110,0.6);
@@ -772,17 +667,14 @@ body{
   vertical-align: 0.16em;
 }
 
-/* one .menu-row per line of buttons — set apart like plaques
-   spaced out along a garden path, not packed in a panel */
 .menu-row{
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   justify-content: center;
-  margin: 0 0 26px;          /* generous step between rows */
+  margin: 0 0 26px;          
 }
 
-/* the standard worn-paper button — bigger and easy to tap */
 .menu-btn{
   display: inline-flex;
   align-items: center;
@@ -812,7 +704,6 @@ body{
   outline-offset: 2px;
 }
 
-/* THE ABOUT BUTTON — honey-gold, like the big painted sign */
 .menu-btn.menu-feature{
   min-height: 54px;
   padding: 12px 26px;
@@ -824,14 +715,13 @@ body{
   border-radius: 14px;
   text-shadow: 0 1px 0 rgba(255,243,200,0.65);
   box-shadow:
-    inset 0 2px 2px rgba(255,246,205,0.8),    /* sunlit top edge   */
-    inset 0 -3px 5px rgba(125,75,15,0.3),     /* carved underside  */
+    inset 0 2px 2px rgba(255,246,205,0.8),    
+    inset 0 -3px 5px rgba(125,75,15,0.3),     
     0 3px 12px rgba(15,22,10,0.45);
 }
-/* little sparkles on both sides (decorative only) */
 .menu-btn.menu-feature::before,
 .menu-btn.menu-feature::after{
-  content:"\2726";                 /* ✦ */
+  content:"\2726";                 
   font-size: 0.78em;
   color: rgba(110,68,14,0.9);
 }
@@ -847,32 +737,31 @@ body{
   transform: translateY(-1px);
 }
 
-/* ---------- footer whisper ---------- */
 .page-footer{
   margin-top: 72px;
   font-family: 'Baloo 2', system-ui, -apple-system, sans-serif;
   font-size: clamp(0.98rem, 2.7vw, 1.18rem);
   font-weight: 500;
   letter-spacing: 0.05em;
-  color: rgba(250,244,230,0.94);   /* a touch brighter so it reads cleanly */
+  color: rgba(250,244,230,0.94);   
   text-shadow: 0 1px 3px rgba(20,28,14,0.92), 0 0 10px rgba(20,28,14,0.45);
-  font-style: normal;              /* drop the script-y italic */
+  font-style: normal;              
   text-align: center;
 }
 
-/* ============================================================
-   REDUCED MOTION
-   - No dust motes, no label slide; glow becomes a simple fade.
-   ============================================================ */
 @media (prefers-reduced-motion: reduce){
   .dust-mote{ display: none !important; }
   .fairy-dust{ display: none !important; }
   .social-btn{ animation: none; }
   .visit-rooms h2{ animation: none; background-position: 50% center; }
   .visit-rooms::before{ animation: none; }
-  /* still water: keep the green band so the composition still reads,
-     but stop every motion. JS skips bubbles already. */
   .ripple{ animation: none; }
+  .river-current,
+  .river-current::before,
+  .river-current::after,
+  .lower-water-undulate{ animation: none; }
+  .river-current{ opacity: 0.54; }
+  .lower-water-undulate{ opacity: 0; }
   .hotspot::before,
   .hotspot .hotspot-label,
   .menu-btn{
@@ -881,50 +770,31 @@ body{
   }
 }
 
-/* ---------- small screens ---------- */
 @media (max-width: 600px){
   body{ padding: 0 0 48px; }
   .hotspot .hotspot-label{ font-size: 0.65rem; padding: 3px 9px; }
 
-  /* MOBILE — the menu is a garden of plaques, not a packed panel.
-     Narrow the group and center it so the forest shows on both
-     sides, and keep the generous vertical air (scrolling is fine). */
   .visit-rooms{
     width: 88vw;
     max-width: 360px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 150px;         /* the quiet gap on mobile too: feet →
-                                  river → calm → menu (scrolling is fine) */
-    --water-line: 165px;       /* モバイルは家〜メニューの間が狭いぶん水際も上へ */
-    --water-tail: 240px;   /* ★max(720px,110vh)が「びよーん」の主因→240pxに戻す。水の下は深緑の床が受ける。 */
+    margin-top: 150px;         
+    --water-line: 165px;       
+    --water-tail: 240px;   
     padding: 0;
   }
   .visit-rooms h2{ margin-bottom: 34px; }
   .menu-row{ margin-bottom: 22px; }
-  /* buttons size to their content again (no full-row stretch);
-     min-height in the base CSS keeps them comfortably tappable */
   .menu-btn{ flex: 0 1 auto; }
   .menu-social{ margin-top: 46px; padding-top: 30px; }
   .page-footer{ margin-top: 60px; }
 
-  /* on phones the house fills the screen, so the backdrop barely
-     shows — use a cheaper blur to keep scrolling silky */
   .world-backdrop{ filter: blur(10px) brightness(0.82); }
 }
-/* ============================================================
-   GIFT BOX  (the little wooden treasure chest, lower right)
-   ------------------------------------------------------------
-   The chest is a hotspot that leads to gift.html. The word GIFT
-   and a small garnet are laid on the chest's blank wooden panel
-   with CSS / SVG only — the artwork (house.png) is never touched.
-   Position is tuned with giftLeft / giftTop / giftTilt in the
-   EDIT HERE box, so it can be nudged in one line.
-   ============================================================ */
+
 .hotspot.is-gift{ container-type: inline-size; }
 
-/* the face laid on the wooden panel: GIFT stacked over the garnet.
-   The whole face is rotated to sit flat on the chest's perspective. */
 .gift-face{
   position: absolute;
   left: 50%;
@@ -934,36 +804,32 @@ body{
   flex-direction: column;
   align-items: center;
   gap: 4cqw;
-  pointer-events: none;          /* the whole chest handles the click */
+  pointer-events: none;          
   text-align: center;
   line-height: 1;
 }
 
-/* GIFT — carved / branded into the tan wood of the panel */
 .gift-word{
   font-family: Georgia, "Times New Roman", "Hiragino Mincho ProN", "Yu Mincho", serif;
   font-weight: 700;
-  font-size: 17cqw;              /* scales with the chest, not the screen */
+  font-size: 17cqw;              
   letter-spacing: 0.16em;
   margin-right: -0.16em;
-  color: #3a2414;               /* burnt-umber carving */
+  color: #3a2414;               
   text-shadow:
      0 1px 0   rgba(255,243,214,0.40),
      0 -1px 1px rgba(36,18,8,0.55);
   transition: color .35s ease, text-shadow .35s ease;
 }
 
-/* the garnet: a faceted gem in SVG — bigger now, with a faint,
-   slow twinkle so it catches the eye ("what's that?") */
 .gift-gem{
   display: block;
-  width: 20cqw;                  /* a touch larger — easy to spot */
+  width: 20cqw;                  
   height: auto;
   overflow: visible;
   filter:
      drop-shadow(0 1px 2px rgba(20,4,8,0.60))
      drop-shadow(0 0 5px rgba(235,55,75,0.85));
-  /* the gem glows like a lit crystal and pulses — clearly visible */
   animation: gemBreath 2.4s ease-in-out infinite;
 }
 @keyframes gemBreath{
@@ -975,8 +841,6 @@ body{
      drop-shadow(0 0 12px rgba(255,80,100,1))
      drop-shadow(0 0 22px rgba(235,55,75,0.55)); }
 }
-/* a wide gloss bar sweeps across the gem every couple of seconds —
-   a real moving reflection, not a whisper */
 .gift-gem .gem-shine{
   opacity: 0;
   animation: gemFlash 2s ease-in-out infinite;
@@ -997,8 +861,6 @@ body{
   50%      { opacity: 1;    transform: scale(1.45); }
 }
 
-/* wake-up: the word warms and a single bright sweep crosses the
-   garnet on hover / focus / tap */
 .hotspot.is-gift:hover .gift-word,
 .hotspot.is-gift:focus-visible .gift-word,
 .hotspot.is-gift.is-lit .gift-word{
@@ -1029,36 +891,54 @@ body{
 </head>
 <body>
 
-<!-- ============================================================
-     THE WORLD BACKDROP — a blurred, darkened echo of the SAME
-     artwork fills the landscape screen behind the house, plus a
-     veil of forest light and vignette. Both are decorative only.
-     The picture used here follows IMAGE_FILE automatically.
-     ============================================================ -->
+<svg style="width:0; height:0; position:absolute;" aria-hidden="true" focusable="false">
+  <!-- さらさら川用の屈折フィルター。
+       旧版の海っぽい丸いうねりではなく、横長の細い筋にして弱く揺らす。 -->
+  <filter id="real-water-ripple" x="-8%" y="-8%" width="116%" height="116%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.002 0.08" numOctaves="2" result="noise">
+      <animate attributeName="baseFrequency" values="0.002 0.08; 0.003 0.10; 0.002 0.08" dur="8s" repeatCount="indefinite" />
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+  </filter>
+
+  <!-- 川全体にかける、ごく薄いうねり。
+       流れは保ったまま、ほんの少しだけ水らしい揺れを足す。 -->
+  <filter id="gentle-river-undulate" x="-8%" y="-8%" width="116%" height="116%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.0032 0.022" numOctaves="2" seed="5" result="gentleNoise">
+      <animate attributeName="baseFrequency" values="0.0038 0.026; 0.0048 0.033; 0.0042 0.028; 0.0038 0.026" dur="6.4s" repeatCount="indefinite" />
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="gentleNoise" scale="3.6" xChannelSelector="R" yChannelSelector="G">
+      <animate attributeName="scale" values="3.8; 5.4; 4.5; 3.8" dur="6.4s" repeatCount="indefinite" />
+    </feDisplacementMap>
+  </filter>
+
+  <!-- 下部専用のうねりフィルター。
+       上の水際は守り、緑〜水中反射だけを少し大きめに揺らす。 -->
+  <filter id="lower-water-undulate-filter" x="-14%" y="-14%" width="128%" height="128%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.004 0.024" numOctaves="2" seed="11" result="lowerNoise">
+      <animate attributeName="baseFrequency"
+               values="0.004 0.024; 0.008 0.034; 0.006 0.028; 0.004 0.024"
+               dur="6.8s" repeatCount="indefinite" />
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="lowerNoise" scale="12" xChannelSelector="R" yChannelSelector="G">
+      <animate attributeName="scale" values="10; 20; 14; 18; 10" dur="6.8s" repeatCount="indefinite" />
+    </feDisplacementMap>
+  </filter>
+</svg>
+
 <div class="world-backdrop" id="worldBackdrop" aria-hidden="true"></div>
 <div class="world-veil" aria-hidden="true"></div>
 
-<!-- ============================================================
-     THE STAGE — the artwork itself is the homepage.
-     No extra title above it; the painted sign is the title.
-     To change the picture, see IMAGE_FILE in the EDIT HERE box.
-     ============================================================ -->
 <div class="stage-window">
 <main class="house-stage" id="houseStage" aria-label="The Alex and Daisy storybook house. Interactive windows and doors.">
   <img class="house-art" id="houseArt"
        src="house.png"
        alt="A handmade storybook house in a sunlit forest garden. Each window belongs to a friend: Alex, Daisy, Giga, Mr. T, and Lumo. The door leads to the videos, with signs for downloads and contact among the flowers.">
-  <!-- hotspots are inserted here by the script below -->
 </main>
-</div><!-- /stage-window -->
+</div>
 
-<!-- ============================================================
-     VISIT ROOMS — the main menu (built from MENU in EDIT HERE),
-     plus the social icon row (built from SOCIAL). On phones,
-     this is the navigation most visitors actually use.
-     ============================================================ -->
 <nav class="visit-rooms" aria-label="Visit rooms">
-  <div class="water" id="waterLayer" aria-hidden="true"><div class="water-reflection-image" aria-hidden="true"></div><svg class="ripple ripple-a" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwA" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.009 0.020" numOctaves="2" seed="7" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.80  0 0 0 0 0.87  0 0 0 0 0.82  0 0 0 0.9 -0.42"/><feGaussianBlur stdDeviation="1.3"/></filter><rect width="100%" height="100%" filter="url(#rwA)"/></svg><svg class="ripple ripple-b" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwB" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.026" numOctaves="2" seed="23" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.15  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.8 -0.34"/><feGaussianBlur stdDeviation="1.6"/></filter><rect width="100%" height="100%" filter="url(#rwB)"/></svg></div>
+  <div class="water" id="waterLayer" aria-hidden="true"><div class="water-reflection-image" aria-hidden="true"></div><div class="lower-water-undulate" aria-hidden="true"></div><svg class="ripple ripple-a" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwA" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.009 0.020" numOctaves="2" seed="7" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.80  0 0 0 0 0.87  0 0 0 0 0.82  0 0 0 0.9 -0.42"/><feGaussianBlur stdDeviation="1.3"/></filter><rect width="100%" height="100%" filter="url(#rwA)"/></svg><svg class="ripple ripple-b" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwB" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.026" numOctaves="2" seed="23" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.15  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.8 -0.34"/><feGaussianBlur stdDeviation="1.6"/></filter><rect width="100%" height="100%" filter="url(#rwB)"/></svg><div class="river-current" aria-hidden="true"></div></div>
   <h2>VISIT&nbsp;ROOMS</h2>
   <div id="menuRows"></div>
   <div class="menu-social" id="menuSocial"></div>
@@ -1074,66 +954,22 @@ body{
    ║                                                              ║
    ║   ★★★  EDIT HERE  ★★★                                        ║
    ║                                                              ║
-   ║   Everything you normally need to change lives in this box: ║
-   ║   the image file, every link, every label, every position,  ║
-   ║   and the glow strength. You should not need to touch       ║
-   ║   anything below the "ENGINE" line.                         ║
-   ║                                                              ║
    ╚══════════════════════════════════════════════════════════════╝ */
 
-/* 1) THE PICTURE -------------------------------------------------
-      Put your image in the same folder as this file and write its
-      filename here. */
 const IMAGE_FILE = "house.png";
 
-
-/* 2) HOTSPOT POSITIONING HELP ------------------------------------
-      Set this to true to see red dashed boxes over the image while
-      you adjust positions. Set back to false when you're done. */
 const SHOW_HOTSPOT_OUTLINES = false;
 
-
-/* 3) GLOW STRENGTH -----------------------------------------------
-      0 = invisible, 1 = strongest. Gentle values look best. */
 const GLOW = {
-  hover: 0.55,   // warm light when pointing at a window
-  click: 0.90    // brighter swell at the moment of a click
+  hover: 0.55,   
+  click: 0.90    
 };
 
-
-/* 3a) FAIRY DUST ---------------------------------------------------
-      Golden-amber magic motes that twinkle, breathe, and sway
-      upward over the scene. Set enabled to false to turn off. */
 const SPARKLES = {
   enabled: true,
-  count: 22        // how many motes (14 = calm, 30 = festival)
+  count: 22        
 };
 
-
-/* 4) THE HOTSPOTS ------------------------------------------------
-      One entry per clickable spot on the picture.
-
-      top / left / width / height are PERCENTAGES of the image,
-      so they stay in place on every screen size.
-        - top:  distance from the TOP edge of the picture
-        - left: distance from the LEFT edge of the picture
-
-      HOW TO ADJUST A POSITION:
-        a) set SHOW_HOTSPOT_OUTLINES = true (above)
-        b) open the page and look at the red boxes
-        c) nudge the numbers until each box sits on its window
-        d) set SHOW_HOTSPOT_OUTLINES = false again
-
-      "type" changes the feel slightly:
-        "window"  – normal gentle glow
-        "door"    – a touch stronger glow
-        "sign"    – normal glow
-        "motes"   – how many dust motes appear on click (optional,
-                    defaults to 6)
-
-      NOTE: these positions were measured against the real
-      artwork (the portrait house picture). If anything is a
-      little off, nudge the numbers with the red outlines on. */
 const HOTSPOTS = [
   {
     name: "Alex window",
@@ -1194,22 +1030,16 @@ const HOTSPOTS = [
   },
   {
     name: "Gift box",
-    label: "",                /* "" = no floating tag; GIFT is laid on the panel */
+    label: "",                
     aria: "Open the gift box",
-    href: "gift.html",        /* a small real page — never a dead link */
+    href: "gift.html",        
     type: "gift",
-    /* the whole chest is the click target */
     top: 79,   left: 66.2, width: 7.4, height: 17,
-    /* GIFT + garnet position, as % INSIDE the chest box.
-       giftTilt tilts the text to match the chest's panel: the
-       panel's top edge runs slightly DOWN to the right, so a small
-       POSITIVE tilt makes the word sit flat instead of pasted-on.
-       Nudge giftLeft / giftTop / giftTilt while watching the page. */
     giftLeft: 49.5, giftTop: 71, giftTilt: 1.5
   },
   {
     name: "Alex & Daisy top sign",
-    label: "",                /* "" = no floating tag; the painted sign speaks for itself */
+    label: "",                
     aria: "Alex and Daisy home sign",
     href: "#top",
     type: "sign",
@@ -1217,17 +1047,6 @@ const HOTSPOTS = [
   }
 ];
 
-
-/* 5) THE MENU ----------------------------------------------------
-      The "VISIT ROOMS" menu under the picture, arranged ROW BY
-      ROW: each inner [ ... ] is one row of buttons, top to
-      bottom. To move a button, just move its line.
-        label   = the words on the button
-        href    = where it goes. "#about" etc. are placeholders
-                  until the real pages exist. Full "https://"
-                  links open in a new tab automatically.
-        aria    = what screen readers announce
-        feature = true gives the big honey-gold style (About) */
 const MENU = [
   [ { label: "About Alex & Daisy", href: "about.html",
       aria: "About Alex and Daisy", feature: true } ],
@@ -1251,12 +1070,6 @@ const MENU = [
       aria: "Enter the Fun Room" } ]
 ];
 
-
-/* 6) SOCIAL ICONS ------------------------------------------------
-      The icon row under the menu. YouTube sits on the left; the
-      open space to its right is saved for future icons
-      (Instagram, …). "kind" picks the icon look — only
-      "youtube" exists so far. */
 const SOCIAL = [
   { kind: "youtube",
     href: "https://www.youtube.com/@alexanddaisy2022",
@@ -1264,13 +1077,9 @@ const SOCIAL = [
 ];
 
 /* ╔══════════════════════════════════════════════════════════════╗
-   ║   END OF "EDIT HERE".                                        ║
-   ║   Below is the ENGINE — it just builds the page from the     ║
-   ║   list above. You normally never need to change it.          ║
+   ║   ENGINE                                                     ║
    ╚══════════════════════════════════════════════════════════════╝ */
 
-
-/* ----------------------- THE ENGINE ----------------------------- */
 (function () {
   "use strict";
 
@@ -1280,12 +1089,6 @@ const SOCIAL = [
   const reducedMotion =
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* --- the garnet on the gift box: a faceted gem drawn in SVG.
-         Light core fading to a dark pavilion gives it depth (it
-         reads as translucent, not a flat stone); a few facets catch
-         light, three tiny sparkles twinkle slowly, and a bright bar
-         sweeps across on hover / tap. Only one gem exists, so the
-         gradient / clip ids are safe to hard-code. --- */
   const GEM_SVG =
     '<defs>' +
       '<radialGradient id="gemBody" cx="42%" cy="30%" r="78%">' +
@@ -1300,30 +1103,21 @@ const SOCIAL = [
       '</linearGradient>' +
       '<clipPath id="gemClip"><polygon points="12,1 21,9.5 12,23 3,9.5"/></clipPath>' +
     '</defs>' +
-    /* glassy body: bright core fading to deep red = crystal depth */
     '<polygon points="12,1 21,9.5 12,23 3,9.5" fill="url(#gemBody)"/>' +
-    /* deep pavilion shadows (lower half) for 3-D glass volume */
     '<polygon points="3,9.5 12,11 12,23"  fill="#2c0710" fill-opacity="0.62"/>' +
     '<polygon points="21,9.5 12,11 12,23" fill="#1c050c" fill-opacity="0.66"/>' +
-    /* faint crown facet seams */
     '<polygon points="12,1 8.6,8 12,4"  fill="#ff7a90" fill-opacity="0.45"/>' +
     '<polygon points="12,1 12,4 15.4,8" fill="#7c1622" fill-opacity="0.40"/>' +
-    /* BIG top gloss — the sheen that reads as polished crystal */
     '<polygon points="12,1.5 18.6,8.6 12,11 5.4,8.6" fill="url(#gemGloss)"/>' +
-    /* bold specular highlights, upper-left (the "wet" shine) */
     '<ellipse cx="9.4" cy="6" rx="2.7" ry="1.5" fill="#ffffff" fill-opacity="0.92" transform="rotate(-34 9.4 6)"/>' +
     '<ellipse cx="14.4" cy="5.2" rx="0.9" ry="0.5" fill="#ffffff" fill-opacity="0.80" transform="rotate(-20 14.4 5.2)"/>' +
-    /* rim light along the edges */
     '<path d="M12,1.3 L3.2,9.4"  stroke="#ffdbe1" stroke-opacity="0.90" stroke-width="1"   fill="none" stroke-linecap="round"/>' +
     '<path d="M12,1.3 L20.8,9.4" stroke="#ffa6b6" stroke-opacity="0.55" stroke-width="0.8" fill="none" stroke-linecap="round"/>' +
     '<path d="M3.2,9.6 L12,22.7" stroke="#c83048" stroke-opacity="0.50" stroke-width="0.7" fill="none" stroke-linecap="round"/>' +
-    /* two bright sparkle dots (bigger, fewer than the old salt grains) */
     '<circle class="gem-spark" cx="16.4" cy="10.6" r="1.15" fill="#fff"/>' +
     '<circle class="gem-spark s2" cx="7.6" cy="10.4" r="0.95" fill="#fff"/>' +
-    /* a wide diagonal gloss bar that sweeps across — moving reflection */
     '<polygon class="gem-shine" points="-3,-3 4,-3 0,27 -7,27" fill="#ffffff" fill-opacity="0.90" clip-path="url(#gemClip)"/>';
 
-  /* links that start with http(s) open in a new tab */
   function setLinkTarget(a, href) {
     if (/^https?:/i.test(href)) {
       a.target = "_blank";
@@ -1331,19 +1125,11 @@ const SOCIAL = [
     }
   }
 
-  /* apply the simple settings from EDIT HERE */
   art.src = IMAGE_FILE;
-  /* the blurred world behind the house uses the SAME image */
-  /* ★パス1（家のお化け切り分けテスト）: worldBackdrop に house.png を流すのを停止。
-     前景の art.src（家本体）は不変。スマホ最下部からお化けが消えるか実機確認用。
-     戻すとき＝下2行のコメントを外すだけ。森の空気は .world-veil が引き続き担当。 */
-  /* document.getElementById("worldBackdrop").style.backgroundImage =
-    'url("' + IMAGE_FILE + '")'; */
   document.documentElement.style.setProperty("--glow-hover-opacity", GLOW.hover);
   document.documentElement.style.setProperty("--glow-click-opacity", GLOW.click);
   if (SHOW_HOTSPOT_OUTLINES) stage.classList.add("show-outlines");
 
-  /* --- build one hotspot link on the picture --- */
   function buildHotspot(spot) {
     const a = document.createElement("a");
     a.className = "hotspot"
@@ -1353,13 +1139,11 @@ const SOCIAL = [
     a.setAttribute("aria-label", spot.aria || spot.label || spot.name);
     setLinkTarget(a, spot.href);
 
-    /* percentage positioning — scales with the image */
     a.style.top    = spot.top    + "%";
     a.style.left   = spot.left   + "%";
     a.style.width  = spot.width  + "%";
     a.style.height = spot.height + "%";
 
-    /* the floating name tag (a hotspot with label: "" gets none) */
     if (spot.label !== "") {
       const tag = document.createElement("span");
       tag.className = "hotspot-label";
@@ -1367,7 +1151,6 @@ const SOCIAL = [
       a.appendChild(tag);
     }
 
-    /* gift box: lay GIFT + the garnet on the chest's wooden panel */
     let giftFace = null;
     if (spot.type === "gift") {
       giftFace = document.createElement("span");
@@ -1383,14 +1166,12 @@ const SOCIAL = [
       a.appendChild(giftFace);
     }
 
-    /* click: glow swell + a few dust motes + 0.4s pause, then go.
-       The gift box gives the garnet one bright sweep on the way. */
     a.addEventListener("click", function (event) {
       event.preventDefault();
       a.classList.add("is-lit");
       if (spot.type === "gift" && giftFace && !reducedMotion) {
         giftFace.classList.remove("shine");
-        void giftFace.offsetWidth;          /* restart the light sweep */
+        void giftFace.offsetWidth;          
         giftFace.classList.add("shine");
       }
       if (!reducedMotion) {
@@ -1409,22 +1190,18 @@ const SOCIAL = [
     return a;
   }
 
-  /* --- a few tiny golden dust motes drifting up from the spot --- */
   function releaseDustMotes(hotspotEl, count) {
     for (let i = 0; i < count; i++) {
       const mote = document.createElement("span");
       mote.className = "dust-mote";
-      /* scatter inside the hotspot */
       mote.style.left = (15 + Math.random() * 70) + "%";
       mote.style.top  = (35 + Math.random() * 50) + "%";
       mote.style.animationDelay = (Math.random() * 0.25) + "s";
       hotspotEl.appendChild(mote);
-      /* clean up after the little drift finishes */
       window.setTimeout(function () { mote.remove(); }, 1600);
     }
   }
 
-  /* --- build the VISIT ROOMS menu from the MENU rows --- */
   function buildMenu() {
     const holder = document.getElementById("menuRows");
     MENU.forEach(function (row) {
@@ -1444,7 +1221,6 @@ const SOCIAL = [
   }
   buildMenu();
 
-  /* --- build the social icon row from the SOCIAL list --- */
   function buildSocial() {
     const holder = document.getElementById("menuSocial");
     SOCIAL.forEach(function (s) {
@@ -1458,15 +1234,13 @@ const SOCIAL = [
   }
   buildSocial();
 
-  /* --- fairy dust drifting over the scene --- */
   function buildFairyDust() {
     if (!SPARKLES.enabled || reducedMotion) return;
-    /* warm storybook palette: [inner glow, outer halo] as "r,g,b" */
     const tones = [
-      ["255,216,110", "255,170,60"],   /* gold      */
-      ["255,196,86",  "230,140,40"],   /* amber     */
-      ["255,232,170", "255,196,120"],  /* candle    */
-      ["255,184,128", "240,140,80"]    /* peach ember */
+      ["255,216,110", "255,170,60"],   
+      ["255,196,86",  "230,140,40"],   
+      ["255,232,170", "255,196,120"],  
+      ["255,184,128", "240,140,80"]    
     ];
     for (let i = 0; i < SPARKLES.count; i++) {
       const dust = document.createElement("span");
@@ -1493,75 +1267,11 @@ const SOCIAL = [
   }
   buildFairyDust();
 
-  /* --- build everything from the HOTSPOTS list --- */
   HOTSPOTS.forEach(function (spot) {
     stage.appendChild(buildHotspot(spot));
   });
 
-  /* ============================================================
-     THE RIVER — air bubbles rising from the FLOOR in gentle columns.
-     • Born at the bottom of the water (bottom:0), they climb upward
-       and dissolve before they reach the feet (the band's mask fades
-       them in from the depths and out near the surface).
-     • They rise near a few fixed "vents" (with a little wobble) so
-       they read as streams from the bottom, like the reference — not
-       scattered dots, and not a fizzy onsen.
-     • Tune the FEEL here; the LOOK lives in the :root water knobs. */
-  const WATER = {
-    enabled:    false,  // パスA = 泡なし（静止）。パスC で true に戻す
-    maxAtOnce:  6,      // how many can be climbing at once (DOWN = calmer)
-    gapMin:     0.7,    // shortest pause between releases (seconds)
-    gapMax:     2.2,    // longest pause
-    vents:      [0.30, 0.46, 0.62, 0.74],  // column positions (0–1 across)
-    catchAt:    0.4     // first bubble after the area scrolls into view
-  };
 
-  const water = document.getElementById("waterLayer");
-  if (water && !reducedMotion && WATER.enabled) {
-    let alive = 0, started = false;
-
-    function spawnBubble() {
-      if (alive >= WATER.maxAtOnce) return;
-      const b = document.createElement("span");
-      b.className = "bubble";
-      // pick a vent column, then wobble a little around it → a stream
-      const vent = WATER.vents[(Math.random() * WATER.vents.length) | 0];
-      const x = Math.min(0.94, Math.max(0.06, vent + (Math.random() - 0.5) * 0.07));
-      b.style.left = (x * 100).toFixed(1) + "%";
-      // varied sizes, biased small (a few bigger ones rise among them)
-      const big = Math.random() < 0.22;
-      b.style.setProperty("--bsize",
-        (big ? 16 + Math.random() * 8 : 7 + Math.random() * 8).toFixed(0) + "px");
-      b.style.setProperty("--bdur", (5.5 + Math.random() * 4).toFixed(1) + "s");
-      // born at the floor, climbing a real pixel distance up through the
-      // green; the mask dissolves them before they reach the feet
-      b.style.setProperty("--b-bottom", (Math.random() * 10).toFixed(0) + "%");
-      b.style.setProperty("--rise", (210 + Math.random() * 120).toFixed(0) + "px");
-      b.style.setProperty("--sway",
-        ((Math.random() < 0.5 ? -1 : 1) * (6 + Math.random() * 10)).toFixed(0) + "px");
-      alive++;
-      b.addEventListener("animationend", function () { b.remove(); alive--; });
-      water.appendChild(b);
-    }
-
-    function drift() {                       // the gentle, unpredictable pace
-      spawnBubble();
-      if (Math.random() < 0.35) spawnBubble();   // occasional little cluster
-      const gap = WATER.gapMin + Math.random() * (WATER.gapMax - WATER.gapMin);
-      setTimeout(drift, gap * 1000);
-    }
-
-    const io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting && !started) {
-          started = true;
-          setTimeout(spawnBubble, WATER.catchAt * 1000);   // first one quickly
-          setTimeout(drift, (WATER.catchAt + 1.0) * 1000);  // then the stream
-        }
-      });
-    }, { threshold: 0.35 });
-    io.observe(water);
-  }
 })();
 </script>
 
