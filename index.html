@@ -9,6 +9,9 @@
 <link rel="icon" type="image/png" href="/favicon.png?v=1">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=1">
 
+<link rel="preload" as="image" href="water_surface_ripple_photo_v1.webp" type="image/webp">
+<link rel="preload" as="image" href="water_reflection_sky_forest.webp" type="image/webp">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -16,7 +19,7 @@
 <style>
 /* ============================================================
    ALEX & DAISY — STORYBOOK HOUSE HOMEPAGE
-   v22: mini-tablet river fine-stripe patch
+   v23: image-load stabilization + WebP water assets
    ============================================================ */
 
 :root{
@@ -85,6 +88,7 @@ body{
   position: fixed;
   inset: -48px;
   z-index: -2;
+  background-image: url("house.png");
   background-size: cover;
   background-position: center 22%;
   filter: blur(18px) brightness(0.82) saturate(0.92);
@@ -411,7 +415,7 @@ body{
   height: calc(max(100vw, min(285vh, 170vw)) * 0.3711);
   transform: translateX(-50%);
   pointer-events:none;
-  background-image: url("water_surface_ripple_photo_v1.png");
+  background-image: url("water_surface_ripple_photo_v1.webp");
   background-size: 110% auto;
   background-position: center top;
   background-repeat: no-repeat;
@@ -436,7 +440,7 @@ body{
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background-image: url("water_reflection_sky_forest.png.png");
+  background-image: url("water_reflection_sky_forest.webp");
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
@@ -1092,6 +1096,10 @@ body{
 <main class="house-stage" id="houseStage" aria-label="The Alex and Daisy storybook house. Interactive windows and doors.">
   <img class="house-art" id="houseArt"
        src="house.png"
+       width="1672"
+       height="941"
+       fetchpriority="high"
+       decoding="async"
        alt="A handmade storybook house in a sunlit forest garden. Each window belongs to a friend: Alex, Daisy, Giga, Mr. T, and Lumo. The door leads to the videos, with signs for downloads and contact among the flowers.">
 </main>
 </div>
@@ -1113,8 +1121,6 @@ body{
    ║   ★★★  EDIT HERE  ★★★                                        ║
    ║                                                              ║
    ╚══════════════════════════════════════════════════════════════╝ */
-
-const IMAGE_FILE = "house.png";
 
 const SHOW_HOTSPOT_OUTLINES = false;
 
@@ -1242,7 +1248,6 @@ const SOCIAL = [
   "use strict";
 
   const stage    = document.getElementById("houseStage");
-  const art      = document.getElementById("houseArt");
 
   const reducedMotion =
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1283,7 +1288,6 @@ const SOCIAL = [
     }
   }
 
-  art.src = IMAGE_FILE;
   document.documentElement.style.setProperty("--glow-hover-opacity", GLOW.hover);
   document.documentElement.style.setProperty("--glow-click-opacity", GLOW.click);
   if (SHOW_HOTSPOT_OUTLINES) stage.classList.add("show-outlines");
