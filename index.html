@@ -16,7 +16,7 @@
 <style>
 /* ============================================================
    ALEX & DAISY — STORYBOOK HOUSE HOMEPAGE
-   v16: static SVG water filters + mobile/tablet quiet river
+   v22: mini-tablet river fine-stripe patch
    ============================================================ */
 
 :root{
@@ -729,16 +729,8 @@ body{
 }
 
 /* ============================================================
-   MOBILE / TABLET RIVER SAFETY PATCH v21
-   PC and large tablet keep the completed v20 look.
-
-   v21 focus:
-   - Desktop rules above this block are not touched.
-   - Large tablet remains close to PC and is already successful.
-   - Mini tablet and phone no longer animate background-position.
-   - Small devices use a large transparent current sheet moved by
-     transform: translate3d(), which mobile GPUs handle more smoothly.
-   - The reset happens far less often than the old visible 3-second hitch.
+   MOBILE / TABLET RIVER SAFETY PATCH v22
+   PC and large tablet keep the completed river look.
    ============================================================ */
 
 /* Large tablet: keep the successful PC-like river. */
@@ -763,83 +755,79 @@ body{
   }
 }
 
-/* Mini tablet / large phone: use transform-moved sheets instead of
-   background-position. This avoids the small-device redraw hitch. */
+/* Mini tablet: v22 fine-stripe transform patch. */
 @media (min-width: 601px) and (max-width: 700px){
   .river-current{
-    opacity: 0.72;
+    opacity: 0.82;
     mix-blend-mode: screen;
-    filter: blur(0.82px) saturate(1.06);
+    filter: blur(0.72px) saturate(1.08);
     background: none;
     animation: none;
+    overflow: hidden;
     transform: translateZ(0);
-    will-change: transform;
+    will-change: auto;
     contain: paint;
   }
 
   .river-current::before{
     content:"";
     position:absolute;
-    left:-8%;
-    right:-8%;
-    top:-150%;
-    height:430%;
+    left:-6%;
+    right:-6%;
+    top:-220px;
+    bottom:auto;
+    height:calc(100% + 440px);
     pointer-events:none;
-    opacity:0.72;
-    mix-blend-mode:screen;
-    filter: blur(0.9px);
+    opacity:0.92;
+    mix-blend-mode:normal;
+    filter:none;
     background:
       repeating-linear-gradient(5deg,
-        rgba(255,255,255,0) 0 22px,
-        rgba(220,255,240,0.00) 28px,
-        rgba(220,255,240,0.072) 36px,
-        rgba(255,238,184,0.082) 45px,
-        rgba(220,255,240,0.052) 54px,
-        rgba(255,255,255,0.00) 72px),
-      repeating-linear-gradient(-4deg,
-        rgba(255,255,255,0) 0 30px,
-        rgba(190,232,255,0.00) 38px,
-        rgba(190,232,255,0.056) 48px,
-        rgba(224,255,235,0.060) 58px,
-        rgba(190,232,255,0.036) 68px,
-        rgba(255,255,255,0.00) 92px);
-    background-size: 100% auto, 100% auto;
-    background-position: 0 0, 0 0;
+        rgba(255,255,255,0) 0 10px,
+        rgba(215,255,238,0.00) 14px,
+        rgba(215,255,238,0.052) 18px,
+        rgba(255,238,184,0.074) 23px,
+        rgba(215,255,238,0.044) 28px,
+        rgba(255,255,255,0.00) 34px);
+    background-size: 100% auto;
+    background-position: 0 0;
     background-repeat: repeat;
+    -webkit-mask-image:none;
+            mask-image:none;
     transform: translate3d(0, 0, 0);
     will-change: transform;
-    animation: riverSheetMiniA 42s linear infinite;
+    animation: riverMiniFineA 10s linear infinite;
   }
 
   .river-current::after{
     content:"";
     display:block;
     position:absolute;
-    left:-10%;
-    right:-10%;
-    top:-150%;
-    height:430%;
+    left:-6%;
+    right:-6%;
+    top:-220px;
+    bottom:auto;
+    height:calc(100% + 440px);
     pointer-events:none;
-    opacity:0.24;
-    mix-blend-mode:screen;
-    filter: blur(1.55px);
+    opacity:0.72;
+    mix-blend-mode:normal;
+    filter:none;
     background:
-      repeating-linear-gradient(3deg,
-        rgba(255,255,255,0) 0 48px,
-        rgba(225,255,245,0.00) 58px,
-        rgba(225,255,245,0.065) 70px,
-        rgba(255,238,184,0.052) 82px,
-        rgba(255,255,255,0.00) 112px),
-      repeating-linear-gradient(-3deg,
-        rgba(255,255,255,0) 0 60px,
-        rgba(190,232,255,0.00) 70px,
-        rgba(190,232,255,0.048) 84px,
-        rgba(224,255,235,0.046) 98px,
-        rgba(255,255,255,0.00) 132px);
-    background-size: 100% auto, 100% auto;
+      repeating-linear-gradient(-4deg,
+        rgba(255,255,255,0) 0 14px,
+        rgba(197,236,255,0.00) 18px,
+        rgba(197,236,255,0.046) 23px,
+        rgba(224,255,235,0.060) 28px,
+        rgba(197,236,255,0.036) 33px,
+        rgba(255,255,255,0.00) 40px);
+    background-size: 100% auto;
+    background-position: 0 0;
+    background-repeat: repeat;
+    -webkit-mask-image:none;
+            mask-image:none;
     transform: translate3d(0, 0, 0);
     will-change: transform;
-    animation: riverSheetMiniB 64s linear infinite reverse;
+    animation: riverMiniFineB 11s linear infinite reverse;
   }
 
   .ripple-a{
@@ -853,14 +841,14 @@ body{
   }
 }
 
-@keyframes riverSheetMiniA{
+@keyframes riverMiniFineA{
   from{ transform: translate3d(0, 0, 0); }
-  to  { transform: translate3d(0, 1120px, 0); }
+  to  { transform: translate3d(0, 204px, 0); }
 }
 
-@keyframes riverSheetMiniB{
+@keyframes riverMiniFineB{
   from{ transform: translate3d(0, 0, 0); }
-  to  { transform: translate3d(0, 960px, 0); }
+  to  { transform: translate3d(0, -200px, 0); }
 }
 
 @media (max-width: 600px){
