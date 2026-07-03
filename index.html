@@ -974,6 +974,30 @@ body{
   }
 }
 
+/* Low-DPI safety (Fire HD 8 etc., DPR<=1.5): stripes at base alpha to hide sub-pixel shimmer */
+@media (max-width: 600px) and (max-resolution: 1.5dppx){
+  .river-current::before{
+    background:
+      repeating-linear-gradient(5deg,
+        rgba(255,255,255,0) 0 10px,
+        rgba(215,255,238,0.00) 14px,
+        rgba(215,255,238,0.052) 18px,
+        rgba(255,238,184,0.074) 23px,
+        rgba(215,255,238,0.044) 28px,
+        rgba(255,255,255,0.00) 34px);
+  }
+  .river-current::after{
+    background:
+      repeating-linear-gradient(-4deg,
+        rgba(255,255,255,0) 0 14px,
+        rgba(197,236,255,0.00) 18px,
+        rgba(197,236,255,0.046) 23px,
+        rgba(224,255,235,0.060) 28px,
+        rgba(197,236,255,0.036) 33px,
+        rgba(255,255,255,0.00) 40px);
+  }
+}
+
 .hotspot.is-gift{ container-type: inline-size; }
 
 .gift-face{
