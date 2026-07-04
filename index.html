@@ -39,14 +39,9 @@
   --vr-glow: rgba(255,210,128,0.55);
 
   --seam-fade-start: 96.5%;
-  --seam-mist: 0;
-  --seam-mist-rise: 150px;
-  --seam-mist-height: 280px;
-  --seam-mist-width: 130vw;
-  --seam-mist-speed: 16s;
 
   --water-line:   235px;
-  --water-tail:   260px;
+  --water-tail:   300px;
   --water-top:    rgb(150,184,158);
   --water-mid:    rgb(104,148,118);
   --water-deep:   rgb( 50, 88, 70);
@@ -343,26 +338,6 @@ body{
   padding: 0 16px;
   text-align: center;
 }
-.visit-rooms::before{
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: calc(-1 * var(--seam-mist-rise));
-  width: var(--seam-mist-width);
-  height: var(--seam-mist-height);
-  transform: translateX(-50%);
-  pointer-events: none;
-  background: radial-gradient(closest-side,
-      rgba(228,224,206, var(--seam-mist)) 0%,
-      rgba(228,224,206, 0) 78%);
-  filter: blur(20px);
-  animation: seamDrift var(--seam-mist-speed) ease-in-out infinite alternate;
-}
-@keyframes seamDrift{
-  from{ transform: translateX(-52%) translateY(-5px) scale(1); }
-  to  { transform: translateX(-48%) translateY(5px)  scale(1.05); }
-}
-
 .water{
   position: absolute;
   left: 50%;
@@ -456,6 +431,54 @@ body{
       rgba(0,0,0,0.24) 120px,
       rgba(0,0,0,0.50) 260px,
       rgba(0,0,0,0.62) 100%);
+}
+
+/* ===== water mist: 川際の湯気（暖色粒・Pass M1） ===== */
+.water-mist{
+  position: absolute;
+  left: 50%;
+  top: calc(-1 * var(--water-line) - 160px);
+  width: 100vw;
+  height: 320px;
+  transform: translateX(-50%);
+  z-index: 1; /* -1から1に変更して、水面より確実に上に表示させます */
+  pointer-events: none;
+  mix-blend-mode: screen; /* ★ここが魔法！暗い色を飛ばし、重なると光るようになります */
+}
+.water-mist span{
+  position: absolute;
+  border-radius: 50%;
+  /* 輪郭をさらに柔らかく消すグラデーション */
+  background: radial-gradient(circle at 50% 50%,
+      var(--mist-c) 0%,
+      rgba(255,255,255,0) 65%);
+  opacity: 0;
+  filter: blur(14px); /* ★2px → 14pxへ。思い切りぼかすのがフワフワの秘訣です */
+  will-change: transform, opacity;
+  transform: translate3d(0,0,0) scale(0.65);
+  animation: mistRise var(--dur) ease-in-out var(--delay) infinite;
+}
+@keyframes mistRise{
+  0%{
+    opacity: 0;
+    transform: translate3d(0,0,0) scale(0.8);
+  }
+  20%{
+    opacity: var(--peak);
+  }
+  60%{
+    opacity: calc(var(--peak) * 0.7);
+    transform: translate3d(var(--sway), calc(var(--rise) * 0.55), 0) scale(1.2);
+  }
+  100%{
+    opacity: 0;
+    /* 昇るにつれて大きく膨らんで消えるように scale(1.5) にします */
+    transform: translate3d(calc(var(--sway) * 0.8), calc(var(--rise) * 1.05), 0) scale(1.5);
+  }
+}
+@media (max-width:600px) and (max-resolution:1.5dppx){
+  /* 低解像度端末でも最低限のぼかしは維持します */
+  .water-mist span{ filter: blur(6px); }
 }
 
 .lower-water-undulate,
@@ -870,7 +893,7 @@ body{
     margin-right: auto;
     margin-top: 150px;
     --water-line: 165px;
-    --water-tail: 240px;
+    --water-tail: 280px;
     padding: 0;
   }
   .visit-rooms h2{ margin-bottom: 34px; }
@@ -1138,7 +1161,7 @@ body{
 </div>
 
 <nav class="visit-rooms" aria-label="Visit rooms">
-  <div class="water" id="waterLayer" aria-hidden="true"><div class="water-reflection-image" aria-hidden="true"></div><div class="lower-water-undulate" aria-hidden="true"></div><svg class="ripple ripple-a" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwA" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.009 0.020" numOctaves="2" seed="7" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.80  0 0 0 0 0.87  0 0 0 0 0.82  0 0 0 0.9 -0.42"/><feGaussianBlur stdDeviation="1.3"/></filter><rect width="100%" height="100%" filter="url(#rwA)"/></svg><svg class="ripple ripple-b" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwB" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.026" numOctaves="2" seed="23" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.15  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.8 -0.34"/><feGaussianBlur stdDeviation="1.6"/></filter><rect width="100%" height="100%" filter="url(#rwB)"/></svg><div class="river-current" aria-hidden="true"></div></div>
+  <div class="water" id="waterLayer" aria-hidden="true"><div class="water-reflection-image" aria-hidden="true"></div><div class="lower-water-undulate" aria-hidden="true"></div><svg class="ripple ripple-a" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwA" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.009 0.020" numOctaves="2" seed="7" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.80  0 0 0 0 0.87  0 0 0 0 0.82  0 0 0 0.9 -0.42"/><feGaussianBlur stdDeviation="1.3"/></filter><rect width="100%" height="100%" filter="url(#rwA)"/></svg><svg class="ripple ripple-b" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwB" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.026" numOctaves="2" seed="23" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.15  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.8 -0.34"/><feGaussianBlur stdDeviation="1.6"/></filter><rect width="100%" height="100%" filter="url(#rwB)"/></svg><div class="river-current" aria-hidden="true"></div></div><div class="water-mist" aria-hidden="true"></div>
   <h2>VISIT&nbsp;ROOMS</h2>
   <div id="menuRows"></div>
   <div class="menu-social" id="menuSocial"></div>
@@ -1466,6 +1489,53 @@ const SOCIAL = [
     stage.appendChild(buildHotspot(spot));
   });
 
+})();
+
+/* ===== water mist particles (Pass M1) ===== */
+(function () {
+  const host = document.querySelector(".water-mist");
+  if (!host || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const fire = window.matchMedia("(max-width: 600px) and (max-resolution: 1.5dppx)").matches;
+
+  // 粒が大きいので、数は少し減らしても十分フワフワになります
+  const count = fire ? 10 : 20;
+
+  // 水面や背景に馴染む、柔らかい朝靄のカラー
+  const colors = ["#ffe9b8", "#ffd98a", "#fff8dc"];
+  const frag = document.createDocumentFragment();
+
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement("span");
+
+    // ★大手術：サイズを劇的に大きくする（150px 〜 300px）
+    const size = 150 + Math.random() * 150;
+
+    // 動きをさらにゆっくり、優雅に
+    const dur = 14 + Math.random() * 12;
+
+    p.style.width = size.toFixed(1) + "px";
+    p.style.height = size.toFixed(1) + "px";
+
+    // 画面全体にフワッと散らす
+    p.style.left = (-10 + Math.random() * 120).toFixed(2) + "%";
+    p.style.top = (80 + Math.random() * 160).toFixed(1) + "px";
+
+    p.style.setProperty("--mist-c", colors[i % 3]);
+
+    // 風による左右の揺らぎを大きく
+    p.style.setProperty("--sway", ((Math.random() * 2 - 1) * 60).toFixed(1) + "px");
+    // 空に向かってより高く昇らせる
+    p.style.setProperty("--rise", "-" + (120 + Math.random() * 120).toFixed(1) + "px");
+
+    // 透明度のピーク設定（0.25 〜 0.45で、光のベールのようにします）
+    p.style.setProperty("--peak", (0.25 + Math.random() * 0.2).toFixed(3));
+
+    p.style.setProperty("--dur", dur.toFixed(2) + "s");
+    p.style.setProperty("--delay", "-" + (Math.random() * dur).toFixed(2) + "s");
+
+    frag.appendChild(p);
+  }
+  host.appendChild(frag);
 })();
 </script>
 
