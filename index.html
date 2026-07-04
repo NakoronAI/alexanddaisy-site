@@ -433,7 +433,7 @@ body{
       rgba(0,0,0,0.62) 100%);
 }
 
-/* ===== water mist: 川際の湯気（暖色粒・Pass M1） ===== */
+/* ===== water mist: 川際の湯気（超軽量・高視認性版 Pass M2） ===== */
 .water-mist{
   position: absolute;
   left: 50%;
@@ -441,44 +441,39 @@ body{
   width: 100vw;
   height: 320px;
   transform: translateX(-50%);
-  z-index: 1; /* -1から1に変更して、水面より確実に上に表示させます */
+  z-index: 1;
   pointer-events: none;
-  mix-blend-mode: screen; /* ★ここが魔法！暗い色を飛ばし、重なると光るようになります */
 }
 .water-mist span{
   position: absolute;
   border-radius: 50%;
-  /* 輪郭をさらに柔らかく消すグラデーション */
+  /* blur不使用：グラデーションの透明度だけで縁が消える柔らかい粒を作る */
   background: radial-gradient(circle at 50% 50%,
-      var(--mist-c) 0%,
-      rgba(255,255,255,0) 65%);
+      rgba(var(--mist-rgb), 0.72) 0%,
+      rgba(var(--mist-rgb), 0.34) 38%,
+      rgba(var(--mist-rgb), 0.12) 56%,
+      rgba(var(--mist-rgb), 0) 76%);
   opacity: 0;
-  filter: blur(14px); /* ★2px → 14pxへ。思い切りぼかすのがフワフワの秘訣です */
-  will-change: transform, opacity;
-  transform: translate3d(0,0,0) scale(0.65);
+  transform: translate3d(0,0,0) scale(0.55);
   animation: mistRise var(--dur) ease-in-out var(--delay) infinite;
 }
 @keyframes mistRise{
   0%{
     opacity: 0;
-    transform: translate3d(0,0,0) scale(0.8);
+    transform: translate3d(0,0,0) scale(0.55);
   }
   20%{
     opacity: var(--peak);
   }
   60%{
-    opacity: calc(var(--peak) * 0.7);
-    transform: translate3d(var(--sway), calc(var(--rise) * 0.55), 0) scale(1.2);
+    /* 存在感を出すため、透明度をあまり落とさずに昇らせる */
+    opacity: calc(var(--peak) * 0.85);
+    transform: translate3d(var(--sway), calc(var(--rise) * 0.55), 0) scale(1.3);
   }
   100%{
     opacity: 0;
-    /* 昇るにつれて大きく膨らんで消えるように scale(1.5) にします */
-    transform: translate3d(calc(var(--sway) * 0.8), calc(var(--rise) * 1.05), 0) scale(1.5);
+    transform: translate3d(calc(var(--sway) * 0.8), calc(var(--rise) * 1.05), 0) scale(1.8);
   }
-}
-@media (max-width:600px) and (max-resolution:1.5dppx){
-  /* 低解像度端末でも最低限のぼかしは維持します */
-  .water-mist span{ filter: blur(6px); }
 }
 
 .lower-water-undulate,
@@ -1491,45 +1486,40 @@ const SOCIAL = [
 
 })();
 
-/* ===== water mist particles (Pass M1) ===== */
+/* ===== water mist particles (Pass M2 - 超軽量版) ===== */
 (function () {
   const host = document.querySelector(".water-mist");
   if (!host || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const fire = window.matchMedia("(max-width: 600px) and (max-resolution: 1.5dppx)").matches;
 
-  // 粒が大きいので、数は少し減らしても十分フワフワになります
-  const count = fire ? 10 : 20;
+  // Fire/低DPI小画面は別設計：数もサイズも透明度も控えめ、動きは超ゆっくり
+  const count = fire ? 7 : 24;
+  const sizeMin = fire ? 90 : 110, sizeRange = fire ? 90 : 130;
+  const peakMin = fire ? 0.18 : 0.30, peakRange = fire ? 0.16 : 0.25;
+  const durMin = fire ? 24 : 16, durRange = 14;
 
-  // 水面や背景に馴染む、柔らかい朝靄のカラー
-  const colors = ["#ffe9b8", "#ffd98a", "#fff8dc"];
+  // 色はRGB値で定義（グラデーション側で透明度を自在に操るため）
+  const colorsRGB = [
+    "255, 233, 184",
+    "255, 217, 138",
+    "255, 248, 220"
+  ];
   const frag = document.createDocumentFragment();
 
   for (let i = 0; i < count; i++) {
     const p = document.createElement("span");
-
-    // ★大手術：サイズを劇的に大きくする（150px 〜 300px）
-    const size = 150 + Math.random() * 150;
-
-    // 動きをさらにゆっくり、優雅に
-    const dur = 14 + Math.random() * 12;
+    const size = sizeMin + Math.random() * sizeRange;
+    const dur = durMin + Math.random() * durRange;
 
     p.style.width = size.toFixed(1) + "px";
     p.style.height = size.toFixed(1) + "px";
-
-    // 画面全体にフワッと散らす
     p.style.left = (-10 + Math.random() * 120).toFixed(2) + "%";
     p.style.top = (80 + Math.random() * 160).toFixed(1) + "px";
 
-    p.style.setProperty("--mist-c", colors[i % 3]);
-
-    // 風による左右の揺らぎを大きく
+    p.style.setProperty("--mist-rgb", colorsRGB[i % 3]);
     p.style.setProperty("--sway", ((Math.random() * 2 - 1) * 60).toFixed(1) + "px");
-    // 空に向かってより高く昇らせる
     p.style.setProperty("--rise", "-" + (120 + Math.random() * 120).toFixed(1) + "px");
-
-    // 透明度のピーク設定（0.25 〜 0.45で、光のベールのようにします）
-    p.style.setProperty("--peak", (0.25 + Math.random() * 0.2).toFixed(3));
-
+    p.style.setProperty("--peak", (peakMin + Math.random() * peakRange).toFixed(2));
     p.style.setProperty("--dur", dur.toFixed(2) + "s");
     p.style.setProperty("--delay", "-" + (Math.random() * dur).toFixed(2) + "s");
 
