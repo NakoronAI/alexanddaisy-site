@@ -12,6 +12,7 @@
 <link rel="preload" as="image" href="house_lossless.webp" type="image/webp" fetchpriority="high">
 <link rel="preload" as="image" href="water_surface_ripple_photo_v1.webp" type="image/webp">
 <link rel="preload" as="image" href="water_reflection_sky_forest.webp" type="image/webp">
+<link rel="preload" as="image" href="lumo_mist.webp" type="image/webp">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -433,47 +434,165 @@ body{
       rgba(0,0,0,0.62) 100%);
 }
 
-/* ===== water mist: 川際の湯気（超軽量・高視認性版 Pass M2） ===== */
+/* ===== water mist: external WebP fog asset（Pass M13.6 central-clear） =====
+   M13.5の下端フェードは維持。
+   今回は中央の煙幕感だけを少し抜き、反射とVISIT ROOMSを見せやすくする。 */
 .water-mist{
   position: absolute;
   left: 50%;
-  top: calc(-1 * var(--water-line) - 160px);
+  top: calc(-1 * var(--water-line) - 132px);
   width: 100vw;
-  height: 320px;
+  height: 1180px;
   transform: translateX(-50%);
   z-index: 1;
   pointer-events: none;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0,
+      rgba(0,0,0,0.52) 4%,
+      rgba(0,0,0,0.98) 18%,
+      rgba(0,0,0,0.98) 62%,
+      rgba(0,0,0,0.70) 76%,
+      rgba(0,0,0,0.34) 88%,
+      rgba(0,0,0,0.12) 96%,
+      transparent 100%);
+          mask-image: linear-gradient(to bottom,
+      transparent 0,
+      rgba(0,0,0,0.52) 4%,
+      rgba(0,0,0,0.98) 18%,
+      rgba(0,0,0,0.98) 62%,
+      rgba(0,0,0,0.70) 76%,
+      rgba(0,0,0,0.34) 88%,
+      rgba(0,0,0,0.12) 96%,
+      transparent 100%);
 }
-.water-mist span{
+.water-mist .mist-layer{
   position: absolute;
-  border-radius: 50%;
-  /* blur不使用：グラデーションの透明度だけで縁が消える柔らかい粒を作る */
-  background: radial-gradient(circle at 50% 50%,
-      rgba(var(--mist-rgb), 0.85) 0%,
-      rgba(var(--mist-rgb), 0.44) 38%,
-      rgba(var(--mist-rgb), 0.16) 56%,
-      rgba(var(--mist-rgb), 0) 76%);
-  opacity: 0;
-  transform: translate3d(0,0,0) scale(0.55);
-  animation: mistRise var(--dur) ease-in-out var(--delay) infinite;
+  background-image: url("lumo_mist.webp");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  transform-origin: 50% 100%;
+  will-change: transform, opacity;
 }
-@keyframes mistRise{
-  0%{
-    opacity: 0;
-    transform: translate3d(0,0,0) scale(0.55);
+/* 1枚目：一番手前の濃い霧。中央は抜き、左右の塊を残す。 */
+.water-mist .mist-layer:nth-child(1){
+  left: -34vw;
+  width: 168vw;
+  top: -34px;
+  height: 1370px;
+  opacity: 0.92;
+  filter: blur(0.7px);
+  -webkit-mask-image: radial-gradient(ellipse 50% 61% at 50% 45%,
+      transparent 0%,
+      transparent 31%,
+      rgba(0,0,0,0.08) 41%,
+      rgba(0,0,0,0.56) 56%,
+      rgba(0,0,0,0.96) 72%,
+      rgba(0,0,0,1) 100%);
+          mask-image: radial-gradient(ellipse 50% 61% at 50% 45%,
+      transparent 0%,
+      transparent 31%,
+      rgba(0,0,0,0.08) 41%,
+      rgba(0,0,0,0.56) 56%,
+      rgba(0,0,0,0.96) 72%,
+      rgba(0,0,0,1) 100%);
+  animation: mistDriftA 20s ease-in-out -6s infinite alternate;
+}
+
+/* 2枚目：中間の霧。少し大きく動かして、水蒸気の漂いを出す。 */
+.water-mist .mist-layer:nth-child(2){
+  left: -44vw;
+  width: 188vw;
+  top: -92px;
+  height: 1480px;
+  opacity: 0.78;
+  filter: blur(2.2px);
+  -webkit-mask-image: radial-gradient(ellipse 55% 65% at 50% 46%,
+      transparent 0%,
+      transparent 28%,
+      rgba(0,0,0,0.05) 39%,
+      rgba(0,0,0,0.42) 53%,
+      rgba(0,0,0,0.88) 68%,
+      rgba(0,0,0,1) 100%);
+          mask-image: radial-gradient(ellipse 55% 65% at 50% 46%,
+      transparent 0%,
+      transparent 28%,
+      rgba(0,0,0,0.05) 39%,
+      rgba(0,0,0,0.42) 53%,
+      rgba(0,0,0,0.88) 68%,
+      rgba(0,0,0,1) 100%);
+  animation: mistDriftB 27s ease-in-out -14s infinite alternate;
+}
+
+/* 3枚目：下側の薄い残り霧。端を見せず、フェードの中へ逃がす。 */
+.water-mist .mist-layer:nth-child(3){
+  left: -34vw;
+  width: 168vw;
+  top: 210px;
+  height: 1180px;
+  opacity: 0.54;
+  filter: blur(4.5px);
+  -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 45%,
+      transparent 0%,
+      transparent 24%,
+      rgba(0,0,0,0.14) 39%,
+      rgba(0,0,0,0.50) 56%,
+      rgba(0,0,0,0.94) 76%,
+      rgba(0,0,0,1) 100%);
+          mask-image: radial-gradient(ellipse 60% 70% at 50% 45%,
+      transparent 0%,
+      transparent 24%,
+      rgba(0,0,0,0.14) 39%,
+      rgba(0,0,0,0.50) 56%,
+      rgba(0,0,0,0.94) 76%,
+      rgba(0,0,0,1) 100%);
+  animation: mistDriftC 36s ease-in-out -22s infinite alternate;
+}
+@keyframes mistDriftA{
+  0%   { transform: translate3d(-15.0%,  22px, 0) scale(1.03) rotate(-0.48deg); }
+  45%  { transform: translate3d(  3.8%,  -9px, 0) scale(1.12) rotate( 0.20deg); }
+  100% { transform: translate3d( 15.5%, -20px, 0) scale(1.20) rotate( 0.48deg); }
+}
+@keyframes mistDriftB{
+  0%   { transform: translate3d( 13.0%, -22px, 0) scale(1.06) rotate( 0.38deg); }
+  52%  { transform: translate3d( -5.2%,  12px, 0) scale(1.15) rotate(-0.14deg); }
+  100% { transform: translate3d(-15.8%,  24px, 0) scale(1.24) rotate(-0.38deg); }
+}
+@keyframes mistDriftC{
+  0%   { transform: translate3d(-10.5%,  30px, 0) scale(1.00) rotate(-0.30deg); }
+  50%  { transform: translate3d(  6.2%,  -5px, 0) scale(1.09) rotate( 0.12deg); }
+  100% { transform: translate3d( 13.0%, -20px, 0) scale(1.17) rotate( 0.30deg); }
+}
+@media (max-width: 700px){
+  .water-mist{
+    top: calc(-1 * var(--water-line) - 116px);
+    height: 940px;
+    -webkit-mask-image: linear-gradient(to bottom,
+        transparent 0,
+        rgba(0,0,0,0.50) 4%,
+        rgba(0,0,0,0.96) 18%,
+        rgba(0,0,0,0.96) 62%,
+        rgba(0,0,0,0.64) 76%,
+        rgba(0,0,0,0.30) 88%,
+        rgba(0,0,0,0.10) 96%,
+        transparent 100%);
+            mask-image: linear-gradient(to bottom,
+        transparent 0,
+        rgba(0,0,0,0.50) 4%,
+        rgba(0,0,0,0.96) 18%,
+        rgba(0,0,0,0.96) 62%,
+        rgba(0,0,0,0.64) 76%,
+        rgba(0,0,0,0.30) 88%,
+        rgba(0,0,0,0.10) 96%,
+        transparent 100%);
   }
-  20%{
-    opacity: var(--peak);
-  }
-  60%{
-    /* 存在感を出すため、透明度をあまり落とさずに昇らせる */
-    opacity: calc(var(--peak) * 0.85);
-    transform: translate3d(var(--sway), calc(var(--rise) * 0.55), 0) scale(1.3);
-  }
-  100%{
-    opacity: 0;
-    transform: translate3d(calc(var(--sway) * 0.8), calc(var(--rise) * 1.05), 0) scale(1.8);
-  }
+  .water-mist .mist-layer:nth-child(1){ left:-34vw; width:168vw; top: -20px; height: 1060px; opacity: 0.82; }
+  .water-mist .mist-layer:nth-child(2){ left:-44vw; width:188vw; top: -66px; height: 1140px; opacity: 0.58; }
+  .water-mist .mist-layer:nth-child(3){ left:-34vw; width:168vw; top: 180px; height: 880px; opacity: 0.40; }
+}
+@media (prefers-reduced-motion: reduce){
+  .water-mist .mist-layer{ animation: none; }
 }
 
 .lower-water-undulate,
@@ -1156,7 +1275,7 @@ body{
 </div>
 
 <nav class="visit-rooms" aria-label="Visit rooms">
-  <div class="water" id="waterLayer" aria-hidden="true"><div class="water-reflection-image" aria-hidden="true"></div><div class="lower-water-undulate" aria-hidden="true"></div><svg class="ripple ripple-a" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwA" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.009 0.020" numOctaves="2" seed="7" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.80  0 0 0 0 0.87  0 0 0 0 0.82  0 0 0 0.9 -0.42"/><feGaussianBlur stdDeviation="1.3"/></filter><rect width="100%" height="100%" filter="url(#rwA)"/></svg><svg class="ripple ripple-b" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwB" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.026" numOctaves="2" seed="23" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.15  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.8 -0.34"/><feGaussianBlur stdDeviation="1.6"/></filter><rect width="100%" height="100%" filter="url(#rwB)"/></svg><div class="river-current" aria-hidden="true"></div></div><div class="water-mist" aria-hidden="true"></div>
+  <div class="water" id="waterLayer" aria-hidden="true"><div class="water-reflection-image" aria-hidden="true"></div><div class="lower-water-undulate" aria-hidden="true"></div><svg class="ripple ripple-a" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwA" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.009 0.020" numOctaves="2" seed="7" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.80  0 0 0 0 0.87  0 0 0 0 0.82  0 0 0 0.9 -0.42"/><feGaussianBlur stdDeviation="1.3"/></filter><rect width="100%" height="100%" filter="url(#rwA)"/></svg><svg class="ripple ripple-b" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwB" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.026" numOctaves="2" seed="23" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.15  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.8 -0.34"/><feGaussianBlur stdDeviation="1.6"/></filter><rect width="100%" height="100%" filter="url(#rwB)"/></svg><div class="river-current" aria-hidden="true"></div></div><div class="water-mist" aria-hidden="true"><div class="mist-layer"></div><div class="mist-layer"></div><div class="mist-layer"></div></div>
   <h2>VISIT&nbsp;ROOMS</h2>
   <div id="menuRows"></div>
   <div class="menu-social" id="menuSocial"></div>
@@ -1488,48 +1607,6 @@ const SOCIAL = [
     stage.appendChild(buildHotspot(spot));
   });
 
-})();
-
-/* ===== water mist particles (Pass M2 - 超軽量版) ===== */
-(function () {
-  const host = document.querySelector(".water-mist");
-  if (!host || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const fire = window.matchMedia("(max-width: 600px) and (max-resolution: 1.5dppx)").matches;
-
-  // Fire/低DPI小画面は別設計：数もサイズも透明度も控えめ、動きは超ゆっくり
-  const count = fire ? 7 : 24;
-  const sizeMin = fire ? 90 : 110, sizeRange = fire ? 90 : 130;
-  const peakMin = fire ? 0.24 : 0.45, peakRange = fire ? 0.16 : 0.30;
-  const durMin = fire ? 24 : 16, durRange = 14;
-
-  // 色はRGB値で定義（グラデーション側で透明度を自在に操るため）
-  const colorsRGB = [
-    "255, 233, 184",
-    "255, 217, 138",
-    "255, 248, 220"
-  ];
-  const frag = document.createDocumentFragment();
-
-  for (let i = 0; i < count; i++) {
-    const p = document.createElement("span");
-    const size = sizeMin + Math.random() * sizeRange;
-    const dur = durMin + Math.random() * durRange;
-
-    p.style.width = size.toFixed(1) + "px";
-    p.style.height = size.toFixed(1) + "px";
-    p.style.left = (-10 + Math.random() * 120).toFixed(2) + "%";
-    p.style.top = (140 + Math.random() * 120).toFixed(1) + "px";
-
-    p.style.setProperty("--mist-rgb", colorsRGB[i % 3]);
-    p.style.setProperty("--sway", ((Math.random() * 2 - 1) * 60).toFixed(1) + "px");
-    p.style.setProperty("--rise", "-" + (50 + Math.random() * 90).toFixed(1) + "px");
-    p.style.setProperty("--peak", (peakMin + Math.random() * peakRange).toFixed(2));
-    p.style.setProperty("--dur", dur.toFixed(2) + "s");
-    p.style.setProperty("--delay", "-" + (Math.random() * dur).toFixed(2) + "s");
-
-    frag.appendChild(p);
-  }
-  host.appendChild(frag);
 })();
 </script>
 
