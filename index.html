@@ -1171,6 +1171,17 @@ body{
   .gift-gem .gem-spark{ animation: none !important; opacity: 0.5; }
   .gift-gem .gem-shine{ animation: none !important; opacity: 0; }
 }
+
+/* Galaxy Tab / Android(Blink) 明滅対策: 前景の金文字と金ボタンを独立GPUレイヤーに
+   隔離し、スクロール時に背後の霧・水面レイヤーと再合成されて明滅するのを止める。
+   デスクトップ(hover+fine pointer)は対象外＝無傷。will-changeは使わず低負荷に。 */
+@media (hover: none) and (pointer: coarse){
+  .visit-rooms h2,
+  .menu-btn.menu-feature{
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
 </style>
 </head>
 <body>
