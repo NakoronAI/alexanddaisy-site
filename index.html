@@ -12,9 +12,7 @@
 <link rel="preload" as="image" href="house_lossless.webp" type="image/webp" fetchpriority="high">
 <link rel="preload" as="image" href="water_surface_ripple_photo_v1.webp" type="image/webp">
 <link rel="preload" as="image" href="water_reflection_sky_forest.webp" type="image/webp">
-<link rel="preload" as="image" href="mist_t2_1.webp" type="image/webp">
-<link rel="preload" as="image" href="mist_t2_2.webp" type="image/webp">
-<link rel="preload" as="image" href="mist_t2_3.webp" type="image/webp">
+<link rel="preload" as="image" href="lumo_mist.webp" type="image/webp">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -436,10 +434,8 @@ body{
       rgba(0,0,0,0.62) 100%);
 }
 
-/* ===== water mist: WebP fog（Pass T2 マスク全廃・比率固定・寸法半減） =====
-   フェードと柔らかさは画像に焼き込み済み（mist_t2_1〜3.webp・純白R-B=0）。
-   CSSマスク14本を全廃。aspect-ratio:3/1で縦長端末の縦線化（I I）を根絶。 */
-.water-mist{
+/* ===== 軽い霧(Fable画像) + ジェムのフチ消し魔法 ===== */
+.water-mist {
   position: absolute;
   left: 50%;
   top: calc(-1 * var(--water-line) - 132px);
@@ -449,70 +445,88 @@ body{
   z-index: 1;
   pointer-events: none;
   overflow: hidden;
+  /* ライスペーパーのフチを自然に溶かす魔法のマスク */
+  -webkit-mask-image: linear-gradient(to bottom, 
+      transparent 0%, 
+      rgba(0,0,0,1) 15%, 
+      rgba(0,0,0,1) 75%, 
+      transparent 100%);
+  mask-image: linear-gradient(to bottom, 
+      transparent 0%, 
+      rgba(0,0,0,1) 15%, 
+      rgba(0,0,0,1) 75%, 
+      transparent 100%);
 }
-.water-mist .mist-layer{
+
+.water-mist .mist-layer {
   position: absolute;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center center;
-  aspect-ratio: 3 / 1;
-  height: auto;
   transform-origin: 50% 100%;
-  will-change: transform;
+  will-change: transform, opacity;
 }
-/* 1枚目：一番手前の濃い霧 */
-.water-mist .mist-layer:nth-child(1){
+
+/* 1枚目：一番手前の霧 */
+.water-mist .mist-layer:nth-child(1) {
   background-image: url("mist_t2_1.webp");
-  left: -15vw;
-  width: 130vw;
-  top: -10px;
-  opacity: 0.92;
-  animation: mistDriftA 20s ease-in-out -6s infinite alternate;
-}
-/* 2枚目：中間の大きく柔らかい霧 */
-.water-mist .mist-layer:nth-child(2){
-  background-image: url("mist_t2_2.webp");
   left: -20vw;
   width: 140vw;
-  top: 200px;
-  opacity: 0.78;
+  top: 0vw;
+  height: 1200px;
+  opacity: 0.85;
+  filter: blur(1px);
+  animation: mistDriftA 20s ease-in-out -6s infinite alternate;
+}
+
+/* 2枚目：中間の霧（腹巻防止のため top を vw で分散） */
+.water-mist .mist-layer:nth-child(2) {
+  background-image: url("mist_t2_2.webp");
+  left: -30vw;
+  width: 160vw;
+  top: 15vw;
+  height: 1100px;
+  opacity: 0.70;
+  filter: blur(2px);
   animation: mistDriftB 27s ease-in-out -14s infinite alternate;
 }
-/* 3枚目：下側の薄い残り霧 */
-.water-mist .mist-layer:nth-child(3){
+
+/* 3枚目：奥の霧（腹巻防止のため top を vw で分散） */
+.water-mist .mist-layer:nth-child(3) {
   background-image: url("mist_t2_3.webp");
-  left: -25vw;
-  width: 150vw;
-  top: 320px;
-  opacity: 0.62;
+  left: -20vw;
+  width: 140vw;
+  top: 25vw;
+  height: 1000px;
+  opacity: 0.55;
+  filter: blur(4px);
   animation: mistDriftC 36s ease-in-out -22s infinite alternate;
 }
-@keyframes mistDriftA{
-  0%   { transform: translate3d(-6.0%,  26px, 0) scale(1.000); }
-  50%  { transform: translate3d( 0.5%,  -4px, 0) scale(1.025); }
-  100% { transform: translate3d( 6.0%, -30px, 0) scale(1.050); }
+
+@keyframes mistDriftA {
+  0%   { transform: translate3d(-8%,  15px, 0) scale(1.03) rotate(-0.3deg); }
+  100% { transform: translate3d( 8%, -15px, 0) scale(1.12) rotate( 0.3deg); }
 }
-@keyframes mistDriftB{
-  0%   { transform: translate3d( 5.0%,  30px, 0) scale(1.02) rotate( 0.20deg); }
-  52%  { transform: translate3d(-1.0%,   0px, 0) scale(1.06) rotate( 0.00deg); }
-  100% { transform: translate3d(-6.0%, -34px, 0) scale(1.10) rotate(-0.20deg); }
+@keyframes mistDriftB {
+  0%   { transform: translate3d( 8%, -15px, 0) scale(1.06) rotate( 0.2deg); }
+  100% { transform: translate3d(-8%,  15px, 0) scale(1.15) rotate(-0.2deg); }
 }
-@keyframes mistDriftC{
-  0%   { transform: translate3d(-4.0%,  26px, 0) scale(1.00) rotate(-0.15deg); }
-  50%  { transform: translate3d( 0.5%,   0px, 0) scale(1.03) rotate( 0.00deg); }
-  100% { transform: translate3d( 5.0%, -24px, 0) scale(1.06) rotate( 0.15deg); }
+@keyframes mistDriftC {
+  0%   { transform: translate3d(-5%,  20px, 0) scale(1.00) rotate(-0.2deg); }
+  100% { transform: translate3d( 5%, -15px, 0) scale(1.10) rotate( 0.2deg); }
 }
-@media (max-width: 700px){
-  .water-mist{
+
+@media (max-width: 700px) {
+  .water-mist {
     top: calc(-1 * var(--water-line) - 116px);
-    height: 1030px;
+    height: 940px;
   }
-  .water-mist .mist-layer:nth-child(1){ left:-25vw; width:150vw; top:  10px; opacity: 0.82; }
-  .water-mist .mist-layer:nth-child(2){ left:-35vw; width:170vw; top:  90px; opacity: 0.58; }
-  .water-mist .mist-layer:nth-child(3){ left:-25vw; width:150vw; top: 300px; opacity: 0.50; }
+  .water-mist .mist-layer:nth-child(1) { left:-25vw; width:150vw; top: -10px; height: 950px; opacity: 0.75; }
+  .water-mist .mist-layer:nth-child(2) { left:-35vw; width:170vw; top:  80px; height: 850px; opacity: 0.60; }
+  .water-mist .mist-layer:nth-child(3) { left:-25vw; width:150vw; top: 160px; height: 750px; opacity: 0.45; }
 }
-@media (prefers-reduced-motion: reduce){
-  .water-mist .mist-layer{ animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .water-mist .mist-layer { animation: none; }
 }
 
 .lower-water-undulate,
@@ -1061,46 +1075,6 @@ body{
         rgba(255,255,255,0.00) 40px);
     animation-duration: 33s;
   }
-}
-
-/* ===== Pass T2 touch safety net（T1吸収） =====
-   タッチ端末と1024px以下でGPU負荷源を停止。マウスPC(広幅)は無変更。 */
-@media (max-width: 1024px), (hover: none) and (pointer: coarse){
-  /* 水面：blurとSVGフィルタ参照を撤去（色調整は維持） */
-  .water::after{ filter: brightness(0.97) saturate(0.95); }
-  .water-reflection-image{ filter: saturate(1.16) brightness(0.94) contrast(1.08); }
-
-  /* さざ波・川流れ：停止 */
-  .ripple{ display: none; }
-  .river-current{ animation: none; filter: saturate(1.08); }
-  .river-current::before,
-  .river-current::after{ animation: none; filter: none; }
-
-  /* VISIT ROOMSシマー：停止（グラデ文字と光彩は静止で維持） */
-  .visit-rooms h2{ animation: none; }
-
-  /* 妖精の粉：brightnessアニメを外してtransformのみ */
-  .fairy-core{ animation-name: fairy-twinkle-lite; }
-
-  /* ホットスポット光彩：blend撤去 */
-  .hotspot::before{ mix-blend-mode: normal; }
-
-  /* 霧：タッチは2層のみ・移動短縮・回転なし */
-  .water-mist .mist-layer:nth-child(3){ display: none; }
-  .water-mist .mist-layer:nth-child(1){ animation: mistTouchA 34s ease-in-out -8s infinite alternate; }
-  .water-mist .mist-layer:nth-child(2){ animation: mistTouchB 46s ease-in-out -16s infinite alternate; }
-}
-@keyframes fairy-twinkle-lite{
-  0%, 100% { transform: scale(0.65) rotate(0deg); }
-  50%      { transform: scale(1.35) rotate(22deg); }
-}
-@keyframes mistTouchA{
-  0%   { transform: translate3d(-5.0%,  16px, 0) scale(1.00); }
-  100% { transform: translate3d( 5.5%, -18px, 0) scale(1.04); }
-}
-@keyframes mistTouchB{
-  0%   { transform: translate3d( 4.5%,  18px, 0) scale(1.01); }
-  100% { transform: translate3d(-5.0%, -20px, 0) scale(1.06); }
 }
 
 .hotspot.is-gift{ container-type: inline-size; }
