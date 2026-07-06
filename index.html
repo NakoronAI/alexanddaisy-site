@@ -1172,14 +1172,19 @@ body{
   .gift-gem .gem-shine{ animation: none !important; opacity: 0; }
 }
 
-/* Galaxy Tab / Android(Blink) 明滅対策: 前景の金文字と金ボタンを独立GPUレイヤーに
-   隔離し、スクロール時に背後の霧・水面レイヤーと再合成されて明滅するのを止める。
-   デスクトップ(hover+fine pointer)は対象外＝無傷。will-changeは使わず低負荷に。 */
+/* Galaxy Tab / Android(Blink) ラスベガス明滅対策（タッチ端末のみ・デスクトップ無傷）:
+   原因1=前景の三重苦を解体。くり抜き金文字(VISIT ROOMS)はシマーのアニメを止め、
+   重い22px発光ぼかしを外して毎フレーム再描画を無くす。background-clip:text に
+   transform隔離を掛けると逆に文字消えを招くため、金文字にはtranslateZを付けない。
+   原因2対策として金ボタンだけは独立レイヤーに隔離（くり抜き文字ではないので安全）。 */
 @media (hover: none) and (pointer: coarse){
-  .visit-rooms h2,
   .menu-btn.menu-feature{
     transform: translateZ(0);
     backface-visibility: hidden;
+  }
+  .visit-rooms h2{
+    animation: none;
+    filter: drop-shadow(0 1px 2px rgba(54,36,10,0.6));
   }
 }
 </style>
