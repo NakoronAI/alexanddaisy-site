@@ -1192,16 +1192,17 @@ body{
    タッチ端末のみ。重い合成レイヤーを間引いてコンポジタ負荷を10枚→4枚に。
    セレクタは現物(.ripple / .river-current::before/::after)と照合済み(クロ検証)。 */
 @media (hover: none) and (pointer: coarse){
-  /* 1. 激重のさざ波影(soft-light + feTurbulence SVGフィルター)2枚を完全停止。
-        写真ベースの水面が美しいので無くても水面として成立する。 */
-  .ripple{
+  /* 1. さざ波影は ripple-a を1枚だけ復活させて水面に息を戻す。ripple-b は停止のまま。
+        ripple-a の端末別値(PC0.34/16s・スマホ0.20/56s・低DPI0.16/70s)は各メディアで既定済み。
+        soft-light 1枚なら Galaxy Tab コンポジタが耐えられる想定(実機で剥離ラインを線引き)。 */
+  .ripple-b{
     display: none !important;
     animation: none !important;
   }
   /* 2. モアレの元凶「川3枚重ね」を土台1枚に。相手が消えるのでモアレは構造上起きない。 */
   .river-current{
     filter: blur(1px) saturate(1.1) !important;
-    opacity: 0.55 !important;
+    opacity: 0.8 !important;
   }
   .river-current::before,
   .river-current::after{
