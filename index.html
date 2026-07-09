@@ -12,7 +12,9 @@
 <link rel="preload" as="image" href="house_q85.webp" type="image/webp" fetchpriority="high">
 <link rel="preload" as="image" href="water_surface_ripple_photo_v1.webp" type="image/webp">
 <link rel="preload" as="image" href="water_reflection_sky_forest.webp" type="image/webp">
-<link rel="preload" as="image" href="lumo_mist.webp" type="image/webp">
+<link rel="preload" as="image" href="mist_t5_1.webp" type="image/webp">
+<link rel="preload" as="image" href="mist_t5_2.webp" type="image/webp">
+<link rel="preload" as="image" href="mist_t5_3.webp" type="image/webp">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -445,16 +447,16 @@ body{
   z-index: 1;
   pointer-events: none;
   overflow: hidden;
-  /* ライスペーパーのフチを自然に溶かす魔法のマスク */
-  -webkit-mask-image: linear-gradient(to bottom, 
-      transparent 0%, 
-      rgba(0,0,0,1) 15%, 
-      rgba(0,0,0,1) 75%, 
+  /* ジェム版の美しさの正体：上下フチを溶かすフェードマスク(中央は見せる)。blurは画像に焼き込み済み */
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0,0,0,1) 15%,
+      rgba(0,0,0,1) 75%,
       transparent 100%);
-  mask-image: linear-gradient(to bottom, 
-      transparent 0%, 
-      rgba(0,0,0,1) 15%, 
-      rgba(0,0,0,1) 75%, 
+  mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0,0,0,1) 15%,
+      rgba(0,0,0,1) 75%,
       transparent 100%);
 }
 
@@ -469,37 +471,34 @@ body{
 
 /* 1枚目：一番手前の霧 */
 .water-mist .mist-layer:nth-child(1) {
-  background-image: url("mist_t2_1.webp");
+  background-image: url("mist_t5_1.webp");
   left: -20vw;
   width: 140vw;
   top: 0vw;
   height: 1200px;
   opacity: 0.85;
-  filter: blur(1px);
   animation: mistDriftA 20s ease-in-out -6s infinite alternate;
 }
 
 /* 2枚目：中間の霧（腹巻防止のため top を vw で分散） */
 .water-mist .mist-layer:nth-child(2) {
-  background-image: url("mist_t2_2.webp");
+  background-image: url("mist_t5_2.webp");
   left: -30vw;
   width: 160vw;
   top: 15vw;
   height: 1100px;
   opacity: 0.70;
-  filter: blur(2px);
   animation: mistDriftB 27s ease-in-out -14s infinite alternate;
 }
 
 /* 3枚目：奥の霧（腹巻防止のため top を vw で分散） */
 .water-mist .mist-layer:nth-child(3) {
-  background-image: url("mist_t2_3.webp");
+  background-image: url("mist_t5_3.webp");
   left: -20vw;
   width: 140vw;
   top: 25vw;
   height: 1000px;
   opacity: 0.55;
-  filter: blur(4px);
   animation: mistDriftC 36s ease-in-out -22s infinite alternate;
 }
 
