@@ -1218,36 +1218,58 @@ body{
   }
 }
 
-/* ===== ジェムの特効薬：Galaxy Tab 画面剥がれ(GPUパンク/レイヤー分離)対策 =====
-   タッチ端末のみ。重い合成レイヤーを間引いてコンポジタ負荷を10枚→4枚に。
-   セレクタは現物(.ripple / .river-current::before/::after)と照合済み(クロ検証)。
-   2026-07: ジェム提案の @supports not (-webkit-touch-callout:none) でiOSを除外。
-   このプロパティはiOS専用＝非対応のAndroid(Pixel/Galaxy/Fire)だけ安全装置が残り、
-   iPhone/iPadにはスマホ用の穏やかな波(ripple 105s・川ミニ10-11s)が復活する。 */
+/* ===== ジェムの特効薬v2：Android全機種（Galaxy/Fire/Pixel等）向け 波復活＆剥がれ防止 =====
+   iPhone(iOS)とPCは@supportsで除外。Galaxy 12インチはタブレット帯(701-900px)のPC用超スロー川
+   (riverCurrentDrift 680s)が実質静止画だった＝ジェムの推理。スマホで実績のある
+   transform方式の軽い川(riverMiniFineA/B 10-11s・キーフレームはトップレベル定義でクロ照合済み)を
+   Androidタッチ端末に強制適用する。ripple-aはスマホ実績値(0.20/56s)に統一。 */
 @media (hover: none) and (pointer: coarse){
   @supports not (-webkit-touch-callout: none){
-  /* 1. さざ波影は ripple-a を1枚だけ復活させて水面に息を戻す。ripple-b は停止のまま。
-        ripple-a の端末別値(PC0.34/16s・スマホ0.20/56s・低DPI0.16/70s)は各メディアで既定済み。
-        soft-light 1枚なら Galaxy Tab コンポジタが耐えられる想定(実機で剥離ラインを線引き)。 */
-  .ripple-b{
-    display: none !important;
-    animation: none !important;
-  }
-  /* 1b. 2026-07: Galaxy 12インチで波が見えない対策。安全認定済みのripple-a(soft-light 1枚)を
-        濃くして可視化。screen合成もblurも増やさないので剥がれリスクの筋が違う。実機判定待ち。 */
-  .ripple-a{
-    opacity: 0.5 !important;
-  }
-  /* 2. モアレの元凶「川3枚重ね」を土台1枚に。相手が消えるのでモアレは構造上起きない。 */
-  .river-current{
-    filter: blur(1px) saturate(1.1) !important;
-    opacity: 0.8 !important;
-  }
-  .river-current::before,
-  .river-current::after{
-    display: none !important;
-    animation: none !important;
-  }
+    /* 1. SVGの波は重いので1枚に減らし、優しく動かす */
+    .ripple-a {
+      opacity: 0.20 !important;
+      animation-duration: 56s !important;
+    }
+    .ripple-b {
+      display: none !important;
+      animation: none !important;
+    }
+
+    /* 2. PC用の重くて遅い川（680秒）をキャンセルし、スマホ用の軽くて速い川（10秒）に切り替え */
+    .river-current {
+      opacity: 0.82 !important;
+      background: none !important;
+      animation: none !important;
+      transform: translateZ(0) !important;
+    }
+    .river-current::before {
+      content: "" !important;
+      display: block !important;
+      position: absolute !important;
+      left: -6% !important; right: -6% !important;
+      top: -220px !important; bottom: auto !important;
+      height: calc(100% + 440px) !important;
+      opacity: 0.92 !important;
+      background: repeating-linear-gradient(5deg, rgba(255,255,255,0) 0 10px, rgba(215,255,238,0.00) 14px, rgba(215,255,238,0.052) 18px, rgba(255,238,184,0.074) 23px, rgba(215,255,238,0.044) 28px, rgba(255,255,255,0.00) 34px) !important;
+      background-size: 100% auto !important;
+      -webkit-mask-image: none !important;
+      mask-image: none !important;
+      animation: riverMiniFineA 10s linear infinite !important;
+    }
+    .river-current::after {
+      content: "" !important;
+      display: block !important;
+      position: absolute !important;
+      left: -6% !important; right: -6% !important;
+      top: -220px !important; bottom: auto !important;
+      height: calc(100% + 440px) !important;
+      opacity: 0.72 !important;
+      background: repeating-linear-gradient(-4deg, rgba(255,255,255,0) 0 14px, rgba(197,236,255,0.00) 18px, rgba(197,236,255,0.046) 23px, rgba(224,255,235,0.060) 28px, rgba(197,236,255,0.036) 33px, rgba(255,255,255,0.00) 40px) !important;
+      background-size: 100% auto !important;
+      -webkit-mask-image: none !important;
+      mask-image: none !important;
+      animation: riverMiniFineB 11s linear infinite !important;
+    }
   }
 }
 </style>
