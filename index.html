@@ -450,14 +450,29 @@ body{
   /* ジェム版の美しさの正体：上下フチを溶かすフェードマスク(中央は見せる)。blurは画像に焼き込み済み */
   -webkit-mask-image: linear-gradient(to bottom,
       transparent 0%,
-      rgba(0,0,0,1) 15%,
+      rgba(0,0,0,1) 6%,
       rgba(0,0,0,1) 75%,
       transparent 100%);
   mask-image: linear-gradient(to bottom,
       transparent 0%,
-      rgba(0,0,0,1) 15%,
+      rgba(0,0,0,1) 6%,
       rgba(0,0,0,1) 75%,
       transparent 100%);
+}
+
+/* PC専用(マウス端末のみ)：左右フチも溶かして縦カーテン(煙幕)を消す。中央の透けは維持。
+   マスクは静的でタッチ端末は対象外＝Galaxy Tab安全。intersectで縦横フェードを合成。 */
+@media (hover: hover) and (pointer: fine){
+  .water-mist{
+    -webkit-mask-image:
+      linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 6%, rgba(0,0,0,1) 75%, transparent 100%),
+      linear-gradient(to right,  transparent 0%, rgba(0,0,0,1) 18%, rgba(0,0,0,1) 82%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 6%, rgba(0,0,0,1) 75%, transparent 100%),
+      linear-gradient(to right,  transparent 0%, rgba(0,0,0,1) 18%, rgba(0,0,0,1) 82%, transparent 100%);
+    mask-composite: intersect;
+  }
 }
 
 .water-mist .mist-layer {
@@ -474,7 +489,7 @@ body{
   background-image: url("mist_t5_1.webp");
   left: -20vw;
   width: 140vw;
-  top: -10vw;
+  top: -18vw;
   height: 1200px;
   opacity: 0.85;
   animation: mistDriftA 20s ease-in-out -6s infinite alternate;
@@ -485,7 +500,7 @@ body{
   background-image: url("mist_t5_2.webp");
   left: -30vw;
   width: 160vw;
-  top: 5vw;
+  top: -3vw;
   height: 1100px;
   opacity: 0.70;
   animation: mistDriftB 27s ease-in-out -14s infinite alternate;
@@ -496,7 +511,7 @@ body{
   background-image: url("mist_t5_3.webp");
   left: -20vw;
   width: 140vw;
-  top: 15vw;
+  top: 7vw;
   height: 1000px;
   opacity: 0.55;
   animation: mistDriftC 36s ease-in-out -22s infinite alternate;
@@ -520,9 +535,9 @@ body{
     top: calc(-1 * var(--water-line) - 116px);
     height: 940px;
   }
-  .water-mist .mist-layer:nth-child(1) { left:-25vw; width:150vw; top: -10px; height: 950px; opacity: 0.75; }
-  .water-mist .mist-layer:nth-child(2) { left:-35vw; width:170vw; top:  80px; height: 850px; opacity: 0.60; }
-  .water-mist .mist-layer:nth-child(3) { left:-25vw; width:150vw; top: 160px; height: 750px; opacity: 0.45; }
+  .water-mist .mist-layer:nth-child(1) { left:-25vw; width:150vw; top: -70px; height: 950px; opacity: 0.75; }
+  .water-mist .mist-layer:nth-child(2) { left:-35vw; width:170vw; top:  20px; height: 850px; opacity: 0.60; }
+  .water-mist .mist-layer:nth-child(3) { left:-25vw; width:150vw; top: 100px; height: 750px; opacity: 0.45; }
 }
 @media (prefers-reduced-motion: reduce) {
   .water-mist .mist-layer { animation: none; }
