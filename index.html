@@ -269,12 +269,16 @@ body{
 
 .menu-social{
   margin-top: 52px;
-  padding-top: 84px;
+  padding-top: 100px;
   border-top: 1px solid rgba(243,233,215,0.25);
   display: flex;
   align-items: center;
   gap: 14px;
   justify-content: flex-start;
+}
+/* Tablets (touch, 601px+): nudge the icon away from the left edge. */
+@media (hover: none) and (pointer: coarse) and (min-width: 601px){
+  .menu-social{ padding-left: 56px; }
 }
 .social-btn{
   display: inline-flex;
@@ -965,7 +969,7 @@ body{
   .visit-rooms h2{ margin-bottom: 34px; }
   .menu-row{ margin-bottom: 22px; }
   .menu-btn{ flex: 0 1 auto; }
-  .menu-social{ margin-top: 46px; padding-top: 78px; }
+  .menu-social{ margin-top: 46px; padding-top: 94px; }
   .page-footer{ margin-top: 96px; }
   .world-backdrop{ filter: blur(10px) brightness(0.82); }
 
