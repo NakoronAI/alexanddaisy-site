@@ -478,10 +478,12 @@ body{
   .water-mist{
     -webkit-mask-image:
       linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 6%, rgba(0,0,0,1) 75%, transparent 100%),
+      radial-gradient(ellipse 32% 26% at 50% 40%, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.10) 45%, rgba(0,0,0,1) 100%),
       linear-gradient(to right,  transparent 0%, rgba(0,0,0,1) 18%, rgba(0,0,0,1) 82%, transparent 100%);
-    -webkit-mask-composite: source-in;
+    -webkit-mask-composite: source-in, source-in;
     mask-image:
       linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 6%, rgba(0,0,0,1) 75%, transparent 100%),
+      radial-gradient(ellipse 32% 26% at 50% 40%, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.10) 45%, rgba(0,0,0,1) 100%),
       linear-gradient(to right,  transparent 0%, rgba(0,0,0,1) 18%, rgba(0,0,0,1) 82%, transparent 100%);
     mask-composite: intersect;
   }
@@ -503,7 +505,7 @@ body{
   width: 140vw;
   top: -18vw;
   height: 1200px;
-  opacity: 0.85;
+  opacity: 0.74;
   animation: mistDriftA 20s ease-in-out -6s infinite alternate;
 }
 
@@ -514,7 +516,7 @@ body{
   width: 160vw;
   top: -3vw;
   height: 1100px;
-  opacity: 0.70;
+  opacity: 0.58;
   animation: mistDriftB 27s ease-in-out -14s infinite alternate;
 }
 
@@ -525,7 +527,7 @@ body{
   width: 140vw;
   top: 7vw;
   height: 1000px;
-  opacity: 0.55;
+  opacity: 0.44;
   animation: mistDriftC 36s ease-in-out -22s infinite alternate;
 }
 
@@ -547,9 +549,9 @@ body{
     top: calc(-1 * var(--water-line) - 116px);
     height: 940px;
   }
-  .water-mist .mist-layer:nth-child(1) { left:-25vw; width:150vw; top: -70px; height: 950px; opacity: 0.75; }
-  .water-mist .mist-layer:nth-child(2) { left:-35vw; width:170vw; top:  20px; height: 850px; opacity: 0.60; }
-  .water-mist .mist-layer:nth-child(3) { left:-25vw; width:150vw; top: 100px; height: 750px; opacity: 0.45; }
+  .water-mist .mist-layer:nth-child(1) { left:-25vw; width:150vw; top: -70px; height: 950px; opacity: 0.55; }
+  .water-mist .mist-layer:nth-child(2) { left:-35vw; width:170vw; top:  20px; height: 850px; opacity: 0.44; }
+  .water-mist .mist-layer:nth-child(3) { left:-25vw; width:150vw; top: 100px; height: 750px; opacity: 0.33; }
 }
 @media (prefers-reduced-motion: reduce) {
   .water-mist .mist-layer { animation: none; }
