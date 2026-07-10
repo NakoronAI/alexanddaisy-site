@@ -1220,8 +1220,12 @@ body{
 
 /* ===== ジェムの特効薬：Galaxy Tab 画面剥がれ(GPUパンク/レイヤー分離)対策 =====
    タッチ端末のみ。重い合成レイヤーを間引いてコンポジタ負荷を10枚→4枚に。
-   セレクタは現物(.ripple / .river-current::before/::after)と照合済み(クロ検証)。 */
+   セレクタは現物(.ripple / .river-current::before/::after)と照合済み(クロ検証)。
+   2026-07: ジェム提案の @supports not (-webkit-touch-callout:none) でiOSを除外。
+   このプロパティはiOS専用＝非対応のAndroid(Pixel/Galaxy/Fire)だけ安全装置が残り、
+   iPhone/iPadにはスマホ用の穏やかな波(ripple 105s・川ミニ10-11s)が復活する。 */
 @media (hover: none) and (pointer: coarse){
+  @supports not (-webkit-touch-callout: none){
   /* 1. さざ波影は ripple-a を1枚だけ復活させて水面に息を戻す。ripple-b は停止のまま。
         ripple-a の端末別値(PC0.34/16s・スマホ0.20/56s・低DPI0.16/70s)は各メディアで既定済み。
         soft-light 1枚なら Galaxy Tab コンポジタが耐えられる想定(実機で剥離ラインを線引き)。 */
@@ -1238,6 +1242,7 @@ body{
   .river-current::after{
     display: none !important;
     animation: none !important;
+  }
   }
 }
 </style>
