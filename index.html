@@ -1233,6 +1233,11 @@ body{
     display: none !important;
     animation: none !important;
   }
+  /* 1b. 2026-07: Galaxy 12インチで波が見えない対策。安全認定済みのripple-a(soft-light 1枚)を
+        濃くして可視化。screen合成もblurも増やさないので剥がれリスクの筋が違う。実機判定待ち。 */
+  .ripple-a{
+    opacity: 0.5 !important;
+  }
   /* 2. モアレの元凶「川3枚重ね」を土台1枚に。相手が消えるのでモアレは構造上起きない。 */
   .river-current{
     filter: blur(1px) saturate(1.1) !important;
