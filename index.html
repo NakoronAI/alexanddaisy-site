@@ -55,6 +55,27 @@
 
 *{ box-sizing: border-box; }
 
+/* Android Chrome / Samsung Internet / Fire Silk:
+   remove the pale-blue tap overlay from clickable icons and links.
+   Keyboard focus outlines remain available through :focus-visible rules. */
+a,
+button,
+[role="button"],
+.hotspot,
+.menu-btn,
+.social-btn{
+  -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button,
+.hotspot,
+.menu-btn,
+.social-btn{
+  -webkit-user-select: none;
+          user-select: none;
+}
+
 html, body{
   margin: 0;
   padding: 0;
