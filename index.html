@@ -143,27 +143,26 @@ body{
 }
 .canopy-sparkles .spark{
   position: absolute;
-  width: 8px; height: 8px;
+  width: 14px; height: 14px;
   border-radius: 50%;
   background: radial-gradient(circle,
-      rgba(255,255,255,1) 0%,
-      rgba(255,251,232,0.95) 24%,
-      rgba(255,240,196,0.5) 54%,
-      rgba(255,230,170,0) 76%);
-  box-shadow: 0 0 9px 3px rgba(255,248,224,0.7);
+      rgba(255,255,255,0.9) 0%,
+      rgba(255,244,200,0.6) 30%,
+      rgba(255,230,150,0) 70%);
+  box-shadow: 0 0 14px 5px rgba(255,246,210,0.55);
   opacity: 0;
   will-change: opacity, transform;
   animation: canopyGlint 7s ease-in-out infinite;
 }
 /* 木々の周縁に散らす（家の左右マージン＋上部樹冠）。左右で微妙にずらして祭壇シンメトリーを避ける */
-.canopy-sparkles .spark:nth-child(1){ left:10%; top:12%; animation-duration: 6.5s; animation-delay: -0.4s; }
-.canopy-sparkles .spark:nth-child(2){ left:20%; top:24%; width:5px; height:5px; animation-duration: 8s;   animation-delay: -3.1s; }
-.canopy-sparkles .spark:nth-child(3){ left:7%;  top:33%; width:6px; height:6px; animation-duration: 9s;   animation-delay: -5.6s; }
-.canopy-sparkles .spark:nth-child(4){ left:88%; top:14%; animation-duration: 7.5s; animation-delay: -1.9s; }
-.canopy-sparkles .spark:nth-child(5){ left:79%; top:27%; width:5px; height:5px; animation-duration: 6.8s; animation-delay: -4.7s; }
-.canopy-sparkles .spark:nth-child(6){ left:92%; top:31%; width:6px; height:6px; animation-duration: 8.6s; animation-delay: -2.3s; }
-.canopy-sparkles .spark:nth-child(7){ left:13%; top:52%; width:5px; height:5px; animation-duration: 9.4s; animation-delay: -6.8s; }
-.canopy-sparkles .spark:nth-child(8){ left:86%; top:55%; animation-duration: 7.2s; animation-delay: -0.9s; }
+.canopy-sparkles .spark:nth-child(1){ left:10%; top:12%; animation-duration: 6s;   animation-delay: 0s; }
+.canopy-sparkles .spark:nth-child(2){ left:20%; top:24%; width:10px; height:10px; animation-duration: 7.5s; animation-delay: -2s; }
+.canopy-sparkles .spark:nth-child(3){ left:7%;  top:33%; width:12px; height:12px; animation-duration: 9s;   animation-delay: -4s; }
+.canopy-sparkles .spark:nth-child(4){ left:88%; top:14%; animation-duration: 6.5s; animation-delay: -1s; }
+.canopy-sparkles .spark:nth-child(5){ left:79%; top:27%; width:11px; height:11px; animation-duration: 8s;   animation-delay: -5s; }
+.canopy-sparkles .spark:nth-child(6){ left:92%; top:31%; width:16px; height:16px; animation-duration: 10s;  animation-delay: -3s; }
+.canopy-sparkles .spark:nth-child(7){ left:13%; top:52%; width:10px; height:10px; animation-duration: 7s;   animation-delay: -6s; }
+.canopy-sparkles .spark:nth-child(8){ left:86%; top:55%; animation-duration: 8.5s; animation-delay: -2.5s; }
 @keyframes canopyGlint{
   0%   { opacity: 0.05; transform: scale(0.7); }
   50%  { opacity: 1;    transform: scale(1.2); }
