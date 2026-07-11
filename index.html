@@ -165,10 +165,9 @@ body{
 .canopy-sparkles .spark:nth-child(7){ left:13%; top:52%; width:5px; height:5px; animation-duration: 9.4s; animation-delay: -6.8s; }
 .canopy-sparkles .spark:nth-child(8){ left:86%; top:55%; animation-duration: 7.2s; animation-delay: -0.9s; }
 @keyframes canopyGlint{
-  0%   { opacity: 0; transform: scale(0.5); }
-  7%   { opacity: 1; transform: scale(1); }
-  18%  { opacity: 0; transform: scale(0.6); }
-  100% { opacity: 0; transform: scale(0.6); }
+  0%   { opacity: 0.05; transform: scale(0.7); }
+  50%  { opacity: 1;    transform: scale(1.2); }
+  100% { opacity: 0.05; transform: scale(0.7); }
 }
 @media (prefers-reduced-motion: reduce){
   .canopy-sparkles .spark{ animation: none; }
