@@ -132,6 +132,48 @@ body{
             #000 var(--seam-fade-start), transparent 100%);
 }
 
+/* ===== 木漏れ日スパークル（木々が輝く・生きてる印） =====
+   位置は木々（家の外側）だけ。窓・ドア・金看板には乗せない。
+   opacity/transformのみアニメ＝コンポジタ安全。blur/blend不使用＝Android安全。 */
+.canopy-sparkles{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+.canopy-sparkles .spark{
+  position: absolute;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+      rgba(255,255,255,1) 0%,
+      rgba(255,251,232,0.95) 24%,
+      rgba(255,240,196,0.5) 54%,
+      rgba(255,230,170,0) 76%);
+  box-shadow: 0 0 9px 3px rgba(255,248,224,0.7);
+  opacity: 0;
+  will-change: opacity, transform;
+  animation: canopyGlint 7s ease-in-out infinite;
+}
+/* 木々の周縁に散らす（家の左右マージン＋上部樹冠）。左右で微妙にずらして祭壇シンメトリーを避ける */
+.canopy-sparkles .spark:nth-child(1){ left:10%; top:12%; animation-duration: 6.5s; animation-delay: -0.4s; }
+.canopy-sparkles .spark:nth-child(2){ left:20%; top:24%; width:5px; height:5px; animation-duration: 8s;   animation-delay: -3.1s; }
+.canopy-sparkles .spark:nth-child(3){ left:7%;  top:33%; width:6px; height:6px; animation-duration: 9s;   animation-delay: -5.6s; }
+.canopy-sparkles .spark:nth-child(4){ left:88%; top:14%; animation-duration: 7.5s; animation-delay: -1.9s; }
+.canopy-sparkles .spark:nth-child(5){ left:79%; top:27%; width:5px; height:5px; animation-duration: 6.8s; animation-delay: -4.7s; }
+.canopy-sparkles .spark:nth-child(6){ left:92%; top:31%; width:6px; height:6px; animation-duration: 8.6s; animation-delay: -2.3s; }
+.canopy-sparkles .spark:nth-child(7){ left:13%; top:52%; width:5px; height:5px; animation-duration: 9.4s; animation-delay: -6.8s; }
+.canopy-sparkles .spark:nth-child(8){ left:86%; top:55%; animation-duration: 7.2s; animation-delay: -0.9s; }
+@keyframes canopyGlint{
+  0%   { opacity: 0; transform: scale(0.5); }
+  7%   { opacity: 1; transform: scale(1); }
+  18%  { opacity: 0; transform: scale(0.6); }
+  100% { opacity: 0; transform: scale(0.6); }
+}
+@media (prefers-reduced-motion: reduce){
+  .canopy-sparkles .spark{ animation: none; }
+}
+
 .hotspot{
   position: absolute;
   display: block;
@@ -478,12 +520,12 @@ body{
   .water-mist{
     -webkit-mask-image:
       linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 6%, rgba(0,0,0,1) 75%, transparent 100%),
-      radial-gradient(ellipse 32% 26% at 50% 40%, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.10) 45%, rgba(0,0,0,1) 100%),
+      radial-gradient(ellipse 34% 28% at 50% 40%, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0.06) 35%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,1) 100%),
       linear-gradient(to right,  transparent 0%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 88%, transparent 100%);
     -webkit-mask-composite: source-in, source-in;
     mask-image:
       linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 6%, rgba(0,0,0,1) 75%, transparent 100%),
-      radial-gradient(ellipse 32% 26% at 50% 40%, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.10) 45%, rgba(0,0,0,1) 100%),
+      radial-gradient(ellipse 34% 28% at 50% 40%, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0.06) 35%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,1) 100%),
       linear-gradient(to right,  transparent 0%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 88%, transparent 100%);
     mask-composite: intersect;
   }
@@ -1308,6 +1350,7 @@ body{
        fetchpriority="high"
        decoding="async"
        alt="A handmade storybook house in a sunlit forest garden. Each window belongs to a friend: Alex, Daisy, Giga, Mr. T, and Lumo. The door leads to the videos, with signs for downloads and contact among the flowers.">
+  <div class="canopy-sparkles" aria-hidden="true"><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i></div>
 </main>
 </div>
 
@@ -1337,7 +1380,7 @@ const GLOW = {
 };
 
 const SPARKLES = {
-  enabled: true,
+  enabled: false,
   count: 22
 };
 
