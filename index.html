@@ -45,7 +45,7 @@
 
   --seam-fade-start: 96.5%;
 
-  --water-line:   235px;
+  --water-line:   205px; /* 235→205。visit-rooms margin-top -30pxと同量補正 */
   --water-tail:   300px;
   --water-top:    rgb(150,184,158);
   --water-mid:    rgb(104,148,118);
@@ -465,7 +465,7 @@ body{
 }
 
 .menu-social{
-  margin-top: 52px;
+  margin-top: 68px;
   padding-top: 100px;
   border-top: 1px solid rgba(243,233,215,0.25);
   display: flex;
@@ -546,7 +546,7 @@ body{
   position: relative;
   isolation: isolate;
   width: min(100%, 760px);
-  margin-top: 220px;
+  margin-top: 190px; /* 220→190。水面境目は--water-line側で同量補正済み */
   padding: 0 16px;
   text-align: center;
 }
@@ -1046,7 +1046,7 @@ body{
           user-select: none;
 }
 .menu-tag.tag-small{ width: clamp(146px, 22vw, 192px); }
-.menu-tag.tag-wide{  width: clamp(280px, 64vw, 420px); }
+.menu-tag.tag-wide{  width: clamp(232px, 53vw, 348px); }
 .menu-tag.tag-about{ width: clamp(300px, 66vw, 440px); }
 .menu-tag .tag-label{
   position: absolute;
@@ -1217,8 +1217,8 @@ body{
     max-width: 360px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 120px;
-    --water-line: 165px;
+    margin-top: 78px; /* 150→120→78。水面境目は--water-lineで補正 */
+    --water-line: 93px; /* margin-top−water-line=−15px（水面saga確定オフセット）を維持 */
     --water-tail: 280px;
     padding: 0;
   }
@@ -1226,9 +1226,9 @@ body{
   .menu-row{ margin-bottom: 32px; }
   .menu-btn{ flex: 0 1 auto; }
   .menu-tag.tag-small{ width: 136px; }
-  .menu-tag.tag-wide{  width: 246px; }
+  .menu-tag.tag-wide{  width: 218px; }
   .menu-tag.tag-about{ width: 262px; }
-  .menu-social{ margin-top: 72px; padding-top: 112px; }
+  .menu-social{ margin-top: 96px; padding-top: 112px; }
   .page-footer{ margin-top: 96px; }
   .world-backdrop{ filter: blur(10px) brightness(0.82); }
 
@@ -1834,22 +1834,11 @@ const SOCIAL = [
         a.setAttribute("aria-label", item.aria || item.label);
         setLinkTarget(a, item.href);
         if (item.feature) {
-          /* Aboutボタン：2026-07 ナコロン決定で③横長木札へ変更。
-             旧・金ボタン(menu-feature)のCSSは温存＝下の2行を
-             a.className="menu-btn menu-feature"; a.textContent=item.label;
-             に戻せば即復元できる */
-          a.className = "menu-btn menu-tag tag-about";
-          const img = document.createElement("img");
-          img.className = "tag-img";
-          img.src = "tag3_wide_q85.webp";
-          img.alt = "";
-          img.setAttribute("aria-hidden", "true");
-          img.decoding = "async";
-          const lbl = document.createElement("span");
-          lbl.className = "tag-label";
-          lbl.textContent = item.label;
-          a.appendChild(img);
-          a.appendChild(lbl);
+          /* Aboutボタン：金のmenu-feature（Fableの遺産）。
+             2026-07 一時③木札化→実機判定で金に復帰。木札案は後日再検討。
+             tag-aboutのCSSは再検討用に温存 */
+          a.className = "menu-btn menu-feature";
+          a.textContent = item.label;
         } else {
           /* 木札ボタン：札=img（歪みゼロ）、文字=HTML上載せ */
           const wide = item.label.length > 14;
