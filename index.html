@@ -15,6 +15,8 @@
 <link rel="preload" as="image" href="mist_t5_1.webp" type="image/webp">
 <link rel="preload" as="image" href="mist_t5_2.webp" type="image/webp">
 <link rel="preload" as="image" href="mist_t5_3.webp" type="image/webp">
+<link rel="preload" as="image" href="tag2_small_q85.webp" type="image/webp">
+<link rel="preload" as="image" href="tag3_wide_q85.webp" type="image/webp">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1015,6 +1017,53 @@ body{
   transform: translateY(-1px);
 }
 
+/* ── Wooden tag buttons（木札ボタン）───────────────────
+   ルモの札素材を透過WebP化して使用。文字はHTML上載せ（焼き込み禁止）。
+   menu-feature（金のAbout＝Fableの遺産）は対象外・完全無変更。
+   blur/blend/mask/filter不使用。hoverはtransformのみ。 */
+.menu-btn.menu-tag{
+  position: relative;
+  padding: 0;
+  min-height: 0;
+  background: none;
+  border: none;
+  border-radius: 10px;
+  box-shadow: none;
+  transition: transform 0.3s ease;
+}
+.menu-btn.menu-tag:hover,
+.menu-btn.menu-tag:focus-visible{
+  background: none;
+  box-shadow: none;
+  transform: translateY(-2px);
+}
+.menu-tag .tag-img{
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  -webkit-user-select: none;
+          user-select: none;
+}
+.menu-tag.tag-small{ width: clamp(146px, 22vw, 192px); }
+.menu-tag.tag-wide{  width: clamp(280px, 64vw, 420px); }
+.menu-tag .tag-label{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6% 13%;
+  color: #45290c;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.15;
+  text-shadow: 0 1px 0 rgba(255,236,196,0.45);
+}
+.menu-tag.tag-small .tag-label{ font-size: clamp(0.72rem, 2.1vw, 0.94rem); }
+.menu-tag.tag-wide  .tag-label{ font-size: clamp(0.82rem, 2.4vw, 1.02rem); }
+
 .page-footer{
   margin-top: 108px;
   padding: 16px 0 20px;
@@ -1776,11 +1825,29 @@ const SOCIAL = [
       rowEl.className = "menu-row";
       row.forEach(function (item) {
         const a = document.createElement("a");
-        a.className = "menu-btn" + (item.feature ? " menu-feature" : "");
         a.href = item.href;
-        a.textContent = item.label;
         a.setAttribute("aria-label", item.aria || item.label);
         setLinkTarget(a, item.href);
+        if (item.feature) {
+          /* 金のAboutボタン（Fableの遺産）＝従来どおり無変更 */
+          a.className = "menu-btn menu-feature";
+          a.textContent = item.label;
+        } else {
+          /* 木札ボタン：札=img（歪みゼロ）、文字=HTML上載せ */
+          const wide = item.label.length > 14;
+          a.className = "menu-btn menu-tag " + (wide ? "tag-wide" : "tag-small");
+          const img = document.createElement("img");
+          img.className = "tag-img";
+          img.src = wide ? "tag3_wide_q85.webp" : "tag2_small_q85.webp";
+          img.alt = "";
+          img.setAttribute("aria-hidden", "true");
+          img.decoding = "async";
+          const lbl = document.createElement("span");
+          lbl.className = "tag-label";
+          lbl.textContent = item.label;
+          a.appendChild(img);
+          a.appendChild(lbl);
+        }
         rowEl.appendChild(a);
       });
       holder.appendChild(rowEl);
