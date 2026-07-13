@@ -45,7 +45,7 @@
 
   --seam-fade-start: 96.5%;
 
-  --water-line:   205px; /* 235→205。visit-rooms margin-top -30pxと同量補正 */
+  --water-line:   180px; /* margin-top−water-line=−15px（水面saga確定オフセット）を維持 */
   --water-tail:   300px;
   --water-top:    rgb(150,184,158);
   --water-mid:    rgb(104,148,118);
@@ -465,8 +465,8 @@ body{
 }
 
 .menu-social{
-  margin-top: 68px;
-  padding-top: 100px;
+  margin-top: 110px;
+  padding-top: 125px;
   border-top: 1px solid rgba(243,233,215,0.25);
   display: flex;
   align-items: center;
@@ -546,7 +546,7 @@ body{
   position: relative;
   isolation: isolate;
   width: min(100%, 760px);
-  margin-top: 190px; /* 220→190。水面境目は--water-line側で同量補正済み */
+  margin-top: 165px; /* 220→190→165。水面境目は--water-lineで補正 */
   padding: 0 16px;
   text-align: center;
 }
@@ -919,7 +919,7 @@ body{
   font-size: clamp(2.15rem, 7vw, 2.9rem);
   font-weight: 700;
   letter-spacing: 0.10em;
-  margin: 0 0 40px;
+  margin: 0 0 58px;
   background: linear-gradient(100deg,
       #e6bd63 0%, #f4d896 26%, #fff7e6 46%,
       #f4d896 62%, #ddac52 100%);
@@ -951,7 +951,7 @@ body{
   flex-wrap: wrap;
   gap: 12px;
   justify-content: center;
-  margin: 0 0 26px;
+  margin: 0 0 40px;
 }
 
 .menu-btn{
@@ -1019,35 +1019,39 @@ body{
 
 /* ── Wooden tag buttons（木札ボタン）───────────────────
    ルモの札素材を透過WebP化して使用。文字はHTML上載せ（焼き込み禁止）。
+   札はCSS背景で1画像を全ボタンで再利用＋aspect-ratioで読み込み前から
+   場所を確保 → 初回表示の「文字と札の分離」を防止。preloadあり。
    menu-feature（金のAbout＝Fableの遺産）は対象外・完全無変更。
    blur/blend/mask/filter不使用。hoverはtransformのみ。 */
 .menu-btn.menu-tag{
   position: relative;
+  display: block;
   padding: 0;
   min-height: 0;
-  background: none;
   border: none;
   border-radius: 10px;
   box-shadow: none;
+  background-color: transparent;
   transition: transform 0.3s ease;
 }
 .menu-btn.menu-tag:hover,
 .menu-btn.menu-tag:focus-visible{
-  background: none;
   box-shadow: none;
   transform: translateY(-2px);
 }
-.menu-tag .tag-img{
-  display: block;
-  width: 100%;
-  height: auto;
-  pointer-events: none;
-  -webkit-user-select: none;
-          user-select: none;
+.menu-tag.tag-small,
+.menu-tag.tag-small:hover,
+.menu-tag.tag-small:focus-visible{
+  background: url("tag2_small_q85.webp") center / 100% 100% no-repeat;
 }
-.menu-tag.tag-small{ width: clamp(146px, 22vw, 192px); }
-.menu-tag.tag-wide{  width: clamp(232px, 53vw, 348px); }
-.menu-tag.tag-about{ width: clamp(300px, 66vw, 440px); }
+.menu-tag.tag-wide,
+.menu-tag.tag-wide:hover,
+.menu-tag.tag-wide:focus-visible{
+  background: url("tag3_wide_q85.webp") center / 100% 100% no-repeat;
+}
+.menu-tag.tag-small{ width: clamp(146px, 22vw, 192px); aspect-ratio: 320 / 134; }
+.menu-tag.tag-wide{  width: clamp(232px, 53vw, 348px); aspect-ratio: 720 / 184; }
+.menu-tag.tag-about{ width: clamp(300px, 66vw, 440px); aspect-ratio: 720 / 184; } /* 後日再検討用・現在未使用 */
 .menu-tag .tag-label{
   position: absolute;
   inset: 0;
@@ -1217,18 +1221,18 @@ body{
     max-width: 360px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 78px; /* 150→120→78。水面境目は--water-lineで補正 */
-    --water-line: 93px; /* margin-top−water-line=−15px（水面saga確定オフセット）を維持 */
+    margin-top: 68px; /* 150→120→78→68。水面境目は--water-lineで補正 */
+    --water-line: 83px; /* margin-top−water-line=−15px（水面saga確定オフセット）を維持 */
     --water-tail: 280px;
     padding: 0;
   }
-  .visit-rooms h2{ margin-bottom: 34px; }
-  .menu-row{ margin-bottom: 32px; }
+  .visit-rooms h2{ margin-bottom: 50px; }
+  .menu-row{ margin-bottom: 40px; }
   .menu-btn{ flex: 0 1 auto; }
   .menu-tag.tag-small{ width: 136px; }
   .menu-tag.tag-wide{  width: 218px; }
   .menu-tag.tag-about{ width: 262px; }
-  .menu-social{ margin-top: 96px; padding-top: 112px; }
+  .menu-social{ margin-top: 115px; padding-top: 125px; }
   .page-footer{ margin-top: 96px; }
   .world-backdrop{ filter: blur(10px) brightness(0.82); }
 
@@ -1840,19 +1844,12 @@ const SOCIAL = [
           a.className = "menu-btn menu-feature";
           a.textContent = item.label;
         } else {
-          /* 木札ボタン：札=img（歪みゼロ）、文字=HTML上載せ */
+          /* 木札ボタン：札=CSS背景（1画像を全ボタン再利用）、文字=HTML上載せ */
           const wide = item.label.length > 14;
           a.className = "menu-btn menu-tag " + (wide ? "tag-wide" : "tag-small");
-          const img = document.createElement("img");
-          img.className = "tag-img";
-          img.src = wide ? "tag3_wide_q85.webp" : "tag2_small_q85.webp";
-          img.alt = "";
-          img.setAttribute("aria-hidden", "true");
-          img.decoding = "async";
           const lbl = document.createElement("span");
           lbl.className = "tag-label";
           lbl.textContent = item.label;
-          a.appendChild(img);
           a.appendChild(lbl);
         }
         rowEl.appendChild(a);
