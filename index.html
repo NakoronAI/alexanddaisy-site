@@ -500,9 +500,9 @@ body{
 }
 
 .social-yt{
-  width: 70px;
-  height: 48px;
-  border-radius: 14px;
+  width: 62px;
+  height: 42px;
+  border-radius: 12px;
   background: linear-gradient(180deg, #ff5347 0%, #e3170a 55%, #c20d04 100%);
   box-shadow:
     inset 0 2px 3px rgba(255,255,255,0.45),
@@ -515,10 +515,10 @@ body{
   content:"";
   width: 0;
   height: 0;
-  margin-left: 3px;
-  border-top:    9px solid transparent;
-  border-bottom: 9px solid transparent;
-  border-left:   15px solid #fffdf6;
+  margin-left: 2px;
+  border-top:    8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left:   13px solid #fffdf6;
   filter: drop-shadow(0 1px 1px rgba(90,0,0,0.4));
 }
 @keyframes social-bob{
@@ -1047,6 +1047,7 @@ body{
 }
 .menu-tag.tag-small{ width: clamp(146px, 22vw, 192px); }
 .menu-tag.tag-wide{  width: clamp(280px, 64vw, 420px); }
+.menu-tag.tag-about{ width: clamp(300px, 66vw, 440px); }
 .menu-tag .tag-label{
   position: absolute;
   inset: 0;
@@ -1056,13 +1057,14 @@ body{
   text-align: center;
   padding: 6% 13%;
   color: #45290c;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.05em;
   line-height: 1.15;
   text-shadow: 0 1px 0 rgba(255,236,196,0.45);
 }
-.menu-tag.tag-small .tag-label{ font-size: clamp(0.72rem, 2.1vw, 0.94rem); }
-.menu-tag.tag-wide  .tag-label{ font-size: clamp(0.82rem, 2.4vw, 1.02rem); }
+.menu-tag.tag-small .tag-label{ font-size: clamp(0.84rem, 2.5vw, 1.04rem); }
+.menu-tag.tag-wide  .tag-label{ font-size: clamp(0.94rem, 2.7vw, 1.12rem); }
+.menu-tag.tag-about .tag-label{ font-size: clamp(0.98rem, 2.8vw, 1.16rem); }
 
 .page-footer{
   margin-top: 108px;
@@ -1215,15 +1217,18 @@ body{
     max-width: 360px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 150px;
+    margin-top: 120px;
     --water-line: 165px;
     --water-tail: 280px;
     padding: 0;
   }
   .visit-rooms h2{ margin-bottom: 34px; }
-  .menu-row{ margin-bottom: 22px; }
+  .menu-row{ margin-bottom: 32px; }
   .menu-btn{ flex: 0 1 auto; }
-  .menu-social{ margin-top: 46px; padding-top: 94px; }
+  .menu-tag.tag-small{ width: 136px; }
+  .menu-tag.tag-wide{  width: 246px; }
+  .menu-tag.tag-about{ width: 262px; }
+  .menu-social{ margin-top: 72px; padding-top: 112px; }
   .page-footer{ margin-top: 96px; }
   .world-backdrop{ filter: blur(10px) brightness(0.82); }
 
@@ -1829,9 +1834,22 @@ const SOCIAL = [
         a.setAttribute("aria-label", item.aria || item.label);
         setLinkTarget(a, item.href);
         if (item.feature) {
-          /* 金のAboutボタン（Fableの遺産）＝従来どおり無変更 */
-          a.className = "menu-btn menu-feature";
-          a.textContent = item.label;
+          /* Aboutボタン：2026-07 ナコロン決定で③横長木札へ変更。
+             旧・金ボタン(menu-feature)のCSSは温存＝下の2行を
+             a.className="menu-btn menu-feature"; a.textContent=item.label;
+             に戻せば即復元できる */
+          a.className = "menu-btn menu-tag tag-about";
+          const img = document.createElement("img");
+          img.className = "tag-img";
+          img.src = "tag3_wide_q85.webp";
+          img.alt = "";
+          img.setAttribute("aria-hidden", "true");
+          img.decoding = "async";
+          const lbl = document.createElement("span");
+          lbl.className = "tag-label";
+          lbl.textContent = item.label;
+          a.appendChild(img);
+          a.appendChild(lbl);
         } else {
           /* 木札ボタン：札=img（歪みゼロ）、文字=HTML上載せ */
           const wide = item.label.length > 14;
