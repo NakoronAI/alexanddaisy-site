@@ -1031,11 +1031,12 @@ body{
   box-shadow: none;
   background-color: transparent;
   transition: transform 0.3s ease;
+  transform: translateZ(0); /* 合成レイヤー化：文字と木目を一枚で描く（スクロール分離対策） */
 }
 .menu-btn.menu-tag:hover,
 .menu-btn.menu-tag:focus-visible{
   box-shadow: none;
-  transform: translateY(-2px);
+  transform: translateY(-2px) translateZ(0);
 }
 .menu-tag.tag-small,
 .menu-tag.tag-small:hover,
@@ -1856,6 +1857,22 @@ const SOCIAL = [
     });
   }
   buildMenu();
+
+  /* 札画像を先にデコードしてキャッシュしておく。
+     iOS Safariは CSS背景を「描く瞬間」にデコードするため、
+     スクロール到達時に文字だけ先に見える分離が起きる。その予防。 */
+  (function warmTags(){
+    ["tag-small", "tag-wide"].forEach(function (cls) {
+      var el = document.querySelector(".menu-tag." + cls);
+      if (!el) return;
+      var m = getComputedStyle(el).backgroundImage.match(/url\("?(data:[^")]+)"?\)/);
+      if (m) {
+        var im = new Image();
+        im.src = m[1];
+        if (im.decode) im.decode().catch(function () {});
+      }
+    });
+  })();
 
   function buildSocial() {
     const holder = document.getElementById("menuSocial");
