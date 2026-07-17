@@ -82,7 +82,24 @@ html, body{
 }
 
 html{
-  background: rgb(34,62,48);
+  background-color: rgb(34,62,48); /* キャンバス色＝安全網。※ショートハンドbackgroundを2連発するとcolorがtransparentに落ちるので分離必須 */
+  /* iOSスクロール中タイル未描画で露出する塗り。実景（モバイル描画）の帯平均×0.75の縦グラデ。
+     可視域はコンテンツが全面を覆うため通常の見た目は不変。露出はフラッシュ時と縦バウンス時のみ。 */
+  background-image: linear-gradient(180deg,
+    rgb(94,88,62) 0%,
+    rgb(94,88,62) 4.2%,
+    rgb(83,69,38) 12.5%,
+    rgb(70,64,45) 20.8%,
+    rgb(108,103,75) 29.2%,
+    rgb(105,105,85) 37.5%,
+    rgb(105,105,82) 45.8%,
+    rgb(95,106,84) 54.2%,
+    rgb(92,92,57) 62.5%,
+    rgb(60,79,43) 70.8%,
+    rgb(56,75,48) 79.2%,
+    rgb(42,70,45) 87.5%,
+    rgb(22,64,50) 95.8%,
+    rgb(22,64,50) 100%);
   overflow-x: hidden;
   overflow-x: clip;
   touch-action: pan-y pinch-zoom;
