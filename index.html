@@ -1029,11 +1029,12 @@ body{
   border: none;
   border-radius: 10px;
   box-shadow: none;
-  background-color: transparent;
+  background: none; /* 旧ホテルボタンの白グラデを完全解除（transparentではグラデが残る） */
   transition: transform 0.3s ease;
 }
 .menu-btn.menu-tag:hover,
 .menu-btn.menu-tag:focus-visible{
+  background: none;
   box-shadow: none;
   transform: translateY(-2px);
 }
