@@ -1542,6 +1542,21 @@ body{
     }
   }
 }
+/* ===== iPhone緑事件・診断：水面一式を負の階層から外す =====
+   見た目と動きは変えず、visit-rooms内の相対的な重なり順だけを
+   water(0) → mist(1) → content(2) と正の階層へ移す。 */
+.water{
+  z-index: 0;
+}
+.water-mist{
+  z-index: 1;
+}
+.visit-rooms > h2,
+.visit-rooms > #menuRows,
+.visit-rooms > .menu-social{
+  position: relative;
+  z-index: 2;
+}
 </style>
 </head>
 <body>
