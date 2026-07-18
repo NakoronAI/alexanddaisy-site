@@ -20,6 +20,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 
+<script>
+/* Mark genuine iOS/iPadOS touch devices before the first paint.
+   Do not use CSS feature detection here: Fire Silk can expose WebKit-prefixed
+   properties too, which makes it unsafe as an iOS-only switch. */
+(function () {
+  var ua = navigator.userAgent || "";
+  var isIOSTouch = /iPad|iPhone|iPod/.test(ua) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (isIOSTouch) document.documentElement.classList.add("is-ios-touch");
+})();
+</script>
+
 <style>
 /* ============================================================
    ALEX & DAISY — STORYBOOK HOUSE HOMEPAGE
@@ -767,6 +779,16 @@ body{
 }
 @media (prefers-reduced-motion: reduce) {
   .water-mist .mist-layer { animation: none; }
+}
+
+/* iPhone / iPad scroll safety pass 1:
+   Keep all three mist images and their completed composition, but flatten
+   them into a static paint while scrolling the page.  Removing their three
+   oversized transform animations lets WebKit avoid three persistent moving
+   compositor surfaces.  Android, Fire and desktop never receive this class. */
+html.is-ios-touch .water-mist .mist-layer{
+  animation: none !important;
+  will-change: auto;
 }
 
 .lower-water-undulate,
@@ -1539,27 +1561,6 @@ body{
       -webkit-mask-image: none !important;
       mask-image: none !important;
       animation: riverMiniFineB 11s linear infinite !important;
-    }
-  }
-}
-
-/* ===== iOS Safari: scroll compositing stack safety =====
-   Keep the completed appearance and animation, but avoid placing the two
-   largest animated surfaces on negative compositor layers.  Water and mist
-   retain their original order; the heading and menu stay above both. */
-@supports (-webkit-touch-callout: none){
-  @media (hover: none) and (pointer: coarse){
-    .water{
-      z-index: 0;
-    }
-    .water-mist{
-      z-index: 1;
-    }
-    .visit-rooms > h2,
-    .visit-rooms > #menuRows,
-    .visit-rooms > .menu-social{
-      position: relative;
-      z-index: 2;
     }
   }
 }
