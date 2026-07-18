@@ -20,18 +20,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 
-<script>
-/* Mark genuine iOS/iPadOS touch devices before the first paint.
-   Do not use CSS feature detection here: Fire Silk can expose WebKit-prefixed
-   properties too, which makes it unsafe as an iOS-only switch. */
-(function () {
-  var ua = navigator.userAgent || "";
-  var isIOSTouch = /iPad|iPhone|iPod/.test(ua) ||
-    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  if (isIOSTouch) document.documentElement.classList.add("is-ios-touch");
-})();
-</script>
-
 <style>
 /* ============================================================
    ALEX & DAISY — STORYBOOK HOUSE HOMEPAGE
@@ -781,16 +769,6 @@ body{
   .water-mist .mist-layer { animation: none; }
 }
 
-/* iPhone / iPad scroll safety pass 1:
-   Keep all three mist images and their completed composition, but flatten
-   them into a static paint while scrolling the page.  Removing their three
-   oversized transform animations lets WebKit avoid three persistent moving
-   compositor surfaces.  Android, Fire and desktop never receive this class. */
-html.is-ios-touch .water-mist .mist-layer{
-  animation: none !important;
-  will-change: auto;
-}
-
 .lower-water-undulate,
 .lower-water-undulate::after{
   display:none;
@@ -1056,8 +1034,8 @@ html.is-ios-touch .water-mist .mist-layer{
 
 /* ── Wooden tag buttons（木札ボタン）───────────────────
    ルモの札素材を透過WebP化して使用。文字はHTML上載せ（焼き込み禁止）。
-   札はCSS背景で1画像を全ボタンで再利用＋aspect-ratioで読み込み前から
-   場所を確保。札はimg decoding=sync＝デコード完了まで描画させない（緑地フラッシュ防止）。
+   札は2種類の共有CSS背景として再利用し、9個のimg要素・同期デコード・
+   強制decodeを作らない。aspect-ratioで描画前から場所を確保する。
    menu-feature（金のAbout＝Fableの遺産）は対象外・完全無変更。
    blur/blend/mask/filter不使用。hoverはtransformのみ。 */
 .menu-btn.menu-tag{
@@ -1068,23 +1046,19 @@ html.is-ios-touch .water-mist .mist-layer{
   border: none;
   border-radius: 10px;
   box-shadow: none;
-  background: none; /* 旧ホテルボタンの白グラデを完全解除（transparentではグラデが残る） */
+  background-color: transparent;
+  background-image: var(--tag-image);
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   transition: transform 0.3s ease;
 }
 .menu-btn.menu-tag:hover,
 .menu-btn.menu-tag:focus-visible{
-  background: none;
+  background-color: transparent;
+  background-image: var(--tag-image);
   box-shadow: none;
   transform: translateY(-2px);
-}
-.menu-tag .tag-img{
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  -webkit-user-select: none;
-          user-select: none;
 }
 .menu-tag.tag-small{ width: clamp(146px, 22vw, 192px); aspect-ratio: 320 / 134; }
 .menu-tag.tag-wide{  width: clamp(232px, 53vw, 348px); aspect-ratio: 720 / 184; }
@@ -1106,6 +1080,18 @@ html.is-ios-touch .water-mist .mist-layer{
 .menu-tag.tag-small .tag-label{ font-size: clamp(0.84rem, 2.5vw, 1.04rem); }
 .menu-tag.tag-wide  .tag-label{ font-size: clamp(0.94rem, 2.7vw, 1.12rem); }
 .menu-tag.tag-about .tag-label{ font-size: clamp(0.98rem, 2.8vw, 1.16rem); }
+
+/* Touch devices have no useful hover lift.  Avoid reserving nine possible
+   transform layers for static menu artwork while preserving keyboard focus. */
+@media (hover: none) and (pointer: coarse){
+  .menu-btn.menu-tag{
+    transition: none;
+  }
+  .menu-btn.menu-tag:hover,
+  .menu-btn.menu-tag:focus-visible{
+    transform: none;
+  }
+}
 
 .page-footer{
   margin-top: 108px;
@@ -1885,19 +1871,14 @@ const SOCIAL = [
           a.className = "menu-btn menu-feature";
           a.textContent = item.label;
         } else {
-          /* 木札ボタン：札=img（decoding=sync＝木目と文字を同フレーム描画）、文字=HTML上載せ */
+          /* 木札ボタン：札=共有CSS背景、文字=HTML上載せ。 */
           const wide = item.label.length > 14;
           a.className = "menu-btn menu-tag " + (wide ? "tag-wide" : "tag-small");
-          const img = document.createElement("img");
-          img.className = "tag-img";
-          img.src = wide ? TAG_WIDE_SRC : TAG_SMALL_SRC;
-          img.alt = "";
-          img.setAttribute("aria-hidden", "true");
-          img.decoding = "sync";
+          a.style.setProperty("--tag-image",
+            'url("' + (wide ? TAG_WIDE_SRC : TAG_SMALL_SRC) + '")');
           const lbl = document.createElement("span");
           lbl.className = "tag-label";
           lbl.textContent = item.label;
-          a.appendChild(img);
           a.appendChild(lbl);
         }
         rowEl.appendChild(a);
@@ -1906,11 +1887,6 @@ const SOCIAL = [
     });
   }
   buildMenu();
-
-  /* 読み込み直後に札imgを全てデコード済みにしておく（スクロール到達前に開封完了） */
-  document.querySelectorAll(".tag-img").forEach(function (im) {
-    if (im.decode) im.decode().catch(function () {});
-  });
 
   function buildSocial() {
     const holder = document.getElementById("menuSocial");
