@@ -1542,6 +1542,27 @@ body{
     }
   }
 }
+
+/* ===== iOS Safari: scroll compositing stack safety =====
+   Keep the completed appearance and animation, but avoid placing the two
+   largest animated surfaces on negative compositor layers.  Water and mist
+   retain their original order; the heading and menu stay above both. */
+@supports (-webkit-touch-callout: none){
+  @media (hover: none) and (pointer: coarse){
+    .water{
+      z-index: 0;
+    }
+    .water-mist{
+      z-index: 1;
+    }
+    .visit-rooms > h2,
+    .visit-rooms > #menuRows,
+    .visit-rooms > .menu-social{
+      position: relative;
+      z-index: 2;
+    }
+  }
+}
 </style>
 </head>
 <body>
