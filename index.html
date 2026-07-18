@@ -1259,6 +1259,15 @@ body{
   .page-footer{ margin-top: 96px; }
   .world-backdrop{ filter: blur(10px) brightness(0.82); }
 
+  /* The base water mask is solid black at every stop, so it changes no
+     pixels.  On mobile it still forces the entire tall water subtree into a
+     masked compositing surface.  Let Safari tile the moving children without
+     that redundant full-height wrapper. */
+  .water{
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
+
   .river-current{
     opacity: 0.82;
     mix-blend-mode: screen;
