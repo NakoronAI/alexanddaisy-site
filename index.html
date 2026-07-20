@@ -10,11 +10,11 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=1">
 
 <link rel="preload" as="image" href="house_q85.webp" type="image/webp" fetchpriority="high">
-<link rel="preload" as="image" href="water_surface_ripple_photo_v1.webp" type="image/webp">
-<link rel="preload" as="image" href="water_reflection_sky_forest.webp" type="image/webp">
-<link rel="preload" as="image" href="mist_t5_1.webp" type="image/webp">
-<link rel="preload" as="image" href="mist_t5_2.webp" type="image/webp">
-<link rel="preload" as="image" href="mist_t5_3.webp" type="image/webp">
+<link rel="preload" as="image" href="water_surface_ripple_photo_v1.webp" type="image/webp" fetchpriority="low">
+<link rel="preload" as="image" href="water_reflection_sky_forest.webp" type="image/webp" fetchpriority="low">
+<link rel="preload" as="image" href="mist_t5_1.webp" type="image/webp" fetchpriority="low">
+<link rel="preload" as="image" href="mist_t5_2.webp" type="image/webp" fetchpriority="low">
+<link rel="preload" as="image" href="mist_t5_3.webp" type="image/webp" fetchpriority="low">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -119,17 +119,6 @@ body{
   flex-direction: column;
   align-items: center;
   padding: 0 0 48px;
-}
-
-.world-backdrop{
-  position: fixed;
-  inset: -48px;
-  z-index: -2;
-  background-size: cover;
-  background-position: center 22%;
-  filter: blur(18px) brightness(0.82) saturate(0.92);
-  transform: scale(1.08);
-  pointer-events: none;
 }
 
 .world-veil{
@@ -1249,7 +1238,6 @@ body{
   .menu-tag.tag-about{ width: 262px; }
   .menu-social{ margin-top: 115px; padding-top: 125px; }
   .page-footer{ margin-top: 96px; }
-  .world-backdrop{ filter: blur(10px) brightness(0.82); }
 
   .river-current{
     opacity: 0.82;
@@ -1564,7 +1552,6 @@ body{
   </filter>
 </svg>
 
-<div class="world-backdrop" id="worldBackdrop" aria-hidden="true"></div>
 <div class="world-veil" aria-hidden="true"></div>
 
 <div class="stage-window">
