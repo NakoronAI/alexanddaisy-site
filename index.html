@@ -1241,7 +1241,7 @@ body{
   .page-footer{ margin-top: 96px; }
 
   /* 水面2枚はモバイルのみ半解像度版（URL差し替えのみ。size/mask/filter等は基本ルールを継承） */
-  .water::after{ background-image: url("water_surface_ripple_photo_v1_m.webp"); }
+  .water::after{ background-image: url("water_surface_ripple_photo_v1_m.webp"); filter: blur(1.5px) brightness(0.97) saturate(0.95); }
   .water-reflection-image{ background-image: url("water_reflection_sky_forest_m.webp"); }
 
   .river-current{
