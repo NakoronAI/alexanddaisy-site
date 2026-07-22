@@ -1484,6 +1484,20 @@ body{
   }
 }
 
+/* Touch tablets: keep every wooden tag, but shorten the oversized lower page.
+   The water begins at the same visual seam (margin-top - --water-line = -15px),
+   while the empty space between the menu rows, YouTube icon and footer is reduced. */
+@media (hover: none) and (pointer: coarse) and (min-width: 601px){
+  .visit-rooms{
+    margin-top: 110px;
+    --water-line: 125px;
+  }
+  .visit-rooms h2{ margin-bottom: 42px; }
+  .menu-row{ margin-bottom: 28px; }
+  .menu-social{ margin-top: 55px; padding-top: 80px; }
+  .page-footer{ margin-top: 96px; }
+}
+
 /* ===== ジェムの特効薬v2：Android全機種（Galaxy/Fire/Pixel等）向け 波復活＆剥がれ防止 =====
    iPhone(iOS)とPCは@supportsで除外。Galaxy 12インチはタブレット帯(701-900px)のPC用超スロー川
    (riverCurrentDrift 680s)が実質静止画だった＝ジェムの推理。スマホで実績のある
