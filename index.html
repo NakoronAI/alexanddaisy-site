@@ -1555,6 +1555,13 @@ body{
     }
   }
 }
+
+/* ===== 横向き(landscape)専用：短いtailだと横向きの短いビューポートで
+   水ボックス下端より下のhtml背景(緑)が露出するため、実績値300pxに戻して覆う。
+   縦向き(スマホ50px/タブレット60px)の短さはそのまま維持される。 ===== */
+@media (orientation: landscape){
+  :root{ --water-tail: 300px; }
+}
 </style>
 </head>
 <body>
