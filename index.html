@@ -100,11 +100,14 @@ html{
     rgb(42,70,45) 87.5%,
     rgb(22,64,50) 95.8%,
     rgb(22,64,50) 100%);
-  background-attachment: fixed; /* グラデをビューポート基準で描画→上下端バウンス帯に深緑ではなくグラデ端色が出る */
+  /* background-attachment: fixed を撤去。Blinkでcompositor scrollingを無効化し
+     スクロールがメインスレッド処理に落ちる＝重さ・ひっかかりの主因。
+     バウンス帯の色対策は、帯そのものを出さない overscroll-behavior-y: none に置換。 */
   overflow-x: hidden;
   overflow-x: clip;
   touch-action: pan-y pinch-zoom;
   overscroll-behavior-x: none;
+  overscroll-behavior-y: none;
 }
 
 body{
