@@ -1598,6 +1598,13 @@ body{
 @media (orientation: landscape) and (hover: none) and (pointer: coarse){
   :root{ --water-tail: 300px; }
 }
+
+/* ===== PC(マウス端末)専用：アイコン下の遊びの余白。
+   :rootの60pxだと詰まって見えるので140pxに。タッチ端末は上のルールのまま
+   (縦60px/スマホ縦50px/横300px)。数値はここ1箇所だけ動かせば増減できる。 ===== */
+@media (hover: hover) and (pointer: fine){
+  :root{ --water-tail: 140px; }
+}
 </style>
 </head>
 <body>
