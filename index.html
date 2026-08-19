@@ -1623,7 +1623,11 @@ body{
    :rootの60pxだと詰まって見えるので140pxに。タッチ端末は上のルールのまま
    (縦60px/スマホ縦50px/横300px)。数値はここ1箇所だけ動かせば増減できる。 ===== */
 @media (hover: hover) and (pointer: fine){
-  :root{ --water-tail: 140px; }
+  /* 2026-08-19 アイコンを28px下げ、その分だけ水の裾を縮める。
+     padding-top を +X したら --water-tail を -X する＝合計が変わらないので
+     スクロールの長さは不変。詰め具合を変えたいときはこの2数値だけ動かす。 */
+  :root{ --water-tail: 112px; }
+  .menu-social{ padding-top: 88px; }
 }
 </style>
 </head>
