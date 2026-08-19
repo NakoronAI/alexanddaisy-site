@@ -49,6 +49,9 @@
   --water-mid:    rgb(104,148,118);
   --water-deep:   rgb( 50, 88, 70);
   --wave-amp:     14px;
+  /* 2026-08-19 仕切り線のデイジー。静止SVGを1回だけ定義して7回参照する。
+     アニメ・フィルタなしなので合成レイヤーは増えない。 */
+  --daisy: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%23f3e9d7' fill-opacity='.92'><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5'/><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5' transform='rotate(45 12 12)'/><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5' transform='rotate(90 12 12)'/><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5' transform='rotate(135 12 12)'/><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5' transform='rotate(180 12 12)'/><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5' transform='rotate(225 12 12)'/><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5' transform='rotate(270 12 12)'/><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5' transform='rotate(315 12 12)'/></g><circle cx='12' cy='12' r='2.3' fill='%23ffd08a'/></svg>");
   --ripple-light: 0.26;
   --ripple-dark:  0.22;
 }
@@ -474,7 +477,24 @@ body{
 .menu-social{
   margin-top: 64px;
   padding-top: 60px;
-  border-top: 1px solid rgba(243,233,215,0.25);
+  /* 2026-08-19 border-topを廃止し、線＋デイジー7個の静止背景に置換。
+     位置は%指定なので画面幅が変わっても常に7個・等間隔のまま。
+     背景の基準は padding-box なので padding-left の影響を受けず左右対称。 */
+  background-image:
+      var(--daisy), var(--daisy), var(--daisy), var(--daisy),
+      var(--daisy), var(--daisy), var(--daisy),
+      linear-gradient(to right,
+          rgba(243,233,215,0)    0,
+          rgba(243,233,215,0.55) 12%,
+          rgba(243,233,215,0.55) 88%,
+          rgba(243,233,215,0)    100%);
+  background-repeat: no-repeat;
+  background-size:
+      14px 14px, 14px 14px, 14px 14px, 14px 14px,
+      14px 14px, 14px 14px, 14px 14px, 100% 1px;
+  background-position:
+      15% 0, 26.67% 0, 38.33% 0, 50% 0,
+      61.67% 0, 73.33% 0, 85% 0, 0 7px;
   display: flex;
   align-items: flex-end; /* 下端そろえ。大きくしても下のラインは動かず上に伸びる */
   gap: 20px;
