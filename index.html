@@ -656,6 +656,7 @@ body{
 }
 
 .water-reflection-image{
+  /* 2026-08-19 池の下半分を明るく: opacity 0.74→0.88 / マスク下端 0.62→0.85 */
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -664,18 +665,18 @@ body{
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
-  opacity: 0.74;
+  opacity: 0.88;
   filter: saturate(1.16) brightness(0.94) contrast(1.08) blur(1.4px);
   -webkit-mask-image: linear-gradient(to bottom,
       rgba(0,0,0,0.05) 0,
       rgba(0,0,0,0.24) 120px,
       rgba(0,0,0,0.50) 260px,
-      rgba(0,0,0,0.62) 100%);
+      rgba(0,0,0,0.85) 100%);
           mask-image: linear-gradient(to bottom,
       rgba(0,0,0,0.05) 0,
       rgba(0,0,0,0.24) 120px,
       rgba(0,0,0,0.50) 260px,
-      rgba(0,0,0,0.62) 100%);
+      rgba(0,0,0,0.85) 100%);
 }
 
 /* ===== 軽い霧(Fable画像) + ジェムのフチ消し魔法 ===== */
