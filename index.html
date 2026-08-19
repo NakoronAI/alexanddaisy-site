@@ -1591,8 +1591,11 @@ body{
 
 /* ===== 横向き(landscape)専用：短いtailだと横向きの短いビューポートで
    水ボックス下端より下のhtml背景(緑)が露出するため、実績値300pxに戻して覆う。
-   縦向き(スマホ50px/タブレット60px)の短さはそのまま維持される。 ===== */
-@media (orientation: landscape){
+   縦向き(スマホ50px/タブレット60px)の短さはそのまま維持される。
+   2026-08-19 タッチ端末限定に変更。PCも常にlandscape判定なので巻き込まれ、
+   アイコン下に余分な水300pxがぶら下がってスクロールが伸びていた。PCは:rootの
+   60pxで足りる(bodyの下padding48pxを12px上回るので緑は露出しない)。 ===== */
+@media (orientation: landscape) and (hover: none) and (pointer: coarse){
   :root{ --water-tail: 300px; }
 }
 </style>
