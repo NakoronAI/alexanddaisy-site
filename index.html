@@ -187,7 +187,6 @@ body{
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.22);
   transform-origin: 50% 50%;
-  will-change: opacity, transform;
   animation: canopyTwinkle var(--twinkle-time, 8.2s) ease-in-out infinite;
   animation-delay: var(--twinkle-delay, 0s);
 }
@@ -700,7 +699,6 @@ body{
   background-repeat: no-repeat;
   background-position: center center;
   transform-origin: 50% 100%;
-  will-change: transform, opacity;
 }
 
 /* 1枚目：一番手前の霧 */
@@ -774,7 +772,6 @@ body{
   pointer-events: none;
   z-index: 2;
   mix-blend-mode: soft-light;
-  will-change: transform;
 }
 .ripple-a{
   opacity: 0.34;
