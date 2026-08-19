@@ -476,8 +476,8 @@ body{
   padding-top: 60px;
   border-top: 1px solid rgba(243,233,215,0.25);
   display: flex;
-  align-items: center;
-  gap: 14px;
+  align-items: flex-end; /* 下端そろえ。大きくしても下のラインは動かず上に伸びる */
+  gap: 20px;
   justify-content: flex-start;
 }
 /* Tablets (touch, 601px+): nudge the icon away from the left edge. */
@@ -507,9 +507,9 @@ body{
 }
 
 .social-yt{
-  width: 62px;
-  height: 42px;
-  border-radius: 12px;
+  width: 87px;
+  height: 59px;
+  border-radius: 17px;
   background: linear-gradient(180deg, #ff5347 0%, #e3170a 55%, #c20d04 100%);
   box-shadow:
     inset 0 2px 3px rgba(255,255,255,0.45),
@@ -522,10 +522,10 @@ body{
   content:"";
   width: 0;
   height: 0;
-  margin-left: 2px;
-  border-top:    8px solid transparent;
-  border-bottom: 8px solid transparent;
-  border-left:   13px solid #fffdf6;
+  margin-left: 3px;
+  border-top:    11px solid transparent;
+  border-bottom: 11px solid transparent;
+  border-left:   18px solid #fffdf6;
   filter: drop-shadow(0 1px 1px rgba(90,0,0,0.4));
 }
 @keyframes social-bob{
@@ -540,6 +540,32 @@ body{
     inset 0 2px 3px rgba(255,255,255,0.5),
     inset 0 -4px 6px rgba(90,0,0,0.3),
     0 8px 20px rgba(80,15,8,0.5),
+    0 0 0 6px rgba(255,224,150,0.35),
+    0 0 26px 8px rgba(255,205,120,0.55);
+}
+
+/* Instagram。中身はインラインSVG（JS側 IG_SVG）。
+   ここは器だけ＝影と角丸と、YouTubeと同じ揺れ。 */
+.social-instagram{
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  box-shadow:
+    0 5px 14px rgba(48,16,60,0.45),
+    0 2px 4px rgba(36,12,46,0.4);
+  animation: social-bob 3.6s ease-in-out infinite alternate;
+}
+.social-instagram svg{
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.social-instagram:hover,
+.social-instagram:focus-visible{
+  animation: none;
+  transform: scale(1.12);
+  box-shadow:
+    0 8px 20px rgba(48,16,60,0.5),
     0 0 0 6px rgba(255,224,150,0.35),
     0 0 26px 8px rgba(255,205,120,0.55);
 }
@@ -1736,7 +1762,10 @@ const MENU = [
 const SOCIAL = [
   { kind: "youtube",
     href: "https://www.youtube.com/@alexanddaisy2022",
-    aria: "Alex and Daisy on YouTube" }
+    aria: "Alex and Daisy on YouTube" },
+  { kind: "instagram",
+    href: "https://www.instagram.com/alexanddaisy23/",
+    aria: "Alex and Daisy on Instagram" }
 ];
 
 /* ╔══════════════════════════════════════════════════════════════╗
@@ -1911,6 +1940,21 @@ const SOCIAL = [
     if (im.decode) im.decode().catch(function () {});
   });
 
+  /* Instagramロゴ。座標はすべて46基準。外枠30・中央円15・線3・ドット直径3.2 */
+  const IG_SVG =
+    '<svg viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">' +
+    '<defs><radialGradient id="igGrad" cx="13.8" cy="49.22" r="58.82" gradientUnits="userSpaceOnUse">' +
+    '<stop offset="0" stop-color="#ffdc80"/><stop offset=".12" stop-color="#fcaf45"/>' +
+    '<stop offset=".24" stop-color="#f77737"/><stop offset=".33" stop-color="#f56040"/>' +
+    '<stop offset=".42" stop-color="#fd1d1d"/><stop offset=".55" stop-color="#e1306c"/>' +
+    '<stop offset=".67" stop-color="#c13584"/><stop offset=".79" stop-color="#833ab4"/>' +
+    '<stop offset=".91" stop-color="#5851db"/><stop offset="1" stop-color="#405de6"/>' +
+    '</radialGradient></defs>' +
+    '<rect width="46" height="46" rx="14" fill="url(#igGrad)"/>' +
+    '<rect x="9.5" y="9.5" width="27" height="27" rx="6.5" fill="none" stroke="#fffdf6" stroke-width="3"/>' +
+    '<circle cx="23" cy="23" r="6" fill="none" stroke="#fffdf6" stroke-width="3"/>' +
+    '<circle cx="31.5" cy="15.8" r="1.6" fill="#fffdf6"/></svg>';
+
   function buildSocial() {
     const holder = document.getElementById("menuSocial");
     SOCIAL.forEach(function (s) {
@@ -1918,6 +1962,7 @@ const SOCIAL = [
       a.className = "social-btn social-" + (s.kind === "youtube" ? "yt" : s.kind);
       a.href = s.href;
       a.setAttribute("aria-label", s.aria || s.kind);
+      if (s.kind === "instagram") a.innerHTML = IG_SVG;
       setLinkTarget(a, s.href);
       holder.appendChild(a);
     });
