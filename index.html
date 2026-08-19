@@ -49,9 +49,10 @@
   --water-mid:    rgb(104,148,118);
   --water-deep:   rgb( 50, 88, 70);
   --wave-amp:     14px;
-  /* 2026-08-19 仕切り線のデイジー。静止SVGを1回だけ定義して7回参照する。
-     アニメ・フィルタなしなので合成レイヤーは増えない。 */
-  --daisy: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%23f3e9d7' fill-opacity='.92'><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5'/><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5' transform='rotate(45 12 12)'/><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5' transform='rotate(90 12 12)'/><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5' transform='rotate(135 12 12)'/><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5' transform='rotate(180 12 12)'/><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5' transform='rotate(225 12 12)'/><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5' transform='rotate(270 12 12)'/><ellipse cx='12' cy='6.6' rx='2.2' ry='4.5' transform='rotate(315 12 12)'/></g><circle cx='12' cy='12' r='2.3' fill='%23ffd08a'/></svg>");
+  /* 2026-08-19 仕切り線のモチーフ＝恐竜の足あと（3本指＋かかと）。
+     静止SVGを1回だけ定義して7回参照する。アニメ・フィルタなしなので
+     合成レイヤーは増えない。別の絵にしたいときはこのSVGだけ差し替える。 */
+  --motif: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%23f3e9d7' fill-opacity='.92'><ellipse cx='12' cy='5.6' rx='1.9' ry='3.4'/><ellipse cx='6.6' cy='9.4' rx='1.8' ry='3.3' transform='rotate(-38 6.6 9.4)'/><ellipse cx='17.4' cy='9.4' rx='1.8' ry='3.3' transform='rotate(38 17.4 9.4)'/><ellipse cx='12' cy='15.4' rx='4.3' ry='4.0'/></g></svg>");
   --ripple-light: 0.26;
   --ripple-dark:  0.22;
 }
@@ -481,8 +482,8 @@ body{
      位置は%指定なので画面幅が変わっても常に7個・等間隔のまま。
      背景の基準は padding-box なので padding-left の影響を受けず左右対称。 */
   background-image:
-      var(--daisy), var(--daisy), var(--daisy), var(--daisy),
-      var(--daisy), var(--daisy), var(--daisy),
+      var(--motif), var(--motif), var(--motif), var(--motif),
+      var(--motif), var(--motif), var(--motif),
       linear-gradient(to right,
           rgba(243,233,215,0)    0,
           rgba(243,233,215,0.55) 12%,
