@@ -1553,6 +1553,12 @@ body{
       animation: riverMiniFineB 11s linear infinite !important;
       filter: none !important;
     }
+
+    /* 3. 診断テスト：filterとmaskの同居でmaskが不発になり、.water::afterの
+       矩形下端が水平線として露出する疑い。filterのみ全解除して切り分ける。 */
+    .water::after {
+      filter: none !important;
+    }
   }
 }
 
