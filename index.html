@@ -971,36 +971,52 @@ body{
   100% { background-position: 0 17013px, 0 -13010px; }
 }
 
+/* 2026-08-19 見出しを「くり抜き金文字＋シマー」から「1文字ずつのべた塗り」に変更。
+   理由1: 全部大文字＋広い字間＋単色の金＝格式張って見えるため、大小混在・字間を詰め・
+   文字ごとに暖色を振り分け、上下と傾きをばらして手で並べた木の文字の感じを出す。
+   理由2: background-clip:text はこのファイルの下の方のコメントにある通りAndroidで
+   transformと相性が悪い既知の地雷。べた塗りにすることで機構ごと撤去できる。
+   シマーのアニメも廃止（タッチ端末では元々止めてあった）。
+   @keyframes vrShimmer / --vr-shimmer-speed / --vr-glow は未使用になるが無害なので残置。
+   色・傾き・上下ズレは下の :nth-child で1文字1行。気に入らない文字だけ直せる。 */
 .visit-rooms h2{
   font-family: 'Baloo 2', system-ui, -apple-system, sans-serif;
   font-size: clamp(2.15rem, 7vw, 2.9rem);
   font-weight: 700;
-  letter-spacing: 0.10em;
+  letter-spacing: 0.03em;
   margin: 0 0 58px;
-  background: linear-gradient(100deg,
-      #e6bd63 0%, #f4d896 26%, #fff7e6 46%,
-      #f4d896 62%, #ddac52 100%);
-  background-size: 220% auto;
-  -webkit-background-clip: text;
-          background-clip: text;
-  -webkit-text-fill-color: transparent;
-          color: transparent;
+  color: #ffd08a;
   filter: drop-shadow(0 2px 2px rgba(54,36,10,0.7))
-          drop-shadow(0 0 22px var(--vr-glow));
-  animation: vrShimmer var(--vr-shimmer-speed) linear infinite;
+          drop-shadow(0 0 3px rgba(30,20,6,0.85));
 }
+
+.visit-rooms h2 span{ display: inline-block; }
+
+.visit-rooms h2 span:nth-child(1){  color:#ffd08a; transform: translateY(0)    rotate(-7deg); }
+.visit-rooms h2 span:nth-child(2){  color:#ffe9b0; transform: translateY(-5px) rotate(5deg); }
+.visit-rooms h2 span:nth-child(3){  color:#7ed6d0; transform: translateY(3px)  rotate(-4deg); }
+.visit-rooms h2 span:nth-child(4){  color:#ffb45e; transform: translateY(-3px) rotate(8deg); }
+.visit-rooms h2 span:nth-child(5){  color:#ffe9b0; transform: translateY(4px)  rotate(-6deg); }
+.visit-rooms h2 span:nth-child(6){  color:#ffd08a; transform: translateY(-6px) rotate(-9deg); }
+.visit-rooms h2 span:nth-child(7){  color:#ffe9b0; transform: translateY(2px)  rotate(4deg); }
+.visit-rooms h2 span:nth-child(8){  color:#7ed6d0; transform: translateY(-2px) rotate(-5deg); }
+.visit-rooms h2 span:nth-child(9){  color:#ffb45e; transform: translateY(5px)  rotate(7deg); }
+.visit-rooms h2 span:nth-child(10){ color:#ffe9b0; transform: translateY(0)    rotate(-7deg); }
 @keyframes vrShimmer{
   to{ background-position: 220% center; }
 }
+/* 2026-08-19 ✦ を恐竜の卵に。画像はファビコンと同じURL＝ブラウザが既に読み込み済みで
+   追加リクエストなし。content:url() は width/height が効かないブラウザがあるため、
+   content:"" ＋ background で em 基準の正方形にして文字サイズに追従させる。 */
 .visit-rooms h2::before,
 .visit-rooms h2::after{
-  content:"\2726";
-  -webkit-text-fill-color: initial;
-  color: rgba(255,224,150,0.92);
-  text-shadow: 0 0 8px rgba(255,196,110,0.6);
+  content:"";
+  display: inline-block;
+  width: 0.76em;
+  height: 0.76em;
+  background: url("/favicon.png?v=1") center/contain no-repeat;
   margin: 0 16px;
-  font-size: 0.62em;
-  vertical-align: 0.16em;
+  vertical-align: -0.06em;
 }
 
 .menu-row{
@@ -1532,7 +1548,10 @@ body{
   }
   .visit-rooms h2{
     animation: none;
-    filter: drop-shadow(0 1px 2px rgba(54,36,10,0.6));
+    /* 2026-08-19 水面が明るくなった分、輪郭が溶けるので短いハローを1枚だけ追加。
+       ぼかし半径2pxの静止フィルタなので毎フレーム再描画は発生しない。 */
+    filter: drop-shadow(0 1px 2px rgba(54,36,10,0.6))
+            drop-shadow(0 0 2px rgba(30,20,6,0.8));
   }
 }
 
@@ -1675,7 +1694,7 @@ body{
 
 <nav class="visit-rooms" aria-label="Visit rooms">
   <div class="water" id="waterLayer" aria-hidden="true"><div class="water-reflection-image" aria-hidden="true"></div><div class="lower-water-undulate" aria-hidden="true"></div><svg class="ripple ripple-a" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwA" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.009 0.020" numOctaves="2" seed="7" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.80  0 0 0 0 0.87  0 0 0 0 0.82  0 0 0 0.9 -0.42"/><feGaussianBlur stdDeviation="1.3"/></filter><rect width="100%" height="100%" filter="url(#rwA)"/></svg><svg class="ripple ripple-b" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwB" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.026" numOctaves="2" seed="23" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.15  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.8 -0.34"/><feGaussianBlur stdDeviation="1.6"/></filter><rect width="100%" height="100%" filter="url(#rwB)"/></svg><div class="river-current" aria-hidden="true"></div></div><div class="water-mist" aria-hidden="true"><div class="mist-layer"></div><div class="mist-layer"></div><div class="mist-layer"></div></div>
-  <h2>VISIT&nbsp;ROOMS</h2>
+  <h2 aria-label="Visit Rooms"><span>V</span><span>i</span><span>s</span><span>i</span><span>t</span> <span>R</span><span>o</span><span>o</span><span>m</span><span>s</span></h2>
   <div id="menuRows"></div>
   <div class="menu-social" id="menuSocial"></div>
 </nav>
