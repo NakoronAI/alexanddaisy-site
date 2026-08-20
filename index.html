@@ -49,15 +49,16 @@
   --water-mid:    rgb(104,148,118);
   --water-deep:   rgb( 50, 88, 70);
   --wave-amp:     14px;
-  /* 2026-08-19 仕切りのモチーフ＝恐竜の足あと（琥珀色・22px・5個）。
-     歩いた跡に見せるため、傾きだけが違う5枚を用意して1個ずつ使う。
-     上下のばらつきは .menu-social の background-position の y値で付ける。
+  /* 2026-08-19 仕切りのモチーフ＝恐竜の足あと（22px・6個）。色は見出しと同じ
+     パレット。2個目と4個目を水色にして華やかさを出す。歩いた跡に見せるため
+     傾きだけが違う6枚を用意し、上下のばらつきは background-position の y値で付ける。
      全部静止SVG＝アニメ・フィルタなし。合成レイヤーは増えない。 */
   --foot1: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%23ffd08a' fill-opacity='.95' transform='rotate(18 12 12)'><ellipse cx='12' cy='5.6' rx='1.9' ry='3.4'/><ellipse cx='6.6' cy='9.4' rx='1.8' ry='3.3' transform='rotate(-38 6.6 9.4)'/><ellipse cx='17.4' cy='9.4' rx='1.8' ry='3.3' transform='rotate(38 17.4 9.4)'/><ellipse cx='12' cy='15.4' rx='4.3' ry='4.0'/></g></svg>");
-  --foot2: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%23ffd08a' fill-opacity='.95' transform='rotate(-12 12 12)'><ellipse cx='12' cy='5.6' rx='1.9' ry='3.4'/><ellipse cx='6.6' cy='9.4' rx='1.8' ry='3.3' transform='rotate(-38 6.6 9.4)'/><ellipse cx='17.4' cy='9.4' rx='1.8' ry='3.3' transform='rotate(38 17.4 9.4)'/><ellipse cx='12' cy='15.4' rx='4.3' ry='4.0'/></g></svg>");
-  --foot3: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%23ffd08a' fill-opacity='.95' transform='rotate(15 12 12)'><ellipse cx='12' cy='5.6' rx='1.9' ry='3.4'/><ellipse cx='6.6' cy='9.4' rx='1.8' ry='3.3' transform='rotate(-38 6.6 9.4)'/><ellipse cx='17.4' cy='9.4' rx='1.8' ry='3.3' transform='rotate(38 17.4 9.4)'/><ellipse cx='12' cy='15.4' rx='4.3' ry='4.0'/></g></svg>");
-  --foot4: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%23ffd08a' fill-opacity='.95' transform='rotate(-11 12 12)'><ellipse cx='12' cy='5.6' rx='1.9' ry='3.4'/><ellipse cx='6.6' cy='9.4' rx='1.8' ry='3.3' transform='rotate(-38 6.6 9.4)'/><ellipse cx='17.4' cy='9.4' rx='1.8' ry='3.3' transform='rotate(38 17.4 9.4)'/><ellipse cx='12' cy='15.4' rx='4.3' ry='4.0'/></g></svg>");
-  --foot5: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%23ffd08a' fill-opacity='.95' transform='rotate(10 12 12)'><ellipse cx='12' cy='5.6' rx='1.9' ry='3.4'/><ellipse cx='6.6' cy='9.4' rx='1.8' ry='3.3' transform='rotate(-38 6.6 9.4)'/><ellipse cx='17.4' cy='9.4' rx='1.8' ry='3.3' transform='rotate(38 17.4 9.4)'/><ellipse cx='12' cy='15.4' rx='4.3' ry='4.0'/></g></svg>");
+  --foot2: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%237ed6d0' fill-opacity='.95' transform='rotate(-12 12 12)'><ellipse cx='12' cy='5.6' rx='1.9' ry='3.4'/><ellipse cx='6.6' cy='9.4' rx='1.8' ry='3.3' transform='rotate(-38 6.6 9.4)'/><ellipse cx='17.4' cy='9.4' rx='1.8' ry='3.3' transform='rotate(38 17.4 9.4)'/><ellipse cx='12' cy='15.4' rx='4.3' ry='4.0'/></g></svg>");
+  --foot3: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%23ffe9b0' fill-opacity='.95' transform='rotate(15 12 12)'><ellipse cx='12' cy='5.6' rx='1.9' ry='3.4'/><ellipse cx='6.6' cy='9.4' rx='1.8' ry='3.3' transform='rotate(-38 6.6 9.4)'/><ellipse cx='17.4' cy='9.4' rx='1.8' ry='3.3' transform='rotate(38 17.4 9.4)'/><ellipse cx='12' cy='15.4' rx='4.3' ry='4.0'/></g></svg>");
+  --foot4: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%237ed6d0' fill-opacity='.95' transform='rotate(-11 12 12)'><ellipse cx='12' cy='5.6' rx='1.9' ry='3.4'/><ellipse cx='6.6' cy='9.4' rx='1.8' ry='3.3' transform='rotate(-38 6.6 9.4)'/><ellipse cx='17.4' cy='9.4' rx='1.8' ry='3.3' transform='rotate(38 17.4 9.4)'/><ellipse cx='12' cy='15.4' rx='4.3' ry='4.0'/></g></svg>");
+  --foot5: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%23ffb45e' fill-opacity='.95' transform='rotate(10 12 12)'><ellipse cx='12' cy='5.6' rx='1.9' ry='3.4'/><ellipse cx='6.6' cy='9.4' rx='1.8' ry='3.3' transform='rotate(-38 6.6 9.4)'/><ellipse cx='17.4' cy='9.4' rx='1.8' ry='3.3' transform='rotate(38 17.4 9.4)'/><ellipse cx='12' cy='15.4' rx='4.3' ry='4.0'/></g></svg>");
+  --foot6: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%23ffe9b0' fill-opacity='.95' transform='rotate(-15 12 12)'><ellipse cx='12' cy='5.6' rx='1.9' ry='3.4'/><ellipse cx='6.6' cy='9.4' rx='1.8' ry='3.3' transform='rotate(-38 6.6 9.4)'/><ellipse cx='17.4' cy='9.4' rx='1.8' ry='3.3' transform='rotate(38 17.4 9.4)'/><ellipse cx='12' cy='15.4' rx='4.3' ry='4.0'/></g></svg>");
   --ripple-light: 0.26;
   --ripple-dark:  0.22;
 }
@@ -487,18 +488,21 @@ body{
      位置は%指定なので画面幅が変わっても常に7個・等間隔のまま。
      背景の基準は padding-box なので padding-left の影響を受けず左右対称。 */
   background-image:
-      var(--foot1), var(--foot2), var(--foot3), var(--foot4), var(--foot5),
+      var(--foot1), var(--foot2), var(--foot3),
+      var(--foot4), var(--foot5), var(--foot6),
       linear-gradient(to right,
           rgba(243,233,215,0)    0,
-          rgba(243,233,215,0.55) 12%,
-          rgba(243,233,215,0.55) 88%,
+          rgba(243,233,215,0.55) 9%,
+          rgba(243,233,215,0.55) 91%,
           rgba(243,233,215,0)    100%);
   background-repeat: no-repeat;
   background-size:
-      22px 22px, 22px 22px, 22px 22px, 22px 22px, 22px 22px,
+      22px 22px, 22px 22px, 22px 22px,
+      22px 22px, 22px 22px, 22px 22px,
       100% 1px;
   background-position:
-      15% 4px, 32.5% 7px, 50% 6px, 67.5% 0, 85% 1px,
+      15% 4px, 29% 7px, 43% 6px,
+      57% 0, 71% 1px, 85% 5px,
       0 15px;
   display: flex;
   align-items: flex-end; /* 下端そろえ。大きくしても下のラインは動かず上に伸びる */
@@ -983,7 +987,8 @@ body{
   font-family: 'Baloo 2', system-ui, -apple-system, sans-serif;
   font-size: clamp(2.15rem, 7vw, 2.9rem);
   font-weight: 700;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.11em;
+  word-spacing: 0.55em;
   margin: 0 0 58px;
   color: #ffd08a;
   filter: drop-shadow(0 2px 2px rgba(54,36,10,0.7))
@@ -1015,7 +1020,9 @@ body{
   width: 0.76em;
   height: 0.76em;
   background: url("/favicon.png?v=1") center/contain no-repeat;
-  margin: 0 16px;
+  /* 2026-08-19 px固定だと狭い画面で余白だけ縮まず折り返しの原因になる。
+     em基準にして文字と一緒に縮ませる。PCでは46.4px×0.34≒15.8pxで従来と同寸。 */
+  margin: 0 0.34em;
   vertical-align: -0.06em;
 }
 
@@ -1302,7 +1309,9 @@ body{
   /* iPhone green-strip diagnosis: keep the wooden tags, but restore the
      pre-tag mobile vertical spacing so the full-height water compositor is
      about 224px shorter. */
-  .visit-rooms h2{ margin-bottom: 34px; }
+  /* 2026-08-19 スマホは字間・語間を控えめにして「Alex & Daisy」を1行に収める
+     （34.4px時の実測幅 322px < コンテナ328px） */
+  .visit-rooms h2{ margin-bottom: 34px; letter-spacing: 0.05em; word-spacing: 0.22em; }
   .menu-row{ margin-bottom: 22px; }
   .menu-btn{ flex: 0 1 auto; }
   .menu-tag.tag-small{ width: 136px; }
@@ -1694,7 +1703,7 @@ body{
 
 <nav class="visit-rooms" aria-label="Visit rooms">
   <div class="water" id="waterLayer" aria-hidden="true"><div class="water-reflection-image" aria-hidden="true"></div><div class="lower-water-undulate" aria-hidden="true"></div><svg class="ripple ripple-a" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwA" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.009 0.020" numOctaves="2" seed="7" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.80  0 0 0 0 0.87  0 0 0 0 0.82  0 0 0 0.9 -0.42"/><feGaussianBlur stdDeviation="1.3"/></filter><rect width="100%" height="100%" filter="url(#rwA)"/></svg><svg class="ripple ripple-b" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><filter id="rwB" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.026" numOctaves="2" seed="23" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.15  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.8 -0.34"/><feGaussianBlur stdDeviation="1.6"/></filter><rect width="100%" height="100%" filter="url(#rwB)"/></svg><div class="river-current" aria-hidden="true"></div></div><div class="water-mist" aria-hidden="true"><div class="mist-layer"></div><div class="mist-layer"></div><div class="mist-layer"></div></div>
-  <h2 aria-label="Visit Rooms"><span>V</span><span>i</span><span>s</span><span>i</span><span>t</span> <span>R</span><span>o</span><span>o</span><span>m</span><span>s</span></h2>
+  <h2 aria-label="Alex &amp; Daisy"><span>A</span><span>l</span><span>e</span><span>x</span> <span>&amp;</span> <span>D</span><span>a</span><span>i</span><span>s</span><span>y</span></h2>
   <div id="menuRows"></div>
   <div class="menu-social" id="menuSocial"></div>
 </nav>
