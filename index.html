@@ -18,7 +18,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600;700&family=Fredoka:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600;700&family=Fredoka:wght@500;600&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
@@ -1133,7 +1133,10 @@ body{
   font-size: 1.12rem;
   letter-spacing: 0.09em;
   color: #3a2606;
-  font-weight: 800;
+  /* 書体だけ木札と同じファミリーに統一。ボタンは面積が大きいので木札(500)より一段太い600。
+     金のグラデ・角丸・影・✦ は Fable 遺産としてそのまま。 */
+  font-family: 'Fredoka', 'Baloo 2', system-ui, -apple-system, sans-serif;
+  font-weight: 600;
   background: linear-gradient(180deg, #fadc82 0%, #eeb14a 52%, #cf8d2b 100%);
   border-color: rgba(99,64,18,0.6);
   border-radius: 14px;
@@ -1148,6 +1151,10 @@ body{
   content:"\2726";
   font-size: 0.78em;
   color: rgba(110,68,14,0.9);
+  /* ✦ は Fredoka にも Baloo 2 にも収録が無い。本文の書体を変えると
+     フォールバックの入口が serif→sans-serif に変わり、環境によって字形が動く。
+     元のスタックを明示して、✦ の見た目だけは今のまま固定する。 */
+  font-family: Georgia, "Times New Roman", "Hiragino Mincho ProN", "Yu Mincho", serif;
 }
 .menu-btn.menu-feature::before{ margin-right: 12px; }
 .menu-btn.menu-feature::after { margin-left: 12px; }
