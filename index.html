@@ -18,7 +18,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600;700&family=Fredoka:wght@600&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
@@ -1196,6 +1196,10 @@ body{
 .menu-tag.tag-small{ width: clamp(146px, 22vw, 192px); aspect-ratio: 320 / 134; }
 .menu-tag.tag-wide{  width: clamp(232px, 53vw, 348px); aspect-ratio: 720 / 184; }
 .menu-tag.tag-about{ width: clamp(300px, 66vw, 440px); aspect-ratio: 720 / 184; } /* 後日再検討用・現在未使用 */
+/* 木札の文字。body の Georgia(serif) は真面目すぎたので、木札だけ丸文字にする。
+   金ボタン(.menu-feature)は別クラスなので Georgia のまま＝Fable遺産は無傷。
+   影は「木に焼き印を押した」形：上に暗い縁、下に明るいハイライト、外に焦げの滲み。
+   フォールバックの 'Baloo 2' は見出しで読込済みなので、Fredokaが落ちても丸文字は保つ。 */
 .menu-tag .tag-label{
   position: absolute;
   inset: 0;
@@ -1204,15 +1208,22 @@ body{
   justify-content: center;
   text-align: center;
   padding: 6% 13%;
-  color: #45290c;
-  font-weight: 800;
+  color: #3a220a;
+  font-family: 'Fredoka', 'Baloo 2', system-ui, -apple-system, sans-serif;
+  font-weight: 600;
   letter-spacing: 0.05em;
   line-height: 1.15;
-  text-shadow: 0 1px 0 rgba(255,236,196,0.45);
+  text-shadow:
+     0 1px 0   rgba(255,238,200,0.52),
+     0 -1px 1px rgba(40,20,6,0.62),
+     0 0 4px   rgba(74,38,10,0.42);
 }
-.menu-tag.tag-small .tag-label{ font-size: clamp(0.84rem, 2.5vw, 1.04rem); }
-.menu-tag.tag-wide  .tag-label{ font-size: clamp(0.94rem, 2.7vw, 1.12rem); }
-.menu-tag.tag-about .tag-label{ font-size: clamp(0.98rem, 2.8vw, 1.16rem); }
+.menu-tag.tag-small .tag-label{ font-size: clamp(1.00rem, 2.7vw, 1.37rem); }
+.menu-tag.tag-wide  .tag-label{ font-size: clamp(1.00rem, 3.4vw, 1.48rem); }
+.menu-tag.tag-about .tag-label{ font-size: clamp(1.02rem, 3.5vw, 1.53rem); }
+/* 9文字以上のラベルだけ抑える。木札は vw で縮むのに字は上限に張り付くので、
+   タブレット幅(800px前後)で長いラベルだけが枠を越えて2行になる。ここを止める。 */
+.menu-tag.tag-small.tag-long .tag-label{ font-size: clamp(1.00rem, 2.5vw, 1.15rem); }
 
 .page-footer{
   margin-top: 108px;
@@ -1880,10 +1891,10 @@ const MENU = [
   [ { label: "Mr. T", href: "mr-t.html", aria: "Visit Mr. T's room" },
     { label: "Lumo",  href: "lumo.html", aria: "Visit Lumo's room"  } ],
 
-  [ { label: "Posters & Wallpapers", href: "#downloads",
+  [ { label: "Downloads", href: "#downloads",
       aria: "Download posters and wallpapers" } ],
 
-  [ { label: "Watch Videos", href: "#videos",
+  [ { label: "Videos", href: "#videos",
       aria: "Watch the videos" },
     { label: "Gift", href: "gift.html",
       aria: "Open the gift box" } ],
@@ -2048,7 +2059,8 @@ const SOCIAL = [
         } else {
           /* 木札ボタン：札=img（decoding=sync＝木目と文字を同フレーム描画）、文字=HTML上載せ */
           const wide = item.label.length > 14;
-          a.className = "menu-btn menu-tag " + (wide ? "tag-wide" : "tag-small");
+          a.className = "menu-btn menu-tag " + (wide ? "tag-wide" : "tag-small")
+            + (item.label.length > 8 ? " tag-long" : "");
           const img = document.createElement("img");
           img.className = "tag-img";
           img.src = wide ? TAG_WIDE_SRC : TAG_SMALL_SRC;
