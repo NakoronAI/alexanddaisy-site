@@ -18,7 +18,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600;700&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600;700&family=Fredoka:wght@500&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
@@ -1210,13 +1210,15 @@ body{
   padding: 6% 13%;
   color: #3a220a;
   font-family: 'Fredoka', 'Baloo 2', system-ui, -apple-system, sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.05em;
   line-height: 1.15;
+  /* 影は em 単位。px固定だと、実機の16pxのときに滲みが太すぎて
+     o や a の穴が埋まる（実機で5個しか開いていなかった）。文字サイズに比例させる。 */
   text-shadow:
-     0 1px 0   rgba(255,238,200,0.52),
-     0 -1px 1px rgba(40,20,6,0.62),
-     0 0 4px   rgba(74,38,10,0.42);
+     0 0.06em 0        rgba(255,238,200,0.50),
+     0 -0.05em 0.05em  rgba(40,20,6,0.50),
+     0 0 0.16em        rgba(74,38,10,0.30);
 }
 .menu-tag.tag-small .tag-label{ font-size: clamp(1.00rem, 2.7vw, 1.37rem); }
 .menu-tag.tag-wide  .tag-label{ font-size: clamp(1.00rem, 3.4vw, 1.48rem); }
