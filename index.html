@@ -1068,7 +1068,12 @@ body{
    色・傾き・上下ズレは下の :nth-child で1文字1行。気に入らない文字だけ直せる。 */
 .visit-rooms h2{
   font-family: 'Baloo 2', system-ui, -apple-system, sans-serif;
-  font-size: clamp(2.15rem, 7vw, 2.9rem);
+  /* 2026-08-26 上限 2.9rem(46.4px) → 3.5rem(56px)。
+     PCで箱728pxに対し66%しか使っていなかったため。56pxで使用率80.1%（余裕19.9pt）。
+     0.07*600=42px なので下限側の帯には届かず、600px以下の見え方は一切変わらない。
+     ★スマホ側は別課題：箱が max-width:360px で止まるのに字は 7vw で伸び続けるため
+       520〜600px の帯で溢れる。卵2個が幅の30%(2.88em)を占めているのが主因。次回対応。 */
+  font-size: clamp(2.15rem, 7vw, 3.5rem);
   font-weight: 700;
   letter-spacing: 0.11em;
   word-spacing: 0.25em;
